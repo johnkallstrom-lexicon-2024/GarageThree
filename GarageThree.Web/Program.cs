@@ -1,9 +1,3 @@
-
-using GarageThree.Core.Entities;
-using GarageThree.Persistence.Data;
-using GarageThree.Persistence.Repositories;
-using GarageThree.Web.Extensions;
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
@@ -28,7 +22,10 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment() || app.Environment.EnvironmentName == "DevContainers")
 {
     app.UseDeveloperExceptionPage();
-    await app.SeedDataAsync();
+
+    // Suggest we keep this outcommented, otherwise the db will be deleted, rebuilt and inserted with new data everytime the application starts
+    // Uncomment this line when you need to rebuild and seed your database
+    //await app.SeedDataAsync();
 }
 
 app.UseRouting();
