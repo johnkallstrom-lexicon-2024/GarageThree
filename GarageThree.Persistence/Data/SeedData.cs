@@ -13,12 +13,12 @@ public class SeedData(IRepository<Garage> garageRepository,
     private readonly IRepository<Garage> _garageRepository = garageRepository;
     private readonly IRepository<Vehicle> _vehicleRepository = vehicleRepository;
     private readonly IRepository<Member> _memberRepository = memberRepository;
-    private static Faker _faker = new("sv");
+    private readonly Faker _faker = new("sv");
 
-    private List<Garage> _garages = [];
-    private List<Vehicle> _vehicles = [];
-    private List<Member> _members = [];
-    private List<VehicleType> _vehicleTypes = [];
+    private readonly List<Garage> _garages = [];
+    private readonly List<Vehicle> _vehicles = [];
+    private readonly List<Member> _members = [];
+    private readonly List<VehicleType> _vehicleTypes = [];
     private readonly Random _rnd = new();
 
     public async Task InitAsync()
