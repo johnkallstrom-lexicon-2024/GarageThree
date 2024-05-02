@@ -3,9 +3,9 @@
     public class Vehicle
     {
         public int Id { get; set; }
-        public string RegNumber { get; set; }
-        public string Brand { get; set; }
-        public string Model { get; set; }
+        public string RegNumber { get; set; } = default!;
+        public string Brand { get; set; } = default!;
+        public string Model { get; set; } = default!;
         public DateTime RegisteredAt { get; set; }
         public Color Color { get; set; }
 
