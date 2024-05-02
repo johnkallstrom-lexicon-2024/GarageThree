@@ -45,17 +45,8 @@ public class VehicleRepository(ApplicationDbContext context) : IRepository<Vehic
 
     public async Task<Vehicle?> Update(Vehicle entity)
     {
-        var vehicleToUpdate = await _context.Vehicles.FirstOrDefaultAsync(v => v.Id == entity.Id);
-        if (vehicleToUpdate != null)
-        {
-            // Which properties should be editable?
-            vehicleToUpdate.Model = entity.Model;
-            vehicleToUpdate.Brand = entity.Brand;
-            vehicleToUpdate.Color = entity.Color;
-            _context.Update(vehicleToUpdate);
+            var updatedVehicle = _context.Update(entity).Entity;
             await _context.SaveChangesAsync();
-            return vehicleToUpdate;
-        }
-        return null;
+            return updatedVehicle;
     }
 }

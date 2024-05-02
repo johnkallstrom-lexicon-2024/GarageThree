@@ -46,15 +46,8 @@ public class GarageRepository(ApplicationDbContext context) : IRepository<Garage
 
     public async Task<Garage?> Update(Garage entity)
     {
-        var garageToUpdate = await _context.Garages.FirstOrDefaultAsync(v => v.Id == entity.Id);
-        if (garageToUpdate != null)
-        {
-            // Which properties should be editable?
-            garageToUpdate.Name = entity.Name;
-            _context.Update(garageToUpdate);
+            var updatedGarage = _context.Update(entity).Entity;
             await _context.SaveChangesAsync();
-            return garageToUpdate;
-        }
-        return null;
+            return updatedGarage;
     }
 }

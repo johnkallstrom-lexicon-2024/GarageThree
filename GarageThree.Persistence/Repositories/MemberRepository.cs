@@ -45,19 +45,8 @@ public class MemberRepository(ApplicationDbContext context) : IRepository<Member
 
     public async Task<Member?> Update(Member entity)
     {
-        var memberToUpdate = await _context.Members.FirstOrDefaultAsync(v => v.Id == entity.Id);
-        if (memberToUpdate != null)
-        {
-            // Which properties should be editable?
-            memberToUpdate.FirstName = entity.FirstName;
-            memberToUpdate.LastName = entity.LastName;
-            memberToUpdate.Email = entity.Email;
-            memberToUpdate.Avatar = entity.Avatar;
-            memberToUpdate.Username = entity.Username;
-            _context.Update(memberToUpdate);
-            await _context.SaveChangesAsync();
-            return memberToUpdate;
-        }
-        return null;
+        var updatedMember = _context.Update(entity).Entity;
+        await _context.SaveChangesAsync();
+        return updatedMember;
     }
 }
