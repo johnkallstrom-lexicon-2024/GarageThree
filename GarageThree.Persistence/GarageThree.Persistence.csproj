@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\GarageThree.Core\GarageThree.Core.csproj" />
+  </ItemGroup>
+
 </Project>
