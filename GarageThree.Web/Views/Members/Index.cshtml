@@ -1,3 +1,39 @@
+@model IEnumerable<MemberIndexViewModel>
+
 @{
     ViewBag.Title = "Members";
 }
+
+<h3>@ViewBag.Title</h3>
+<table class="table table-hover table-responsive-xl">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col"> @Html.DisplayNameFor(model => model.Avatar) </th>
+            <th scope="col"> @Html.DisplayNameFor(model => model.Username) </th>
+            <th scope="col"> @Html.DisplayNameFor(model => model.Name) </th>
+            <th scope="col"> @Html.DisplayNameFor(model => model.Email) </th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </tr>
+        <tbody>
+            @foreach(var member in Model) {
+                <tr>
+                    <td><img height="50"  src="@member.Avatar" alt="Member Profile Picture"></td>
+                    <td>@member.Username</td>
+                    <td>@member.Name</td>
+                    <td>@member.Email</td>
+                    <td>
+                        <button type="button" class="btn btn-secondary"asp-controller="Member" asp-action="Details" asp-route-itemid="@member.Id" >Details</button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-secondary" asp-controller="Member" asp-action="Edit" asp-route-itemid="@member.Id" >Edit</button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-danger" asp-controller="Member" asp-action="Delete" asp-route-itemid="@member.Id" >Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </thead>
+</table>
