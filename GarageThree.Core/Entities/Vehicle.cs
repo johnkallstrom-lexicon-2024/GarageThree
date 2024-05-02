@@ -2,5 +2,20 @@
 {
     public class Vehicle
     {
+        public int Id { get; set; }
+        public string RegNumber { get; set; }
+        public string Brand { get; set; }
+        public string Model { get; set; }
+        public DateTime RegisteredAt { get; set; }
+        public Color Color { get; set; }
+
+        public int MemberId { get; set; }
+        public Member Member { get; set; } = default!;
+
+        public int GarageId { get; set; }
+        public Garage Garage { get; set; } = default!;
+
+        public int VehicleTypeId { get; set; }
+        public VehicleType VehicleType { get; set; } = default!;
     }
 }
