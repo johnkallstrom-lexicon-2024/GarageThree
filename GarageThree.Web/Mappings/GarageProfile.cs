@@ -5,6 +5,7 @@
         public GarageProfile()
         {
             CreateMap<Garage, GarageViewModel>();
+            CreateMap<Garage, MemberCreateOrEditViewModel>().ReverseMap();
         }
     }
 }

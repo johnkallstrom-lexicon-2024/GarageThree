@@ -5,6 +5,7 @@
         public MemberProfile()
         {
             CreateMap<Member, MemberViewModel>();
+            CreateMap<Member, MemberCreateOrEditViewModel>().ReverseMap();
         }
     }
 }
