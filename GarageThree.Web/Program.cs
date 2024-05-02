@@ -6,6 +6,13 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
 });
 
+builder.Services.AddAutoMapper(config =>
+{
+    config.AddProfile<GarageProfile>();
+    config.AddProfile<MemberProfile>();
+    config.AddProfile<VehicleProfile>();
+});
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
