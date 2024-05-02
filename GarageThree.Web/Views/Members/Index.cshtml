@@ -4,6 +4,15 @@
     ViewBag.Title = "Members";
 }
 
+
+<form asp-controller="Member" asp-action="Create">
+<div class="form-group py-3">
+
+<button type="submit" class="btn btn-primary">Register New Member</button>
+</div>
+
+</form>
+
 <h3>@ViewBag.Title</h3>
 <table class="table table-hover table-responsive-xl">
     <thead class="thead-light">
