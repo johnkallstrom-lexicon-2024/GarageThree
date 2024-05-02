@@ -4,6 +4,14 @@
     ViewBag.Title = "Members";
 }
 
+@* recommend adding wwwroot for consolidated style overrides *@
+@section Styles {
+        <style>
+            td {
+                vertical-align: middle;
+            }
+        </style>
+}
 
 <form asp-controller="Member" asp-action="Create">
 <div class="form-group py-3">
@@ -26,22 +34,23 @@
             <th scope="col"></th>
         </tr>
         <tbody>
-            @foreach(var member in Model) {
-                <tr>
-                    <td><img height="50"  src="@member.Avatar" alt="Member Profile Picture"></td>
-                    <td>@member.Username</td>
-                    <td>@member.Name</td>
-                    <td>@member.Email</td>
-                    <td>
-                        <button type="button" class="btn btn-secondary"asp-controller="Member" asp-action="Details" asp-route-itemid="@member.Id" >Details</button>
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-secondary" asp-controller="Member" asp-action="Edit" asp-route-itemid="@member.Id" >Edit</button>
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-danger" asp-controller="Member" asp-action="Delete" asp-route-itemid="@member.Id" >Delete</button>
-                    </td>
-                </tr>
+            @foreach (var member in Model)
+            {
+                    <tr>
+                        <td><img height="50"  src="@member.Avatar" alt="Member Profile Picture"></td>
+                        <td>@member.Username</td>
+                        <td>@member.Name</td>
+                        <td>@member.Email</td>
+                        <td>
+                            <button type="button" class="btn btn-secondary"asp-controller="Member" asp-action="Details" asp-route-itemid="@member.Id" >Details</button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-secondary" asp-controller="Member" asp-action="Edit" asp-route-itemid="@member.Id" >Edit</button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger" asp-controller="Member" asp-action="Delete" asp-route-itemid="@member.Id" >Delete</button>
+                        </td>
+                    </tr>
             }
         </tbody>
     </thead>
