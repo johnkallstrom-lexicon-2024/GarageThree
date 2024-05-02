@@ -1,3 +1,4 @@
+using GarageThree.Persistence.Data;
 
 namespace GarageThree.Persistence.Repositories;
 
@@ -29,6 +30,11 @@ public class MemberRepository(ApplicationDbContext context) : IRepository<Member
     {
         var members = await _context.Members.ToListAsync();
         return members;
+    }
+
+    public async Task<bool> Any()
+    {
+        return await _context.Members.AnyAsync();
     }
 
     public async Task<Member?> GetById(int id)

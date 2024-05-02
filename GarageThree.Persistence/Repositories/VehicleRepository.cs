@@ -1,3 +1,4 @@
+using GarageThree.Persistence.Data;
 
 namespace GarageThree.Persistence.Repositories;
 
@@ -25,6 +26,11 @@ public class VehicleRepository(ApplicationDbContext context) : IRepository<Vehic
         return null;
     }
 
+    public async Task<bool> Any()
+    {
+        return await _context.Vehicles.AnyAsync();
+    }
+
     public async Task<IEnumerable<Vehicle>> GetAll()
     {
         var vehicles = await _context.Vehicles.ToListAsync();
@@ -40,7 +46,8 @@ public class VehicleRepository(ApplicationDbContext context) : IRepository<Vehic
     public async Task<Vehicle?> Update(Vehicle entity)
     {
         var vehicleToUpdate = await _context.Vehicles.FirstOrDefaultAsync(v => v.Id == entity.Id);
-        if (vehicleToUpdate != null) {
+        if (vehicleToUpdate != null)
+        {
             // Which properties should be editable?
             vehicleToUpdate.Model = entity.Model;
             vehicleToUpdate.Brand = entity.Brand;

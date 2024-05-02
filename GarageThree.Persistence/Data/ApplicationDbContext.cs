@@ -1,11 +1,7 @@
-﻿namespace GarageThree.Persistence
+﻿namespace GarageThree.Persistence.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext(DbContextOptions options) : DbContext(options)
     {
-        public ApplicationDbContext(DbContextOptions options) : base(options)
-        {
-        }
-
         public DbSet<Garage> Garages { get; set; }
         public DbSet<Member> Members { get; set; }
         public DbSet<Vehicle> Vehicles { get; set; }
