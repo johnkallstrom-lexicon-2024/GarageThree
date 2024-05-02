@@ -1,4 +1,6 @@
-﻿namespace GarageThree.Web.ViewModels
+﻿using GarageThree.Web.ViewModels.Vehicle;
+
+namespace GarageThree.Web.ViewModels.Garage
 {
     public class GarageViewModel
     {
