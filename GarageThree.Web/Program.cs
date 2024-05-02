@@ -16,6 +16,13 @@ builder.Services.AddTransient<IRepository<Vehicle>, VehicleRepository>();
 builder.Services.AddTransient<IRepository<Garage>, GarageRepository>();
 builder.Services.AddTransient<IRepository<Member>, MemberRepository>();
 
+builder.Services.AddAutoMapper(config =>
+{
+    config.AddProfile<GarageProfile>();
+    config.AddProfile<MemberProfile>();
+    config.AddProfile<VehicleProfile>();
+});
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment() || app.Environment.EnvironmentName == "DevContainers")
