@@ -14,13 +14,13 @@
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(MemberCreateOrEditViewModel viewModel)
+        public async Task<IActionResult> Create(MemberCreateOrEditViewModel viewModel)
         {
             if (!ModelState.IsValid) return View(viewModel);
 
             var memberToCreate = _mapper.Map<Member>(viewModel);
 
-            var newMember = _repository.Create(memberToCreate);
+            var newMember = await _repository.Create(memberToCreate);
             if (newMember is not null)
             {
                 return RedirectToAction(nameof(Index));

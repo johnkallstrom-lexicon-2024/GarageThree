@@ -39,6 +39,11 @@
                         <input asp-for="@Model.Email" type="email" class="form-control">
                         <span asp-validation-for="@Model.Email" class="text-danger"></span>
                     </div>
+                    <div class="mb-3">
+                        <label asp-for="@Model.SSN" class="form-label"></label>
+                        <input asp-for="@Model.SSN" type="text" class="form-control">
+                        <span asp-validation-for="@Model.SSN" class="text-danger"></span>
+                    </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
             </div>
