@@ -1,10 +1,14 @@
 ﻿namespace GarageThree.Web.Validations
 {
-    public class SocialSecurityNumberAttribute : ValidationAttribute
+    public class SocialSecurityNumberAttribute() : ValidationAttribute
     {
-        public override bool IsValid(object? value)
+        protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
-            return base.IsValid(value);
+            var configuration = validationContext.GetRequiredService<IConfiguration>();
+            string errorMessage = configuration.GetValue<string>("Validations:SSN:ErrorMessage")!;
+            int maxLength = configuration.GetValue<int>("Validations:SSN:MaxLength");
+
+            return new ValidationResult(errorMessage);
         }
     }
 }

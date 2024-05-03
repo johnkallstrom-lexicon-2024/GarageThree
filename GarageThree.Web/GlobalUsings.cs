@@ -13,4 +13,5 @@ global using System.ComponentModel.DataAnnotations;
 global using GarageThree.Persistence.Data;
 global using GarageThree.Persistence.Repositories;
 global using GarageThree.Web.Extensions;
+global using GarageThree.Web.Validations;
 global using System.ComponentModel;
