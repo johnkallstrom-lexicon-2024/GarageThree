@@ -24,6 +24,7 @@
         <th>@Html.DisplayNameFor(m => m.Vehicles.First().RegisteredAt)</th>
         <th>@Html.DisplayNameFor(m => m.Vehicles.First().Color)</th>
         <th>@Html.DisplayNameFor(m => m.Vehicles.First().Type)</th>
+        <th>@Html.DisplayNameFor(m => m.Vehicles.First().Garage.Id)</th>
         <th>@Html.DisplayNameFor(m => m.Vehicles.First().Garage)</th>
         <th scope="col"></th>
         <th scope="col"></th>
@@ -40,6 +41,7 @@
                 <td>@vehicle.RegisteredAt</td>
                 <td>@vehicle.Color</td>
                 <td>@vehicle.Type.Name</td>
+                <td>@vehicle.Garage.Id</td>
                 <td>@vehicle.Garage.Name</td>
                 <td>
                     <button type="button" class="btn btn-secondary" asp-controller="Vehicle" asp-action="Details" asp-route-id="@vehicle.Id">Details</button>
