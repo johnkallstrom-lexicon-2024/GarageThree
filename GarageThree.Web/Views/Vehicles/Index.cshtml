@@ -21,7 +21,7 @@
 <div class="d-flex flew-row mt-2">
     <form asp-action="Index" method="get">
         <div class="d-flex flex-row">
-            <select name="garageId" class="form-select" asp-items="garageOptions"></select>
+            <select asp-for="@Model.GarageId" class="form-select" asp-items="garageOptions"></select>
             <button type="submit" class="btn btn-secondary ms-2">Filter</button>
         </div>
     </form>
