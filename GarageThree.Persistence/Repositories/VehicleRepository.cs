@@ -1,4 +1,5 @@
 using GarageThree.Persistence.Data;
+using GarageThree.Persistence.Parameters;
 
 namespace GarageThree.Persistence.Repositories;
 
@@ -52,5 +53,20 @@ public class VehicleRepository(ApplicationDbContext context) : IRepository<Vehic
             var updatedVehicle = _context.Update(entity).Entity;
             await _context.SaveChangesAsync();
             return updatedVehicle;
+    }
+
+    public async Task<IEnumerable<Vehicle>> Filter(QueryParams parameters)
+    {
+        var vehicles = _context.Vehicles
+            .Include(v => v.VehicleType)
+            .Include(v => v.Garage) as IQueryable<Vehicle>;
+
+        int? garageId = (int?)parameters.Id;
+        if (garageId.HasValue)
+        {
+            vehicles = vehicles.Where(v => v.GarageId == garageId.Value);
+        }
+
+        return await vehicles.ToListAsync();
     }
 }
