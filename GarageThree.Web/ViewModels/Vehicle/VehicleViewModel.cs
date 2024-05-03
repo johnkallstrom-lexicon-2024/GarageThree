@@ -13,9 +13,3 @@ public class VehicleViewModel
     public GarageViewModel Garage { get; set; } = default!;
     public VehicleTypeViewModel Type { get; set; } = default!;
 }
-
-public class VehicleTypeViewModel
-{
-    public string Name { get; set; } = default!;
-    public int NumberOfWheels { get; set; }
-}
