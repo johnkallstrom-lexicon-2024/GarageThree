@@ -38,5 +38,19 @@ namespace GarageThree.Web.Controllers
 
             return View(viewModel);
         }
+
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id is null)
+            {
+                return NotFound();
+            }
+
+            var member = await _memberRepository.GetById((int)id);
+
+            var viewModel = _mapper.Map<MemberViewModel>(member);
+            viewModel.MemberCount = (await _memberRepository.GetAll()).Count(); 
+            return View(viewModel);
+        }
     }
 }
