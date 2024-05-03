@@ -24,7 +24,7 @@
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
-        [DisplayName]
+        [DisplayName("Social Security Number")]
         [Required]
         public string SSN { get; set; }
     }
