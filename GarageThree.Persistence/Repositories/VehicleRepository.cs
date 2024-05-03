@@ -33,7 +33,11 @@ public class VehicleRepository(ApplicationDbContext context) : IRepository<Vehic
 
     public async Task<IEnumerable<Vehicle>> GetAll()
     {
-        var vehicles = await _context.Vehicles.ToListAsync();
+        var vehicles = await _context.Vehicles
+            .Include(v => v.VehicleType)
+            .Include(v => v.Garage)
+            .ToListAsync();
+
         return vehicles;
     }
 
