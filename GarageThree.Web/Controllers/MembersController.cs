@@ -38,5 +38,35 @@ namespace GarageThree.Web.Controllers
 
             return View(viewModel);
         }
+
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id is null)
+            {
+                return NotFound();
+            }
+
+            var modelToEdit = await _memberRepository.GetById((int)id);
+            var viewModel = _mapper.Map<MemberCreateOrEditViewModel>(modelToEdit);
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(MemberCreateOrEditViewModel viewModel)
+        {
+            if (!ModelState.IsValid) return View(viewModel);
+
+            var memberToUpdate = _mapper.Map<Member>(viewModel);
+
+            var updatedMember = await _memberRepository.Update(memberToUpdate);
+            if (updatedMember is not null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(viewModel);
+        }
     }
 }

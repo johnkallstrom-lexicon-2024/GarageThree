@@ -8,13 +8,15 @@
         public string Avatar { get; set; } = default!;
 
         [Required]
-        public string Username { get; set; }  = default!;
+        public string Username { get; set; } = default!;
 
         [Required]
-        public string FirstName { get; set; }  = default!;
+        [DisplayName("First Name")]
+        public string FirstName { get; set; } = default!;
 
         [Required]
-        public string LastName { get; set; }  = default!;
+        [DisplayName("Last Name")]
+        public string LastName { get; set; } = default!;
 
         [Range(minimum: 18, maximum: double.MaxValue)]
         public int Age { get; set; }
