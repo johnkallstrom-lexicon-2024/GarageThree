@@ -1,7 +1,10 @@
-﻿@model VehicleIndexViewModel
+﻿@inject ISelectListItemService<Garage> selectListItemService
+@model VehicleIndexViewModel
 
 @{
     ViewBag.Title = "Vehicles";
+
+    var garageOptions = await selectListItemService.GetSelectListItems();
 }
 
 @* recommend adding wwwroot for consolidated style overrides *@
@@ -14,7 +17,12 @@
 }
 
 <h3>@ViewBag.Title</h3>
-<a asp-action="Create" class="btn btn-primary">Park</a>
+<div class="d-flex flex-row">
+    <a asp-action="Create" class="btn btn-primary">Park</a>
+    <div class="ms-3">
+        <select class="form-select" asp-items="garageOptions"></select>
+    </div>
+</div>
 <table class="table table-hover table-responsive-xl">
     <thead class="thead-light">
         <th>@Html.DisplayNameFor(m => m.Vehicles.First().Id)</th>
