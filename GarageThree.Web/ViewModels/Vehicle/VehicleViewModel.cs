@@ -1,7 +1,4 @@
-﻿using GarageThree.Web.ViewModels.Garage;
-using GarageThree.Web.ViewModels.Member;
-
-namespace GarageThree.Web.ViewModels.Vehicle;
+﻿namespace GarageThree.Web.ViewModels.Vehicle;
 public class VehicleViewModel
 {
     public int Id { get; set; }
