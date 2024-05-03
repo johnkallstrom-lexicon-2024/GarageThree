@@ -8,7 +8,7 @@
 }
 
 <div class="row d-flex justify-content-center">
-    <div class="col-sm-6">
+    <div class="col-sm-6 mb-5 mt-3">
         <h3>@ViewBag.Title</h3>
         <div class="card bg-light">
             <div class="card-body">
@@ -16,30 +16,36 @@
                 <div class="card-title fs-5 text-primary text-primary">
                     @Html.DisplayNameFor(model => model.Name)
                 </div>
-                <div class="card-text">
+                <div class="card-text pb-3">
                     @Html.DisplayFor(model => model.Name)
                 </div>
                 <div class="card-title fs-5 text-primary">
                     @Html.DisplayNameFor(model => model.Username)
                 </div>
-                <div class="card-text">
+                <div class="card-text pb-3">
                     @Html.DisplayFor(model => model.Username)
                 </div>
                 <div class="card-title fs-5 text-primary">
                     @Html.DisplayNameFor(model => model.Email)
                 </div>
-                <div class="card-text">
+                <div class="card-text pb-3">
                     @Html.DisplayFor(model => model.Email)
+                </div>
+                <div class="card-title fs-5 text-primary">
+                    @Html.DisplayNameFor(model => model.Age)
+                </div>
+                <div class="card-text pb-3">
+                    @Html.DisplayFor(model => model.Age)
                 </div>
                 <div class="card-title fs-5 text-primary">
                     @Html.DisplayNameFor(model => model.SSN)
                 </div>
-                <div class="card-text">
+                <div class="card-text pb-3">
                     @Html.DisplayFor(model => model.SSN)
                 </div>
             </div>
         </div>
-        <div class="card bg-light text-center">
+        <div class="card bg-light text-center mt-2">
             <div class="card-body d-flex justify-content-between">
                 <a asp-controller="Members" asp-action="Details" asp-route-id=@ViewBag.Previous>
                     <button class="btn btn-primary">Previous</button>
