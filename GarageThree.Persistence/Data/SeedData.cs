@@ -109,10 +109,10 @@ public class SeedData(IRepository<Garage> garageRepository,
             Member memberToCreate = new()
             {
                 Avatar = _faker.Internet.Avatar(),
-                FirstName = _faker.Person.FirstName,
-                LastName = _faker.Person.LastName,
+                FirstName = _faker.Name.FirstName(),
+                LastName = _faker.Name.LastName(),
                 Age = _rnd.Next(18, 100),
-                Email = _faker.Person.Email,
+                Email = _faker.Internet.Email(),
                 Username = _faker.Internet.UserName(),
                 SSN = _faker.Person.Personnummer(),
 

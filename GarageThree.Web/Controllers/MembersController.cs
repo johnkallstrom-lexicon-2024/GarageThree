@@ -1,13 +1,23 @@
-﻿namespace GarageThree.Web.Controllers
+namespace GarageThree.Web.Controllers
 {
-    public class MembersController(IRepository<Member> repository, IMapper mapper) : Controller
+    public class MembersController(IMapper mapper, IRepository<Member> memberRepository) : Controller
     {
-        private readonly IRepository<Member> _repository = repository;
         private readonly IMapper _mapper = mapper;
+        private readonly IRepository<Member> _memberRepository = memberRepository;
 
-        public IActionResult Index()
+        public async Task<IActionResult?> Index()
         {
-            return View();
+            if (!await _memberRepository.Any())
+            {
+                return NotFound();
+            }
+
+            var members = await _memberRepository.GetAll();
+            var indexViewModel = new MemberIndexViewModel
+            {
+                MemberViewModels = _mapper.ProjectTo<MemberViewModel>(members.AsQueryable())
+            };
+            return View(indexViewModel);
         }
 
         public IActionResult Create() => View();
@@ -20,7 +30,7 @@
 
             var memberToCreate = _mapper.Map<Member>(viewModel);
 
-            var newMember = await _repository.Create(memberToCreate);
+            var newMember = await _memberRepository.Create(memberToCreate);
             if (newMember is not null)
             {
                 return RedirectToAction(nameof(Index));

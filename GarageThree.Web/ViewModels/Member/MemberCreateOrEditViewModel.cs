@@ -16,7 +16,6 @@
         [Required]
         public string LastName { get; set; } = default!;
 
-        [Required]
         [Range(minimum: 18, maximum: double.MaxValue)]
         public int Age { get; set; } = default!;
 
