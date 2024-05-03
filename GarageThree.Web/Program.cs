@@ -17,6 +17,8 @@ builder.Services.AddAutoMapper(config =>
     config.AddProfile<VehicleProfile>();
 });
 
+// En ändring
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment() || app.Environment.EnvironmentName == "DevContainers")
