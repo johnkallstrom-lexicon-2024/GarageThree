@@ -25,6 +25,9 @@
         <th>@Html.DisplayNameFor(m => m.Vehicles.First().Color)</th>
         <th>@Html.DisplayNameFor(m => m.Vehicles.First().Type)</th>
         <th>@Html.DisplayNameFor(m => m.Vehicles.First().Garage)</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         @foreach (var vehicle in Model.Vehicles)
@@ -38,6 +41,15 @@
                 <td>@vehicle.Color</td>
                 <td>@vehicle.Type.Name</td>
                 <td>@vehicle.Garage.Name</td>
+                <td>
+                    <button type="button" class="btn btn-secondary" asp-controller="Vehicle" asp-action="Details" asp-route-id="@vehicle.Id">Details</button>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-secondary" asp-controller="Member" asp-action="Edit" asp-route-id="@vehicle.Id">Edit</button>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-danger" asp-controller="Member" asp-action="Delete" asp-route-id="@vehicle.Id">Delete</button>
+                </td>
             </tr>
         }
     </tbody>
