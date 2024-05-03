@@ -1,4 +1,4 @@
-@model IEnumerable<MemberIndexViewModel>
+@model MemberIndexViewModel
 
 @{
     ViewBag.Title = "Members";
@@ -25,16 +25,16 @@
 <table class="table table-hover table-responsive-xl">
     <thead class="thead-light">
         <tr>
-            <th scope="col"> @Html.DisplayNameFor(model => model.Avatar) </th>
-            <th scope="col"> @Html.DisplayNameFor(model => model.Username) </th>
-            <th scope="col"> @Html.DisplayNameFor(model => model.Name) </th>
-            <th scope="col"> @Html.DisplayNameFor(model => model.Email) </th>
+            <th scope="col"> @Html.DisplayNameFor(model => model.MemberViewModels.First().Avatar) </th>
+            <th scope="col"> @Html.DisplayNameFor(model => model.MemberViewModels.First().Username) </th>
+            <th scope="col"> @Html.DisplayNameFor(model => model.MemberViewModels.First().Name) </th>
+            <th scope="col"> @Html.DisplayNameFor(model => model.MemberViewModels.First().Email) </th>
             <th scope="col"></th>
             <th scope="col"></th>
             <th scope="col"></th>
         </tr>
         <tbody>
-            @foreach (var member in Model)
+            @foreach (var member in Model.MemberViewModels)
             {
                     <tr>
                         <td><img height="50"  src="@member.Avatar" alt="Member Profile Picture"></td>

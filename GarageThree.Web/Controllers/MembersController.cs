@@ -13,8 +13,11 @@
             }
 
             var members = await _memberRepository.GetAll();
-            var viewModels = _mapper.ProjectTo<MemberIndexViewModel>(members.AsQueryable());
-            return View(viewModels);
+            var indexViewModel = new MemberIndexViewModel
+            {
+                MemberViewModels = _mapper.ProjectTo<MemberViewModel>(members.AsQueryable())
+            };
+            return View(indexViewModel);
         }
     }
 }
