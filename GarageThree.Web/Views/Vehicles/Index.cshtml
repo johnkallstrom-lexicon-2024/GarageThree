@@ -4,6 +4,15 @@
     ViewBag.Title = "Vehicles";
 }
 
+@* recommend adding wwwroot for consolidated style overrides *@
+@section Styles {
+    <style>
+        td {
+            vertical-align: middle;
+        }
+    </style>
+}
+
 <h3>@ViewBag.Title</h3>
 <table class="table table-hover table-responsive-xl">
     <thead class="thead-light">
