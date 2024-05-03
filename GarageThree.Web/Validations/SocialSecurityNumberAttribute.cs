@@ -15,6 +15,8 @@ namespace GarageThree.Web.Validations
 
             if (string.IsNullOrWhiteSpace(ssn)) return new ValidationResult(errorMessage);
             if (!ssn.Length.Equals(correctLength)) return new ValidationResult(errorMessage);
+
+            // Will check if there is any non digit characters
             if (Regex.IsMatch(ssn, @"(\D)")) return new ValidationResult(errorMessage);
 
             return ValidationResult.Success;
