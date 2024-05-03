@@ -1,33 +1,30 @@
 ﻿namespace GarageThree.Web.Controllers
 {
-    public class MembersController : Controller
+    public class MembersController(IRepository<Member> repository, IMapper mapper) : Controller
     {
-        private readonly IMapper _mapper;
-
-        public MembersController(IMapper mapper)
-        {
-            _mapper = mapper;
-        }
+        private readonly IRepository<Member> _repository = repository;
+        private readonly IMapper _mapper = mapper;
 
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult Create()
-        {
-            return View();
-        }
+        public IActionResult Create() => View();
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(MemberCreateOrEditViewModel viewModel)
         {
-            if (!ModelState.IsValid) return BadRequest();
+            if (!ModelState.IsValid) return View(viewModel);
 
-            var member = _mapper.Map<Member>(viewModel);
+            var memberToCreate = _mapper.Map<Member>(viewModel);
 
-            // Pass entity to repository method
+            var newMember = _repository.Create(memberToCreate);
+            if (newMember is not null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
 
             return View(viewModel);
         }
