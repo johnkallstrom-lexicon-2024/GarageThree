@@ -23,7 +23,10 @@ if (app.Environment.IsDevelopment() || app.Environment.EnvironmentName == "DevCo
 {
     app.UseDeveloperExceptionPage();
 
-    await app.SeedDataAsync();
+    /*
+    Uncomment the line below when you need to rebuild and seed your database
+    */
+    //await app.SeedDataAsync();
 }
 
 app.UseRouting();
