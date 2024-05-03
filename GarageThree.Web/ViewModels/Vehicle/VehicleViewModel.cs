@@ -1,4 +1,4 @@
-﻿namespace GarageThree.Web.ViewModels.Vehicle;
+namespace GarageThree.Web.ViewModels.Vehicle;
 
 public class VehicleViewModel
 {
