@@ -23,6 +23,8 @@
         <th>@Html.DisplayNameFor(m => m.Vehicles.First().Model)</th>
         <th>@Html.DisplayNameFor(m => m.Vehicles.First().RegisteredAt)</th>
         <th>@Html.DisplayNameFor(m => m.Vehicles.First().Color)</th>
+        <th>@Html.DisplayNameFor(m => m.Vehicles.First().Type)</th>
+        <th>@Html.DisplayNameFor(m => m.Vehicles.First().Garage)</th>
     </thead>
     <tbody>
         @foreach (var vehicle in Model.Vehicles)
@@ -34,6 +36,8 @@
                 <td>@vehicle.Model</td>
                 <td>@vehicle.RegisteredAt</td>
                 <td>@vehicle.Color</td>
+                <td>@vehicle.Type.Name</td>
+                <td>@vehicle.Garage.Name</td>
             </tr>
         }
     </tbody>
