@@ -23,9 +23,7 @@ if (app.Environment.IsDevelopment() || app.Environment.EnvironmentName == "DevCo
 {
     app.UseDeveloperExceptionPage();
 
-    // Suggest we keep this outcommented, otherwise the db will be deleted, rebuilt and inserted with new data everytime the application starts
-    // Uncomment this line when you need to rebuild and seed your database
-    //await app.SeedDataAsync();
+    await app.SeedDataAsync();
 }
 
 app.UseRouting();
