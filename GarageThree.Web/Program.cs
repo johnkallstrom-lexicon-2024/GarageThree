@@ -15,6 +15,7 @@ builder.Services.AddAutoMapper(config =>
     config.AddProfile<GarageProfile>();
     config.AddProfile<MemberProfile>();
     config.AddProfile<VehicleProfile>();
+    config.AddProfile<VehicleTypeProfile>();
 });
 
 var app = builder.Build();
