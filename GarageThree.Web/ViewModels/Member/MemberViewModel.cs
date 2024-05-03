@@ -1,17 +1,15 @@
-﻿using GarageThree.Web.ViewModels.Vehicle;
-
-namespace GarageThree.Web.ViewModels.Member
+﻿namespace GarageThree.Web.ViewModels.Member
 {
     public class MemberViewModel
     {
         public int Id { get; set; }
-        public string Avatar { get; set; }
-        public string Username { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        public string Avatar { get; set; } = default!;
+        public string Username { get; set; } = default!;
+        public string FirstName { get; set; } = default!;
+        public string LastName { get; set; } = default!;
         public int Age { get; set; }
-        public string Email { get; set; }
-        public string SSN { get; set; }
+        public string Email { get; set; } = default!;
+        public string SSN { get; set; } = default!;
 
         public IEnumerable<VehicleViewModel> Vehicles { get; set; } = [];
     }
