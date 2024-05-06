@@ -1,10 +1,9 @@
 ﻿@model GarageIndexViewModel
 
-<h1>Garages</h1>
 <h3>@ViewBag.Title</h3>
 <table class="table">
     <thead>
-        <a asp-action="Create" class="btn btn-primary">New</a>
+        <a asp-action="Create" class="btn btn-primary">Register New Garage</a>
         <table class="table table-hover table-responsive-xl">
             <thead class="thead-light">
                 <tr>
@@ -23,9 +22,9 @@
                 <td>@garage.Name</td>
                 <td>@garage.Capacity</td>
                 <td>
-                    <a asp-controller="Garages" asp-action="Details" asp-route-id="@garage.Id">Details</a>
+                    <button type="button" class="btn btn-secondary" asp-controller="Garages" asp-action="Details" asp-route-itemid="@garage.Id">Details</button>
                 </td>
-            </tr>
+              </tr>
         }
     </tbody>
 </table>
