@@ -6,11 +6,11 @@
 
 @* recommend adding wwwroot for consolidated style overrides *@
 @section Styles {
-        <style>
-            td {
-                vertical-align: middle;
-            }
-        </style>
+            <style>
+                td {
+                    vertical-align: middle;
+                }
+            </style>
 }
 
 <h3>@ViewBag.Title</h3>
@@ -46,7 +46,7 @@
                         </td>
                         <td>
                             <a asp-controller="Members" asp-action="Delete" asp-route-id="@member.Id">
-                                <button class="btn btn-secondary">Checkout</button>
+                                <button class="btn btn-danger">Delete</button>
                             </a>
                         </td>
                     </tr>

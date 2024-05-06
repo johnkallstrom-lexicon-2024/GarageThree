@@ -7,22 +7,27 @@ namespace GarageThree.Web.ViewModels.Member
         public int Id { get; set; }
 
         [Required]
-        [DataType(DataType.Url)]
+        [Url]
         public string Avatar { get; set; } = default!;
 
         [Required]
-        [Range(minimum: 5, maximum: 50, ErrorMessage = "Username must be between 5-50 characters")]
-        [RegularExpression(@"[^\d\w]", ErrorMessage = "Only alphanumeric characters allowed in Username")]
+        [MinLength(5, ErrorMessage = "Username must be at least 5 charactes")]
+        [MaxLength(50, ErrorMessage = "Username cannot exceed 50 characters")]
+        [RegularExpression(@"[\d\w'_''-']*", ErrorMessage = @"Only characters a-z, ""-"" and ""_"" allowed")]
         public string Username { get; set; } = default!;
 
         [Required]
         [DisplayName("First Name")]
-        [Range(minimum: 3, maximum: 50, ErrorMessage = "First name must be between 3-50 characters")]
+        [MinLength(3, ErrorMessage = "First name  must be at least 3 charactes")]
+        [MaxLength(50, ErrorMessage = "First name cannot exceed 50 characters")]
+        [RegularExpression(@"[a-zA-Z]*", ErrorMessage = "Only alphabetical characters allowed")]
         public string FirstName { get; set; } = default!;
 
         [Required]
         [DisplayName("Last Name")]
-        [Range(minimum: 3, maximum: 50, ErrorMessage = "Last name must be between 3-50 characters")]
+        [MinLength(3, ErrorMessage = "Last name  must be at least 3 charactes")]
+        [MaxLength(50, ErrorMessage = "Last name cannot exceed 50 characters")]
+        [RegularExpression(@"[a-zA-Z]*", ErrorMessage = "Only alphabetical characters allowed")]
         public string LastName { get; set; } = default!;
 
         [Range(minimum: 18, maximum: 130, ErrorMessage = "Age must be between 18-130")]
