@@ -55,7 +55,7 @@ public class MemberRepository(ApplicationDbContext context) : IRepository<Member
     {
         var member = await _context.Members
                                     .FirstOrDefaultAsync(m => m.Id == (int?)parameters.Id || 
-                                                    m.SSN == (string?)parameters.SSN);
+                                                    m.SSN == parameters.SSN);
         return member;
     }
 
