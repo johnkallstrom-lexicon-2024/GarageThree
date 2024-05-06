@@ -1,4 +1,4 @@
-﻿namespace GarageThree.Web.ViewModels.Member;
+namespace GarageThree.Web.ViewModels.Member;
 
 public class MemberViewModel
 {
