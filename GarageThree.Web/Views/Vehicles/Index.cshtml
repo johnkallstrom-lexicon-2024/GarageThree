@@ -1,0 +1,30 @@
+﻿@model VehicleIndexViewModel
+
+@{
+    ViewBag.Title = "Vehicles";
+}
+
+<h3>@ViewBag.Title</h3>
+<table class="table table-bordered">
+    <thead class="thead-light">
+        <th>@Html.DisplayNameFor(m => m.Vehicles.First().Id)</th>
+        <th>@Html.DisplayNameFor(m => m.Vehicles.First().RegNumber)</th>
+        <th>@Html.DisplayNameFor(m => m.Vehicles.First().Brand)</th>
+        <th>@Html.DisplayNameFor(m => m.Vehicles.First().Model)</th>
+        <th>@Html.DisplayNameFor(m => m.Vehicles.First().RegisteredAt)</th>
+        <th>@Html.DisplayNameFor(m => m.Vehicles.First().Color)</th>
+    </thead>
+    <tbody>
+        @foreach (var vehicle in Model.Vehicles)
+        {
+            <tr>
+                <td>@vehicle.Id</td>
+                <td>@vehicle.RegNumber</td>
+                <td>@vehicle.Brand</td>
+                <td>@vehicle.Model</td>
+                <td>@vehicle.RegisteredAt</td>
+                <td>@vehicle.Color</td>
+            </tr>
+        }
+    </tbody>
+</table>

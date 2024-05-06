@@ -1,6 +1,4 @@
-﻿using GarageThree.Web.ViewModels.Vehicle;
-
-namespace GarageThree.Web.ViewModels.Member
+﻿namespace GarageThree.Web.ViewModels.Member
 {
     public class MemberViewModel
     {
