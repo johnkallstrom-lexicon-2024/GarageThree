@@ -7,11 +7,6 @@ namespace GarageThree.Web.Controllers
 
         public async Task<IActionResult?> Index()
         {
-            if (!await _memberRepository.Any())
-            {
-                return NotFound();
-            }
-
             var members = await _memberRepository.GetAll();
             var indexViewModel = new MemberIndexViewModel
             {
@@ -36,6 +31,20 @@ namespace GarageThree.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
+            return View(viewModel);
+        }
+
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id is null)
+            {
+                return NotFound();
+            }
+
+            var member = await _memberRepository.GetById((int)id);
+
+            var viewModel = _mapper.Map<MemberViewModel>(member);
+            viewModel.MemberCount = (await _memberRepository.GetAll()).Count(); 
             return View(viewModel);
         }
     }
