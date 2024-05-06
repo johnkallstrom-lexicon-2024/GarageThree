@@ -11,9 +11,11 @@
         public string Username { get; set; } = default!;
 
         [Required]
+        [DisplayName("First Name")]
         public string FirstName { get; set; } = default!;
 
         [Required]
+        [DisplayName("Last Name")]
         public string LastName { get; set; } = default!;
 
         [Range(minimum: 18, maximum: double.MaxValue)]
