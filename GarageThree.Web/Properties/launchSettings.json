@@ -18,6 +18,15 @@
         "ASPNETCORE_ENVIRONMENT": "DevContainers"
       }
     },
+    "Seed-Data": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
+      "applicationUrl": "http://localhost:3000",
+      "environmentVariables": {
+        "SEED_DATA": "1"
+      },
+    },
     "http": {
       "commandName": "Project",
       "dotnetRunMessages": true,
