@@ -1,3 +1,5 @@
+using GarageThree.Web.ViewModels.Message;
+
 namespace GarageThree.Web.Controllers
 {
     public class MembersController(IMapper mapper, IRepository<Member> memberRepository) : Controller
@@ -15,13 +17,13 @@ namespace GarageThree.Web.Controllers
             return View(indexViewModel);
         }
 
-        public IActionResult Create() => View();
+        public IActionResult Create() => View(new MemberCreateOrEditViewModel());
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(MemberCreateOrEditViewModel viewModel)
         {
-            var existingMember = await _memberRepository.Single(new QueryParams
+            var existingMember = await _memberRepository.Single(new QueryParams()
             {
                 SSN = viewModel.SSN
             });
@@ -29,6 +31,12 @@ namespace GarageThree.Web.Controllers
             if (existingMember is not null)
             {
                 ModelState.AddModelError("SsnExists", "Member with given SSN already exists");
+                viewModel.Message = new MessageViewModel()
+                {
+                    IsActive = true,
+                    Type = ViewModels.Enums.MessageType.Danger,
+                    Text = "Member with given SSN already exists",
+                };
             }
 
             if (!ModelState.IsValid) return View(viewModel);

@@ -54,7 +54,7 @@ public class MemberRepository(ApplicationDbContext context) : IRepository<Member
     public async Task<Member?> Single(QueryParams parameters)
     {
         var member = await _context.Members
-                                    .SingleAsync(m => m.Id == (int?)parameters.Id && 
+                                    .FirstOrDefaultAsync(m => m.Id == (int?)parameters.Id || 
                                                     m.SSN == (string?)parameters.SSN);
         return member;
     }
