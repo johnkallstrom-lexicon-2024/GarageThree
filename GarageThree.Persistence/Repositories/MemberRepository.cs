@@ -51,6 +51,14 @@ public class MemberRepository(ApplicationDbContext context) : IRepository<Member
         return updatedMember;
     }
 
+    public async Task<Member?> Single(QueryParams parameters)
+    {
+        var member = await _context.Members
+                                    .SingleAsync(m => m.Id == (int?)parameters.Id && 
+                                                    m.SSN == (string?)parameters.SSN);
+        return member;
+    }
+
     public Task<IEnumerable<Member>> Filter(QueryParams parameters)
     {
         throw new NotImplementedException();

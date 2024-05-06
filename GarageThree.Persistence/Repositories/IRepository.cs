@@ -10,5 +10,6 @@ public interface IRepository<T> where T : class
     public Task<bool> Any();
     public Task<IEnumerable<T>> GetAll();
     public Task<IEnumerable<T>> Filter(QueryParams parameters);
+    public Task<T?> Single(QueryParams parameters);
     public Task<T?> Update(T entity);
 }

@@ -56,4 +56,9 @@ public class GarageRepository(ApplicationDbContext context) : IRepository<Garage
     {
         throw new NotImplementedException();
     }
+
+    public Task<Garage?> Single(QueryParams parameters)
+    {
+        throw new NotImplementedException();
+    }
 }
