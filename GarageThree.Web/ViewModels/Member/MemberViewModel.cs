@@ -11,6 +11,7 @@
         public int Age { get; set; }
         public string Email { get; set; } = default!;
         public string SSN { get; set; } = default!;
+        public int? MemberCount {get; set;}
 
         public IEnumerable<VehicleViewModel> Vehicles { get; set; } = [];
     }

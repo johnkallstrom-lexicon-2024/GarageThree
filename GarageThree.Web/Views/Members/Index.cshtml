@@ -14,7 +14,7 @@
 }
 
 <h3>@ViewBag.Title</h3>
-<a asp-action="Create" class="btn btn-primary py-3">Register New Member</a>
+<a asp-action="Create" class="btn btn-primary my-2">Register New Member</a>
 <table class="table table-hover table-responsive-xl">
     <thead class="thead-light">
         <tr>
@@ -29,27 +29,27 @@
         <tbody>
             @foreach (var member in Model.MemberViewModels)
             {
-                        <tr>
-                            <td><img height="50"  src="@member.Avatar" alt="Member Profile Picture"></td>
-                            <td>@member.Username</td>
-                            <td>@member.Name</td>
-                            <td>@member.Email</td>
-                            <td>
-                                <a asp-controller="Members" asp-action="Details" asp-route-id="@member.Id">
-                                    <button class="btn btn-secondary">Details</button>
-                                </a>
-                            </td>
-                            <td>
-                               <a asp-controller="Members" asp-action="Edit" asp-route-id="@member.Id">
+                    <tr>
+                        <td><img height="50"  src="@member.Avatar" alt="Member Profile Picture"></td>
+                        <td>@member.Username</td>
+                        <td>@member.Name</td>
+                        <td>@member.Email</td>
+                         <td>
+                            <a asp-controller="Members" asp-action="Details" asp-route-id="@member.Id">
+                                <button class="btn btn-secondary">Details</button>
+                            </a>
+                        </td>
+                        <td>
+                            <a asp-controller="Members" asp-action="Edit" asp-route-id="@member.Id">
                                 <button class="btn btn-secondary">Edit</button>
-                               </a>
-                            </td>
-                            <td>
-                                <a asp-controller="Members" asp-action="Delete" asp-route-id="@member.Id">
-                                    <button class="btn btn-danger">Delete</button>
-                                </a>
-                            </td>
-                        </tr>
+                            </a>
+                        </td>
+                        <td>
+                            <a asp-controller="Members" asp-action="Delete" asp-route-id="@member.Id">
+                                <button class="btn btn-secondary">Checkout</button>
+                            </a>
+                        </td>
+                    </tr>
             }
         </tbody>
     </thead>
