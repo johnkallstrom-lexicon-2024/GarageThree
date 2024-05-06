@@ -5,6 +5,7 @@
         public string SearchTerm { get; set; } = default!;
         public int PageSize { get; set; } = default!;
         public int CurrentPage { get; set; } = default!;
+        public int GarageId { get; set; } = default!;
         public IEnumerable<VehicleViewModel> Vehicles { get; set; } = [];
     }
 }

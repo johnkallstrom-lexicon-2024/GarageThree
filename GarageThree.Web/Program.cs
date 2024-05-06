@@ -1,5 +1,6 @@
 using GarageThree.Persistence.Data;
 using GarageThree.Persistence.Repositories;
+using GarageThree.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,11 +14,14 @@ builder.Services.AddTransient<IRepository<Vehicle>, VehicleRepository>();
 builder.Services.AddTransient<IRepository<Garage>, GarageRepository>();
 builder.Services.AddTransient<IRepository<Member>, MemberRepository>();
 
+builder.Services.AddTransient<ISelectListItemService<Garage>, GarageSelectListItemService>();
+
 builder.Services.AddAutoMapper(config =>
 {
     config.AddProfile<GarageProfile>();
     config.AddProfile<MemberProfile>();
     config.AddProfile<VehicleProfile>();
+    config.AddProfile<VehicleTypeProfile>();
 });
 
 var app = builder.Build();
@@ -26,10 +30,11 @@ if (app.Environment.IsDevelopment() || app.Environment.EnvironmentName == "DevCo
 {
     app.UseDeveloperExceptionPage();
 
-    /*
-    Uncomment the line below when you need to rebuild and seed your database
-    */
-    //await app.SeedDataAsync();
+    // dotnet run -lp Seed-Data
+    if (Environment.GetEnvironmentVariable("SEED_DATA") == "1")
+    {
+        await app.SeedDataAsync();
+    }
 }
 
 app.UseRouting();

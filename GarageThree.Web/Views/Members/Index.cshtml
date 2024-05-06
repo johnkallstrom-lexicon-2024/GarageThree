@@ -14,7 +14,7 @@
 }
 
 <h3>@ViewBag.Title</h3>
-<a asp-action="Create" class="btn btn-primary">New</a>
+<a asp-action="Create" class="btn btn-primary my-2">Register New Member</a>
 <table class="table table-hover table-responsive-xl">
     <thead class="thead-light">
         <tr>
@@ -34,14 +34,20 @@
                         <td>@member.Username</td>
                         <td>@member.Name</td>
                         <td>@member.Email</td>
-                        <td>
-                            <button type="button" class="btn btn-secondary"asp-controller="Member" asp-action="Details" asp-route-itemid="@member.Id" >Details</button>
+                         <td>
+                            <a asp-controller="Members" asp-action="Details" asp-route-id="@member.Id">
+                                <button class="btn btn-secondary">Details</button>
+                            </a>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-secondary" asp-controller="Member" asp-action="Edit" asp-route-itemid="@member.Id" >Edit</button>
+                            <a asp-controller="Members" asp-action="Edit" asp-route-id="@member.Id">
+                                <button class="btn btn-secondary">Edit</button>
+                            </a>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-danger" asp-controller="Member" asp-action="Delete" asp-route-itemid="@member.Id" >Delete</button>
+                            <a asp-controller="Members" asp-action="Delete" asp-route-id="@member.Id">
+                                <button class="btn btn-secondary">Checkout</button>
+                            </a>
                         </td>
                     </tr>
             }
