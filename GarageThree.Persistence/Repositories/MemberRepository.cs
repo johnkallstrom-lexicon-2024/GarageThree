@@ -1,4 +1,5 @@
 using GarageThree.Persistence.Data;
+using GarageThree.Persistence.Parameters;
 
 namespace GarageThree.Persistence.Repositories;
 
@@ -48,5 +49,10 @@ public class MemberRepository(ApplicationDbContext context) : IRepository<Member
         var updatedMember = _context.Update(entity).Entity;
         await _context.SaveChangesAsync();
         return updatedMember;
+    }
+
+    public Task<IEnumerable<Member>> Filter(QueryParams parameters)
+    {
+        throw new NotImplementedException();
     }
 }
