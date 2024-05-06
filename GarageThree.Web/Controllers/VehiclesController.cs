@@ -5,12 +5,17 @@
         private readonly IMapper _mapper = mapper;
         private readonly IRepository<Vehicle> _repository = repository;
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? garageId)
         {
-            var vehicles = await _repository.GetAll();
+            var vehicles = await _repository.Filter(new QueryParams
+            {
+                Id = garageId,
+                SearchTerm = ""
+            });
 
             var viewModel = new VehicleIndexViewModel();
             viewModel.Vehicles = _mapper.Map<IEnumerable<VehicleViewModel>>(vehicles);
+            if (garageId.HasValue) viewModel.GarageId = garageId.Value;
 
             return View(viewModel);
         }

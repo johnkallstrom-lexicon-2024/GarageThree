@@ -1,3 +1,5 @@
+using GarageThree.Web.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
@@ -10,11 +12,14 @@ builder.Services.AddTransient<IRepository<Vehicle>, VehicleRepository>();
 builder.Services.AddTransient<IRepository<Garage>, GarageRepository>();
 builder.Services.AddTransient<IRepository<Member>, MemberRepository>();
 
+builder.Services.AddTransient<ISelectListItemService<Garage>, GarageSelectListItemService>();
+
 builder.Services.AddAutoMapper(config =>
 {
     config.AddProfile<GarageProfile>();
     config.AddProfile<MemberProfile>();
     config.AddProfile<VehicleProfile>();
+    config.AddProfile<VehicleTypeProfile>();
 });
 
 var app = builder.Build();
