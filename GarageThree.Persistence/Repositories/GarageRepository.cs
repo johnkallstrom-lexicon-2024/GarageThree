@@ -1,4 +1,5 @@
 using GarageThree.Persistence.Data;
+using GarageThree.Persistence.Parameters;
 
 namespace GarageThree.Persistence.Repositories;
 
@@ -49,5 +50,10 @@ public class GarageRepository(ApplicationDbContext context) : IRepository<Garage
             var updatedGarage = _context.Update(entity).Entity;
             await _context.SaveChangesAsync();
             return updatedGarage;
+    }
+
+    public Task<IEnumerable<Garage>> Filter(QueryParams parameters)
+    {
+        throw new NotImplementedException();
     }
 }
