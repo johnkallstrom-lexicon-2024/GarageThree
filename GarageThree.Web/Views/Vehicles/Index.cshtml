@@ -17,7 +17,7 @@
 }
 
 <h3>@ViewBag.Title</h3>
-<a asp-action="Create" class="btn btn-primary">Park</a>
+<a asp-action="Create" class="btn btn-primary my-2">Park New Vehicle</a>
 <div class="d-flex flew-row mt-2">
     <form asp-action="Index" method="get">
         <div class="d-flex flex-row">
@@ -55,13 +55,19 @@
                     <a asp-controller="Garages" asp-action="Details" asp-route-id="@vehicle.Garage.Id">@vehicle.Garage.Name</a>
                 </td>
                 <td>
-                    <button type="button" class="btn btn-secondary" asp-controller="Vehicle" asp-action="Details" asp-route-id="@vehicle.Id">Details</button>
+                    <a asp-controller="Vehicles" asp-action="Details" asp-route-id="@vehicle.Id">
+                        <button class="btn btn-secondary">Details</button>
+                    </a>
                 </td>
                 <td>
-                    <button type="button" class="btn btn-secondary" asp-controller="Member" asp-action="Edit" asp-route-id="@vehicle.Id">Edit</button>
+                    <a asp-controller="Vehicles" asp-action="Edit" asp-route-id="@vehicle.Id">
+                        <button class="btn btn-secondary">Edit</button>
+                    </a>
                 </td>
                 <td>
-                    <button type="button" class="btn btn-danger" asp-controller="Member" asp-action="Delete" asp-route-id="@vehicle.Id">Delete</button>
+                    <a asp-controller="Vehicles" asp-action="Delete" asp-route-id="@vehicle.Id">
+                        <button class="btn btn-secondary">Checkout</button>
+                    </a>
                 </td>
             </tr>
         }
