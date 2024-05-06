@@ -17,7 +17,7 @@ public class MemberRepository(ApplicationDbContext context) : IRepository<Member
 
     public async Task<Member?> Delete(int id)
     {
-        var memberToDelete = await _context.Members.FirstOrDefaultAsync(v => v.Id == id);
+        var memberToDelete = await _context.Members.FirstOrDefaultAsync(m => m.Id == id);
         if (memberToDelete != null)
         {
             var deletedMember = _context.Members.Remove(memberToDelete);
@@ -40,7 +40,7 @@ public class MemberRepository(ApplicationDbContext context) : IRepository<Member
 
     public async Task<Member?> GetById(int id)
     {
-        var member = await _context.Members.FirstOrDefaultAsync(v => v.Id == id);
+        var member = await _context.Members.FirstOrDefaultAsync(m => m.Id == id);
         return member;
     }
 
