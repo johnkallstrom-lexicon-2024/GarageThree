@@ -1,3 +1,5 @@
+using GarageThree.Persistence.Repositories;
+
 namespace GarageThree.Web.Controllers
 {
     public class MembersController(IMapper mapper, IRepository<Member> memberRepository) : Controller

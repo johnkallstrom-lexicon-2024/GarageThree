@@ -1,3 +1,6 @@
+using GarageThree.Persistence.Data;
+using GarageThree.Persistence.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
