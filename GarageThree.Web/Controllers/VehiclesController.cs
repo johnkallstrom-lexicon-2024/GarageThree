@@ -1,19 +1,28 @@
 ﻿namespace GarageThree.Web.Controllers
 {
-    public class VehiclesController(
-        IRepository<Member> memberRepository,
-        IRepository<Garage> _garageRepository,
-        ICheckoutService checkoutService,
-        IMapper mapper,
-        IRepository<Vehicle> repository) : Controller
+    public class VehiclesController : Controller
     {
-        private readonly IRepository<Member> _memberRepository = memberRepository;
-        private readonly IRepository<Garage> _garageRepository = _garageRepository;
-        private readonly ICheckoutService _checkoutService = checkoutService;
-        private readonly IMapper _mapper = mapper;
-        private readonly IRepository<Vehicle> _repository = repository;
+        private readonly IMapper _mapper;
+        private readonly ICheckoutService _checkoutService;
+        private readonly IRepository<Member> _memberRepository;
+        private readonly IRepository<Garage> _garageRepository;
+        private readonly IRepository<Vehicle> _vehicleRepository;
 
-    public async Task<IActionResult> Index(int? garageId)
+        public VehiclesController(
+            IRepository<Vehicle> vehicleRepository, 
+            IRepository<Garage> garageRepository, 
+            IRepository<Member> memberRepository, 
+            ICheckoutService checkoutService, 
+            IMapper mapper)
+        {
+            _vehicleRepository = vehicleRepository;
+            _garageRepository = garageRepository;
+            _memberRepository = memberRepository;
+            _checkoutService = checkoutService;
+            _mapper = mapper;
+        }
+
+        public async Task<IActionResult> Index(int? garageId)
     {
         var vehicles = await _vehicleRepository.Filter(new QueryParams
         {
@@ -33,7 +42,7 @@
 
         public async Task<IActionResult> Delete(int id)
         {
-            var deletedVehicle = await _repository.Delete(id);
+            var deletedVehicle = await _vehicleRepository.Delete(id);
             if (deletedVehicle is null)
             {
                 return NotFound();
@@ -60,7 +69,7 @@
                 CheckoutAt = DateTime.Now,
                 HourlyRate = _checkoutService.GetHourlyRate(),
                 Vehicle = _mapper.Map<VehicleViewModel>(deletedVehicle),
-                Member = mapper.Map<MemberViewModel>(member),
+                Member = _mapper.Map<MemberViewModel>(member),
             };
 
             return View(viewModel);
