@@ -46,6 +46,27 @@ namespace GarageThree.Web.Controllers
             }
             return View(viewModel);
         }
+
+        public async Task<IActionResult> Details(int id)
+        {
+            var garage = await _repository.GetById(id);
+            if (garage == null)
+            {
+                return NotFound();
+            }
+
+            var garageViewModel = new GarageViewModel
+            {
+                Id = garage.Id,
+                Name = garage.Name,
+                Capacity = garage.Capacity,
+            };
+
+            return View(garageViewModel);
+        }
+
+
+
     }
 }
  

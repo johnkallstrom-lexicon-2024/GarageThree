@@ -1,0 +1,19 @@
+﻿@model GarageViewModel
+
+@{
+    ViewBag.Title = "Garage Details";
+}
+
+<h3>@ViewBag.Title</h3>
+
+<div class="card">
+    <div class="card-body">
+<div>
+    <p><strong>Garage Name:</strong> @Model.Name</p>
+    <p><strong>Capacity:</strong> @Model.Capacity</p>
+    <div class="form-group">
+        <a asp-action="Index" class="btn btn-primary">Back</a>
+    </div>
+</div>
+</div>
+</div>
