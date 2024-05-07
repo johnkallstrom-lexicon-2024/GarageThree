@@ -4,15 +4,6 @@
     ViewBag.Title = "Members";
 }
 
-@* recommend adding wwwroot for consolidated style overrides *@
-@section Styles {
-            <style>
-                td {
-                    vertical-align: middle;
-                }
-            </style>
-}
-
 <h3>@ViewBag.Title</h3>
 <a asp-action="Create" class="btn btn-primary my-2">Register New Member</a>
 <table class="table table-hover table-responsive-xl">
