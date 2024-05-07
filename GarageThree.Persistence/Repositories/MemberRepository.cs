@@ -17,7 +17,7 @@ public class MemberRepository(ApplicationDbContext context) : IRepository<Member
 
     public async Task<Member?> Delete(int id)
     {
-        var memberToDelete = await _context.Members.FirstOrDefaultAsync(v => v.Id == id);
+        var memberToDelete = await _context.Members.FirstOrDefaultAsync(m => m.Id == id);
         if (memberToDelete != null)
         {
             var deletedMember = _context.Members.Remove(memberToDelete);
@@ -40,7 +40,7 @@ public class MemberRepository(ApplicationDbContext context) : IRepository<Member
 
     public async Task<Member?> GetById(int id)
     {
-        var member = await _context.Members.FirstOrDefaultAsync(v => v.Id == id);
+        var member = await _context.Members.FirstOrDefaultAsync(m => m.Id == id);
         return member;
     }
 
@@ -49,6 +49,14 @@ public class MemberRepository(ApplicationDbContext context) : IRepository<Member
         var updatedMember = _context.Update(entity).Entity;
         await _context.SaveChangesAsync();
         return updatedMember;
+    }
+
+    public async Task<Member?> Single(QueryParams parameters)
+    {
+        var member = await _context.Members
+                                    .FirstOrDefaultAsync(m => m.Id == (int?)parameters.Id || 
+                                                    m.SSN == parameters.SSN);
+        return member;
     }
 
     public Task<IEnumerable<Member>> Filter(QueryParams parameters)

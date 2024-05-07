@@ -32,7 +32,6 @@ public class GarageRepository(ApplicationDbContext context) : IRepository<Garage
         return await _context.Garages.AnyAsync();
     }
 
-
     public async Task<IEnumerable<Garage>> GetAll()
     {
         var garages = await _context.Garages.ToListAsync();
@@ -53,6 +52,11 @@ public class GarageRepository(ApplicationDbContext context) : IRepository<Garage
     }
 
     public Task<IEnumerable<Garage>> Filter(QueryParams parameters)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Garage?> Single(QueryParams parameters)
     {
         throw new NotImplementedException();
     }

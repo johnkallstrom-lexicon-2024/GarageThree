@@ -69,4 +69,9 @@ public class VehicleRepository(ApplicationDbContext context) : IRepository<Vehic
 
         return await vehicles.ToListAsync();
     }
+
+    public Task<Vehicle?> Single(QueryParams parameters)
+    {
+        throw new NotImplementedException();
+    }
 }
