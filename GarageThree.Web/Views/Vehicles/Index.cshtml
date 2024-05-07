@@ -4,7 +4,7 @@
 @{
     ViewBag.Title = "Vehicles";
 
-    var garageOptions = await selectListItemService.GetSelectListItems();
+    var garageOptions = await selectListItemService.GetSelectListItems(useAllOption: true);
 }
 
 @* recommend adding wwwroot for consolidated style overrides *@
