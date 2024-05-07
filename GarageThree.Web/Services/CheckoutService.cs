@@ -2,7 +2,6 @@
 {
     public class CheckoutService : ICheckoutService
     {
-        // Would be nice to add a new column 'Hourly Rate' column in Garage table so each Garage has their own hourly rate
         private int _hourlyRate;
         private readonly IConfiguration _configuration;
 
