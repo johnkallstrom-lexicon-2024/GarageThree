@@ -61,6 +61,14 @@ public class VehicleRepository(ApplicationDbContext context) : IRepository<Vehic
             .Include(v => v.VehicleType)
             .Include(v => v.Garage) as IQueryable<Vehicle>;
 
+        if (!string.IsNullOrWhiteSpace(parameters.SearchTerm))
+        {
+            vehicles = vehicles.Where(v => 
+            v.RegNumber.Contains(parameters.SearchTerm) || 
+            v.VehicleType.Name.Contains(parameters.SearchTerm) || 
+            v.Brand.Contains(parameters.SearchTerm));
+        }
+
         int? garageId = (int?)parameters.Id;
         if (garageId.HasValue)
         {

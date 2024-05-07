@@ -22,7 +22,8 @@
     <form asp-action="Index" method="get">
         <div class="d-flex flex-row">
             <select asp-for="@Model.GarageId" class="form-select" asp-items="garageOptions"></select>
-            <button type="submit" class="btn btn-secondary ms-2">Filter</button>
+            <input asp-for="@Model.SearchTerm" type="text" class="form-control ms-2" placeholder="Search..." />
+            <button type="submit" class="btn btn-secondary ms-2">Submit</button>
         </div>
     </form>
 </div>
