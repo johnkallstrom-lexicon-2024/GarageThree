@@ -11,6 +11,7 @@ builder.Services.AddTransient<IRepository<Garage>, GarageRepository>();
 builder.Services.AddTransient<IRepository<Member>, MemberRepository>();
 
 builder.Services.AddTransient<ISelectListItemService<Garage>, GarageSelectListItemService>();
+builder.Services.AddTransient<ICheckoutService, CheckoutService>();
 
 builder.Services.AddAutoMapper(config =>
 {
