@@ -37,11 +37,18 @@ namespace GarageThree.Web.Controllers
             }
 
             var garage = _mapper.Map<Garage>(viewModel);
-            await _repository.Create(garage);
 
-            return RedirectToAction(nameof(Index));
+            var createdGarage = await _repository.Create(garage);
+            if (createdGarage is not null)
+            {
+
+                return RedirectToAction(nameof(Index));
+            }
+            return View(viewModel);
         }
-
     }
 }
+ 
+    
+
     
