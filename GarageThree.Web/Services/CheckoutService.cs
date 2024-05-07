@@ -24,7 +24,5 @@
 
             return totalHours * _hourlyRate;
         }
-
-        public int GetGarageHourlyRate() => _hourlyRate;
     }
 }
