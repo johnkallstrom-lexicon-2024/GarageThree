@@ -1,6 +1,4 @@
-﻿using GarageThree.Persistence.Repositories;
-
-namespace GarageThree.Web.Controllers
+﻿namespace GarageThree.Web.Controllers
 {
     public class VehiclesController(IMapper mapper, IRepository<Vehicle> repository) : Controller
     {
@@ -22,6 +20,22 @@ namespace GarageThree.Web.Controllers
             if (garageId.HasValue) viewModel.GarageId = garageId.Value;
 
             return View(viewModel);
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var deletedVehicle = await _repository.Delete(id);
+            if (deletedVehicle is null)
+            {
+                return NotFound();
+            }
+
+            return RedirectToAction(nameof(Checkout), new VehicleCheckoutViewModel());
+        }
+
+        public async Task<IActionResult> Checkout(VehicleCheckoutViewModel viewModel)
+        {
+            return View();
         }
     }
 }
