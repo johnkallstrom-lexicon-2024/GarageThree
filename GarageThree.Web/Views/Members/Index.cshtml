@@ -13,6 +13,19 @@
             </style>
 }
 
+@if (ViewBag.Message is not null && ViewBag.Message.IsActive)
+{
+    switch (ViewBag.Message.Type)
+    {
+        case MessageType.Success:
+            <div class="alert alert-success my-2">@ViewBag.Message.Text</div>
+            break;
+        case MessageType.Danger:
+            <div class="alert alert-danger my-2">@ViewBag.Message.Text</div>
+            break;
+    }
+}
+
 <h3>@ViewBag.Title</h3>
 <a asp-action="Create" class="btn btn-primary my-2">Register New Member</a>
 <table class="table table-hover table-responsive-xl">
