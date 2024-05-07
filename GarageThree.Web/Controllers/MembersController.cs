@@ -1,4 +1,3 @@
-using GarageThree.Persistence.Repositories;
 using GarageThree.Web.ViewModels.Message;
 
 namespace GarageThree.Web.Controllers;
@@ -11,7 +10,7 @@ public class MembersController(IMapper mapper, IRepository<Member> memberReposit
     public async Task<IActionResult?> Index()
     {
         var members = await _memberRepository.GetAll();
-        var indexViewModel = new MemberIndexViewModel
+        MemberIndexViewModel indexViewModel = new()
         {
             MemberViewModels = _mapper.ProjectTo<MemberViewModel>(members.AsQueryable())
         };
