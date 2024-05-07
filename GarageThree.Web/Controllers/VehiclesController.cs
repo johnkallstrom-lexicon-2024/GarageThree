@@ -30,10 +30,10 @@
                 return NotFound();
             }
 
-            return RedirectToAction(nameof(Checkout), new VehicleCheckoutViewModel());
+            return RedirectToAction(nameof(Checkout));
         }
 
-        public async Task<IActionResult> Checkout(VehicleCheckoutViewModel viewModel)
+        public IActionResult Checkout()
         {
             return View();
         }
