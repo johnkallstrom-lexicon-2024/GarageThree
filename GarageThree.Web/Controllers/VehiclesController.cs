@@ -1,7 +1,11 @@
 ﻿namespace GarageThree.Web.Controllers
 {
-    public class VehiclesController(IMapper mapper, IRepository<Vehicle> repository) : Controller
+    public class VehiclesController(
+        ICheckoutService checkoutService,
+        IMapper mapper, 
+        IRepository<Vehicle> repository) : Controller
     {
+        private readonly ICheckoutService _checkoutService = checkoutService;
         private readonly IMapper _mapper = mapper;
         private readonly IRepository<Vehicle> _repository = repository;
 
@@ -30,12 +34,20 @@
                 return NotFound();
             }
 
-            return RedirectToAction(nameof(Checkout));
+            return RedirectToAction(nameof(Checkout), _mapper.Map<VehicleViewModel>(deletedVehicle));
         }
 
-        public IActionResult Checkout()
+        public IActionResult Checkout(VehicleViewModel vehicle)
         {
-            return View();
+            var viewModel = new VehicleCheckoutViewModel
+            {
+                ParkingPeriod = _checkoutService.CalculateParkingPeriod(vehicle.RegisteredAt),
+                TotalParkingPrice = _checkoutService.CalculateTotalParkingPrice(vehicle.RegisteredAt),
+                GarageHourlyRate = _checkoutService.GetGarageHourlyRate(),
+                Vehicle = vehicle
+            };
+
+            return View(viewModel);
         }
     }
 }
