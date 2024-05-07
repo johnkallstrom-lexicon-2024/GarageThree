@@ -1,10 +1,24 @@
-﻿namespace GarageThree.Web.Controllers
+﻿using AutoMapper;
+using GarageThree.Core.Entities;
+using GarageThree.Persistence.Repositories;
+
+namespace GarageThree.Web.Controllers
 {
-    public class GaragesController : Controller
+    public class GaragesController(IMapper mapper, IRepository<Garage> repository) : Controller
     {
-        public IActionResult Index()
+
+        private readonly IMapper _mapper = mapper;
+        private readonly IRepository<Garage> _repository = repository;
+
+        public async Task<IActionResult> Index()
         {
-            return View();
-        }
+            var garages = await _repository.GetAll();
+
+            var viewModel = new GarageIndexViewModel();
+            viewModel.Garages = _mapper.Map<IEnumerable<GarageViewModel>>(garages);
+
+            return View(viewModel);
+        }         
     }
 }
+    

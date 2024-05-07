@@ -1,3 +1,5 @@
+using GarageThree.Persistence.Data;
+using GarageThree.Persistence.Repositories;
 using GarageThree.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);

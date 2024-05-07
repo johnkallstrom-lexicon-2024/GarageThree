@@ -1,0 +1,58 @@
+﻿@model GarageIndexViewModel
+
+@{
+    ViewBag.Title = "Garages";
+}
+
+@* recommend adding wwwroot for consolidated style overrides *@
+@section Styles {
+    <style>
+        td {
+            vertical-align: middle;
+        }
+    </style>
+}
+
+<h3>@ViewBag.Title</h3>
+<table class="table">
+    <thead class="thead-light">
+        <a asp-action="Create" class="btn btn-primary">Register New Garage</a>
+        <table class="table table-hover table-responsive-xl">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col"> @Html.DisplayNameFor(model => model.Garages.First().Id) </th>
+                    <th scope="col"> @Html.DisplayNameFor(model => model.Garages.First().Name) </th>
+                    <th scope="col"> @Html.DisplayNameFor(model => model.Garages.First().Capacity) </th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+            <tbody>
+        @foreach (var garage in Model.Garages)
+        {
+            <tr>
+                <td scope="row">@garage.Id</td>
+                <td>@garage.Name</td>
+                <td>@garage.Capacity</td>
+                <td>
+                    <a asp-controller="Garages" asp-action="Details" asp-route-id="@garage.Id">
+                        <button class="btn btn-secondary">Details</button>
+                    </a>
+                </td>
+                <td>
+                    <a asp-controller="Garages" asp-action="Edit" asp-route-id="@garage.Id">
+                        <button class="btn btn-secondary">Edit</button>
+                    </a>
+                </td>
+                <td>
+                    <a asp-controller="Garages" asp-action="Delete" asp-route-id="@garage.Id">
+                                <button class="btn btn-danger">Delete</button>
+                    </a>
+                </td>
+
+              </tr>
+
+        }
+    </tbody>
+   
+</table>
