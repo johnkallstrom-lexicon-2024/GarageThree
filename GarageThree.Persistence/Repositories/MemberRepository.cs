@@ -29,7 +29,9 @@ public class MemberRepository(ApplicationDbContext context) : IRepository<Member
 
     public async Task<IEnumerable<Member>> GetAll()
     {
-        var members = await _context.Members.ToListAsync();
+        var members = await _context.Members
+                                    .Include(m => m.Vehicles)
+                                    .ToListAsync();
         return members;
     }
 

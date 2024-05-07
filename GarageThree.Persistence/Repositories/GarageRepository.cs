@@ -34,7 +34,9 @@ public class GarageRepository(ApplicationDbContext context) : IRepository<Garage
 
     public async Task<IEnumerable<Garage>> GetAll()
     {
-        var garages = await _context.Garages.ToListAsync();
+        var garages = await _context.Garages
+                                    .Include(g => g.Vehicles)
+                                    .ToListAsync();
         return garages;
     }
 

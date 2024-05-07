@@ -1,13 +1,12 @@
-﻿using GarageThree.Web.ViewModels.Vehicle;
+﻿namespace GarageThree.Web.ViewModels.Garage;
 
-namespace GarageThree.Web.ViewModels.Garage
+public class GarageViewModel
 {
-    public class GarageViewModel
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }  = default!;
-        public int Capacity { get; set; }
+    public int Id { get; set; }
+    public string Name { get; set; } = default!;
+    public int Capacity { get; set; }
+    [DisplayName("Vehicle Count")]
+    public int VehicleCount => Vehicles.Count();
 
-        public IEnumerable<VehicleViewModel> Vehicles { get; set; } = [];
-    }
+    public IEnumerable<VehicleViewModel> Vehicles { get; set; } = [];
 }

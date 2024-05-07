@@ -1,4 +1,5 @@
-﻿namespace GarageThree.Web.Mappings
+﻿
+namespace GarageThree.Web.Mappings
 {
     public class MemberProfile : Profile
     {

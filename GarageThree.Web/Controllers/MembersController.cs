@@ -1,4 +1,3 @@
-using GarageThree.Persistence.Repositories;
 using GarageThree.Web.ViewModels.Message;
 
 namespace GarageThree.Web.Controllers;
