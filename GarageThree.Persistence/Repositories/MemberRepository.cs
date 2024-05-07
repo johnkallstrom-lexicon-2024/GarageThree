@@ -1,5 +1,6 @@
 using GarageThree.Persistence.Data;
 using GarageThree.Persistence.Parameters;
+using Microsoft.IdentityModel.Tokens;
 
 namespace GarageThree.Persistence.Repositories;
 
@@ -54,13 +55,26 @@ public class MemberRepository(ApplicationDbContext context) : IRepository<Member
     public async Task<Member?> Single(QueryParams parameters)
     {
         var member = await _context.Members
-                                    .FirstOrDefaultAsync(m => m.Id == (int?)parameters.Id || 
+                                    .FirstOrDefaultAsync(m => m.Id == (int?)parameters.Id ||
                                                     m.SSN == parameters.SSN);
         return member;
     }
 
-    public Task<IEnumerable<Member>> Filter(QueryParams parameters)
+    public async Task<IEnumerable<Member>> Filter(QueryParams parameters)
     {
-        throw new NotImplementedException();
+        IQueryable<Member> members = _context.Members;
+
+        if (!string.IsNullOrEmpty(parameters.SearchTerm))
+        {
+            members = members.Where(m =>
+                m.SSN.Contains(parameters.SearchTerm) ||
+                m.Id.ToString().Contains(parameters.SearchTerm) ||
+                m.Username.Contains(parameters.SearchTerm) ||
+                m.Email.Contains(parameters.SearchTerm) ||
+                m.FirstName.Contains(parameters.SearchTerm) ||
+                m.LastName.Contains(parameters.SearchTerm)
+            );
+        }
+        return await members.ToListAsync();
     }
 }
