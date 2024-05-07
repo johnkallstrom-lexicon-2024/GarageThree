@@ -2,10 +2,12 @@ using GarageThree.Web.ViewModels.Message;
 
 namespace GarageThree.Web.Controllers;
 
-public class MembersController(IMapper mapper, IRepository<Member> memberRepository, ISortService<Member> sortService) : Controller
+public class MembersController(IMapper mapper,
+                               IRepository<Member> memberRepository,
+                               ISortService<Member> memberSortService) : Controller
 {
     private readonly IMapper _mapper = mapper;
-    private readonly ISortService<Member> _sortService = sortService;
+    private readonly ISortService<Member> _memberSortService = memberSortService;
     private readonly IRepository<Member> _memberRepository = memberRepository;
 
     public async Task<IActionResult?> Index()
@@ -14,7 +16,7 @@ public class MembersController(IMapper mapper, IRepository<Member> memberReposit
 
         var indexViewModel = new MemberIndexViewModel
         {
-            MemberViewModels = _mapper.ProjectTo<MemberViewModel>(await _sortService.Sort(members))
+            MemberViewModels = _mapper.ProjectTo<MemberViewModel>(await _memberSortService.Sort(members.AsQueryable()))
         };
 
         return View(indexViewModel);
