@@ -2,8 +2,11 @@
 
 namespace GarageThree.Web.Validations
 {
-    public class SocialSecurityNumberAttribute() : ValidationAttribute
+    public partial class SocialSecurityNumberAttribute() : ValidationAttribute
     {
+        [GeneratedRegex(@"(\D)")]
+        private static partial Regex MyRegex();
+
         protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
             var configuration = validationContext.GetRequiredService<IConfiguration>();
@@ -13,11 +16,12 @@ namespace GarageThree.Web.Validations
 
             string? ssn = (string?)value;
 
-            if (string.IsNullOrWhiteSpace(ssn)) return new ValidationResult(errorMessage);
-            if (!ssn.Length.Equals(correctLength)) return new ValidationResult(errorMessage);
-
-            // Will check if there is any non digit characters
-            if (Regex.IsMatch(ssn, @"(\D)")) return new ValidationResult(errorMessage);
+            if (string.IsNullOrWhiteSpace(ssn) ||
+                !ssn.Length.Equals(correctLength) ||
+                MyRegex().IsMatch(ssn))
+            {
+                return new ValidationResult(errorMessage);
+            }
 
             return ValidationResult.Success;
         }

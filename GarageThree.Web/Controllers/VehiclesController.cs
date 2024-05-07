@@ -15,8 +15,10 @@ namespace GarageThree.Web.Controllers
                 SearchTerm = ""
             });
 
-            var viewModel = new VehicleIndexViewModel();
-            viewModel.Vehicles = _mapper.Map<IEnumerable<VehicleViewModel>>(vehicles);
+            var viewModel = new VehicleIndexViewModel
+            {
+                Vehicles = _mapper.Map<IEnumerable<VehicleViewModel>>(vehicles)
+            };
             if (garageId.HasValue) viewModel.GarageId = garageId.Value;
 
             return View(viewModel);

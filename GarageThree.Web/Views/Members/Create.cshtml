@@ -4,6 +4,18 @@
     ViewBag.Title = "Create Member";
 }
 
+@if (Model.Message is not null && Model.Message.IsActive)
+{
+    switch (Model.Message.Type)
+    {
+        case MessageType.Success:
+            <div class="alert alert-success my-2">@Model.Message.Text</div>
+            break;
+        case MessageType.Danger:
+            <div class="alert alert-danger my-2">@Model.Message.Text</div>
+            break;
+    }
+}
 <h3>@ViewBag.Title</h3>
 <div class="row">
     <div class="col-sm-8">
