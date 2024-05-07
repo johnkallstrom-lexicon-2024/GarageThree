@@ -18,7 +18,30 @@ namespace GarageThree.Web.Controllers
             viewModel.Garages = _mapper.Map<IEnumerable<GarageViewModel>>(garages);
 
             return View(viewModel);
-        }         
+        }
+
+        public IActionResult Create()
+        {
+            var viewModel = new GarageCreateOrEditViewModel();
+            return View(viewModel);
+        }
+
+        // POST: Garages/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(GarageCreateOrEditViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(viewModel);
+            }
+
+            var garage = _mapper.Map<Garage>(viewModel);
+            await _repository.Create(garage);
+
+            return RedirectToAction(nameof(Index));
+        }
+
     }
 }
     
