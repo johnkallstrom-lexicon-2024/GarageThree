@@ -1,20 +1,22 @@
-using GarageThree.Persistence.Repositories;
 using GarageThree.Web.ViewModels.Message;
 
 namespace GarageThree.Web.Controllers;
 
-public class MembersController(IMapper mapper, IRepository<Member> memberRepository) : Controller
+public class MembersController(IMapper mapper, IRepository<Member> memberRepository, ISortService<Member> sortService) : Controller
 {
     private readonly IMapper _mapper = mapper;
+    private readonly ISortService<Member> _sortService = sortService;
     private readonly IRepository<Member> _memberRepository = memberRepository;
 
     public async Task<IActionResult?> Index()
     {
         var members = await _memberRepository.GetAll();
+
         var indexViewModel = new MemberIndexViewModel
         {
-            MemberViewModels = _mapper.ProjectTo<MemberViewModel>(members.AsQueryable())
+            MemberViewModels = _mapper.ProjectTo<MemberViewModel>(await _sortService.Sort(members))
         };
+
         return View(indexViewModel);
     }
 
