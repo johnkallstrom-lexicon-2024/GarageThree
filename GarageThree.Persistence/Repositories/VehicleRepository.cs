@@ -64,9 +64,10 @@ public class VehicleRepository(ApplicationDbContext context) : IRepository<Vehic
         if (!string.IsNullOrWhiteSpace(parameters.SearchTerm))
         {
             vehicles = vehicles.Where(v => 
-            v.RegNumber.Contains(parameters.SearchTerm) || 
+            v.RegNumber.Contains(parameters.SearchTerm) ||
             v.VehicleType.Name.Contains(parameters.SearchTerm) || 
-            v.Brand.Contains(parameters.SearchTerm));
+            v.Brand.Contains(parameters.SearchTerm) || 
+            v.Model.Contains(parameters.SearchTerm));
         }
 
         int? garageId = (int?)parameters.Id;
