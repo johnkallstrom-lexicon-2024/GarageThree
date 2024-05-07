@@ -2,13 +2,23 @@ namespace GarageThree.Web.Services;
 
 public class BaseMessageService : IMessageService
 {
-    public MessageViewModel GenerateMessage(IMessageParameters parameters)
+    public MessageViewModel Error(string message)
     {
         return new MessageViewModel()
         {
-            IsActive = parameters.IsActive,
-            Type = parameters.Type,
-            Text = parameters.Text
+            IsActive = true,
+            Text = message,
+            Type = MessageType.Danger
+        };
+    }
+
+    public MessageViewModel Success(string message)
+    {
+        return new MessageViewModel()
+        {
+            IsActive = true,
+            Text = message,
+            Type = MessageType.Success
         };
     }
 }

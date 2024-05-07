@@ -30,12 +30,7 @@ public class MembersController(IMapper mapper, IRepository<Member> memberReposit
         if (existingMember is not null)
         {
             ModelState.AddModelError("SsnExists", "Member with given SSN already exists");
-            ViewBag.Message = _messageService.GenerateMessage(new MessageParameters()
-            {
-                Type = MessageType.Danger,
-                Text = "Member with given SSN already exists",
-                IsActive = true
-            });
+            ViewBag.Message = _messageService.Error("Member with given SSN already exists");
         }
 
         if (!ModelState.IsValid) return View(viewModel);
@@ -109,13 +104,7 @@ public class MembersController(IMapper mapper, IRepository<Member> memberReposit
 
         if (memberToDelete is not null)
         {
-            ViewBag.Message = _messageService.GenerateMessage(new MessageParameters()
-            {
-                Type = MessageType.Success,
-                Text = $"Member {memberToDelete.Id} deleted",
-                IsActive = true
-            });
-
+            ViewBag.Message = _messageService.Success($"Member {memberToDelete.Id} deleted");
             return RedirectToAction(nameof(Index));
         }
         return RedirectToAction(nameof(Index));
