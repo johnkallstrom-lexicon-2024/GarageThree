@@ -24,5 +24,7 @@
 
             return totalHours * _hourlyRate;
         }
+
+        public int GetHourlyRate() => _hourlyRate;
     }
 }

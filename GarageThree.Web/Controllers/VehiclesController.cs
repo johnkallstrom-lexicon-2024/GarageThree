@@ -4,7 +4,7 @@
         IRepository<Member> memberRepository,
         IRepository<Garage> _garageRepository,
         ICheckoutService checkoutService,
-        IMapper mapper, 
+        IMapper mapper,
         IRepository<Vehicle> repository) : Controller
     {
         private readonly IRepository<Member> _memberRepository = memberRepository;
@@ -56,6 +56,8 @@
                 ParkedMinutes = (int)parkingPeriod.TotalMinutes,
                 TotalParkingPrice = totalParkingPrice,
                 Garage = garage is null ? string.Empty : garage.Name,
+                CheckoutAt = DateTime.Now,
+                HourlyRate = _checkoutService.GetHourlyRate(),
                 Vehicle = _mapper.Map<VehicleViewModel>(deletedVehicle),
                 Member = mapper.Map<MemberViewModel>(member),
             };
