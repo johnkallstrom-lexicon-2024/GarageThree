@@ -8,9 +8,13 @@ public class MembersController(IMapper mapper, IRepository<Member> memberReposit
     private readonly IMapper _mapper = mapper;
     private readonly IRepository<Member> _memberRepository = memberRepository;
 
-    public async Task<IActionResult?> Index()
+    public async Task<IActionResult?> Index(string? searchTerm)
     {
-        var members = await _memberRepository.GetAll();
+        var members = await _memberRepository.Filter(new QueryParams()
+        {
+            SearchTerm = searchTerm
+        });
+
         var indexViewModel = new MemberIndexViewModel
         {
             MemberViewModels = _mapper.ProjectTo<MemberViewModel>(members.AsQueryable())

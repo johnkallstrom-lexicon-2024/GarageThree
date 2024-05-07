@@ -64,11 +64,9 @@ public class MemberRepository(ApplicationDbContext context) : IRepository<Member
     {
         IQueryable<Member> members = _context.Members;
 
-        if (!string.IsNullOrEmpty(parameters.SearchTerm))
+        if (!string.IsNullOrWhiteSpace(parameters.SearchTerm))
         {
             members = members.Where(m =>
-                m.SSN.Contains(parameters.SearchTerm) ||
-                m.Id.ToString().Contains(parameters.SearchTerm) ||
                 m.Username.Contains(parameters.SearchTerm) ||
                 m.Email.Contains(parameters.SearchTerm) ||
                 m.FirstName.Contains(parameters.SearchTerm) ||
