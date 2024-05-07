@@ -8,11 +8,15 @@
 <div class="row">
     <div class="col-sm-8">
         <ul class="list-group">
+            <li class="list-group-item">Name: @Model.Member.Name</li>
+            <li class="list-group-item">Username: @Model.Member.Username</li>
+            <li class="list-group-item">SSN: @Model.Member.SSN</li>
             <li class="list-group-item">Registration Number: @Model.Vehicle.RegNumber</li>
             <li class="list-group-item">Brand: @Model.Vehicle.Brand</li>
             <li class="list-group-item">Color: @Model.Vehicle.Color</li>
             <li class="list-group-item">Parking Period: @Model.ParkedDays Days, @Model.ParkedHours Hours, @Model.ParkedMinutes Minutes</li>
             <li class="list-group-item">Total Price: @Model.TotalParkingPrice SEK</li>
+            <li class="list-group-item">Garage: @Model.Garage</li>
         </ul>
     </div>
 </div>

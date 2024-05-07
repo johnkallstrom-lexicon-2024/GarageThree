@@ -1,10 +1,14 @@
 ﻿namespace GarageThree.Web.Controllers
 {
     public class VehiclesController(
+        IRepository<Member> memberRepository,
+        IRepository<Garage> _garageRepository,
         ICheckoutService checkoutService,
         IMapper mapper, 
         IRepository<Vehicle> repository) : Controller
     {
+        private readonly IRepository<Member> _memberRepository = memberRepository;
+        private readonly IRepository<Garage> _garageRepository = _garageRepository;
         private readonly ICheckoutService _checkoutService = checkoutService;
         private readonly IMapper _mapper = mapper;
         private readonly IRepository<Vehicle> _repository = repository;
@@ -34,13 +38,16 @@
                 return NotFound();
             }
 
-            return RedirectToAction(nameof(Checkout), _mapper.Map<VehicleViewModel>(deletedVehicle));
+            return RedirectToAction(nameof(Checkout), deletedVehicle);
         }
 
-        public IActionResult Checkout(VehicleViewModel vehicle)
+        public async Task<IActionResult> Checkout(Vehicle deletedVehicle)
         {
-            TimeSpan parkingPeriod = _checkoutService.CalculateParkingPeriod(vehicle.RegisteredAt);
-            decimal totalParkingPrice = _checkoutService.CalculateTotalParkingPrice(vehicle.RegisteredAt);
+            var member = await _memberRepository.GetById(deletedVehicle.MemberId);
+            var garage = await _garageRepository.GetById(deletedVehicle.GarageId);
+
+            TimeSpan parkingPeriod = _checkoutService.CalculateParkingPeriod(deletedVehicle.RegisteredAt);
+            decimal totalParkingPrice = _checkoutService.CalculateTotalParkingPrice(deletedVehicle.RegisteredAt);
 
             var viewModel = new VehicleCheckoutViewModel
             {
@@ -48,7 +55,9 @@
                 ParkedHours = (int)parkingPeriod.TotalHours,
                 ParkedMinutes = (int)parkingPeriod.TotalMinutes,
                 TotalParkingPrice = totalParkingPrice,
-                Vehicle = vehicle
+                Garage = garage is null ? string.Empty : garage.Name,
+                Vehicle = _mapper.Map<VehicleViewModel>(deletedVehicle),
+                Member = mapper.Map<MemberViewModel>(member),
             };
 
             return View(viewModel);
