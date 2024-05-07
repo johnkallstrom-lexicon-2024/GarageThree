@@ -23,5 +23,7 @@ namespace GarageThree.Web.Controllers
 
             return View(viewModel);
         }
+
+        public IActionResult Clear() => RedirectToAction(nameof(Index), new { });
     }
 }
