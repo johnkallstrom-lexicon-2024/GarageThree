@@ -2,9 +2,10 @@
 {
     public class VehicleCheckoutViewModel
     {
-        public TimeSpan ParkingPeriod { get; set; }
+        public int ParkedDays { get; set; }
+        public int ParkedHours { get; set; }
+        public int ParkedMinutes { get; set; }
         public decimal TotalParkingPrice { get; set; }
-        public decimal GarageHourlyRate { get; set; }
         public VehicleViewModel Vehicle { get; set; } = default!;
     }
 }

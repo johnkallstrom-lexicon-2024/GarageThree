@@ -14,14 +14,16 @@
 
         public TimeSpan CalculateParkingPeriod(DateTime parkedAt)
         {
-            TimeSpan period = parkedAt - DateTime.Now;
+            TimeSpan period = DateTime.Now - parkedAt;
             return period;
         }
 
         public decimal CalculateTotalParkingPrice(DateTime parkedAt)
         {
-            decimal price = (parkedAt - DateTime.Now).Hours * _hourlyRate;
-            return price;
+            TimeSpan period = CalculateParkingPeriod(parkedAt);
+            int totalHours = (int)period.TotalHours;
+
+            return totalHours * _hourlyRate;
         }
 
         public int GetGarageHourlyRate() => _hourlyRate;

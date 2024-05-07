@@ -39,11 +39,15 @@
 
         public IActionResult Checkout(VehicleViewModel vehicle)
         {
+            TimeSpan parkingPeriod = _checkoutService.CalculateParkingPeriod(vehicle.RegisteredAt);
+            decimal totalParkingPrice = _checkoutService.CalculateTotalParkingPrice(vehicle.RegisteredAt);
+
             var viewModel = new VehicleCheckoutViewModel
             {
-                ParkingPeriod = _checkoutService.CalculateParkingPeriod(vehicle.RegisteredAt),
-                TotalParkingPrice = _checkoutService.CalculateTotalParkingPrice(vehicle.RegisteredAt),
-                GarageHourlyRate = _checkoutService.GetGarageHourlyRate(),
+                ParkedDays = parkingPeriod.Days,
+                ParkedHours = (int)parkingPeriod.TotalHours,
+                ParkedMinutes = (int)parkingPeriod.TotalMinutes,
+                TotalParkingPrice = totalParkingPrice,
                 Vehicle = vehicle
             };
 
