@@ -16,4 +16,6 @@ global using GarageThree.Web.ViewModels.Vehicle;
 global using GarageThree.Web.Mappings;
 global using GarageThree.Web.Extensions;
 global using GarageThree.Web.Services;
+global using GarageThree.Web.Services.Interfaces;
 global using GarageThree.Web.Validations;
+global using Microsoft.AspNetCore.Mvc.Rendering;

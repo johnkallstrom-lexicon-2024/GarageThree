@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-
-namespace GarageThree.Web.Services
+﻿namespace GarageThree.Web.Services.Interfaces
 {
     public interface ISelectListItemService<T> where T : class
     {
