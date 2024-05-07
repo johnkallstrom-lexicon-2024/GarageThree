@@ -10,6 +10,11 @@ public class MembersController(IMapper mapper, IRepository<Member> memberReposit
 
     public async Task<IActionResult?> Index(string? searchTerm)
     {
+        if (!string.IsNullOrWhiteSpace(searchTerm))
+        {
+            ViewBag.Filtered = true;
+        }
+        
         var members = await _memberRepository.Filter(new QueryParams()
         {
             SearchTerm = searchTerm
@@ -100,5 +105,10 @@ public class MembersController(IMapper mapper, IRepository<Member> memberReposit
         }
 
         return View(viewModel);
+    }
+
+    public IActionResult Reset()
+    {
+        return RedirectToAction(nameof(Index));
     }
 }

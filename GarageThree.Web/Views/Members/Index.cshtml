@@ -20,6 +20,9 @@
         <div class="d-flex flex-row">
             <input asp-for="@Model.SearchTerm" type="text" class="form-control" placeholder="Search..." />
             <button type="submit" class="btn btn-primary ms-2">Submit</button>
+            @if(ViewBag.Filtered is not null) {
+                <a asp-action="Reset" class="btn btn-secondary ms-2">Reset</a>
+            }
         </div>
     </form>
 </div>
