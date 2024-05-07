@@ -6,7 +6,7 @@ namespace GarageThree.Web.Services
     {
         private readonly IRepository<Garage> _repository = repository;
 
-        public async Task<IEnumerable<SelectListItem>> GetSelectListItems(bool useAllOption = false)
+        public async Task<IEnumerable<SelectListItem>> GetSelectListItems(bool hasAllOption = false)
         {
             var garages = await _repository.GetAll();
 
@@ -16,7 +16,7 @@ namespace GarageThree.Web.Services
                 Value = g.Id.ToString()
             }).ToList();
 
-            if (useAllOption)
+            if (hasAllOption)
             {
                 options.Insert(0, new SelectListItem
                 {
