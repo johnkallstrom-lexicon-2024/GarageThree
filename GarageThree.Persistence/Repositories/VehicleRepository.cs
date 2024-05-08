@@ -56,7 +56,7 @@ public class VehicleRepository(ApplicationDbContext context) : IRepository<Vehic
 
     public async Task<Vehicle?> Update(Vehicle entity)
     {
-        var updatedVehicle = _context.Update(entity).Entity;
+        var updatedVehicle = _context.Vehicles.Update(entity).Entity;
         await _context.SaveChangesAsync();
         return updatedVehicle;
     }
@@ -65,18 +65,20 @@ public class VehicleRepository(ApplicationDbContext context) : IRepository<Vehic
     {
         var vehicles = _context.Vehicles
             .Include(v => v.VehicleType)
+            .Include(v => v.Member)
             .Include(v => v.Garage) as IQueryable<Vehicle>;
 
-        if(parameters.VehicleTypeId is not null) {
+        if (parameters.VehicleTypeId is not null)
+        {
             return await vehicles.Where(v => v.VehicleTypeId == parameters.VehicleTypeId).ToListAsync();
         }
 
         if (!string.IsNullOrWhiteSpace(parameters.SearchTerm))
         {
-            vehicles = vehicles.Where(v => 
+            vehicles = vehicles.Where(v =>
             v.RegNumber.Contains(parameters.SearchTerm) ||
-            v.VehicleType.Name.Contains(parameters.SearchTerm) || 
-            v.Brand.Contains(parameters.SearchTerm) || 
+            v.VehicleType.Name.Contains(parameters.SearchTerm) ||
+            v.Brand.Contains(parameters.SearchTerm) ||
             v.Model.Contains(parameters.SearchTerm));
         }
 

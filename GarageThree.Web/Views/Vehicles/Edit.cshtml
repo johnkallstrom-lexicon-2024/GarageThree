@@ -1,9 +1,9 @@
 ﻿@inject ISelectListItemService<Member> selectListItemService
-@model VehicleCreateOrEditViewModel
+@model VehicleEditViewModel
 
 @{
     ViewBag.Title = "Edit Vehicle";
-    var memberOptions = await selectListItemService.GetSelectListItems(hasAllOption: true);
+    var memberOptions = await selectListItemService.GetSelectListItems();
 }
 
 <div class="row d-flex justify-content-center">
@@ -12,9 +12,13 @@
         <div class="card bg-light">
             <div class="card-body">
                 <form asp-action="Edit" method="post">
+                    <input type="hidden" asp-for="@Model.Id" />
+                    <input type="hidden" asp-for="@Model.RegNumber" />
+                    <input type="hidden" asp-for="@Model.GarageId" />
+                    <input type="hidden" asp-for="@Model.VehicleTypeId" />
                     <div class="mb-3">
-                        <label asp-for="@Model.Owner" class="form-label"></label>
-                        <select asp-for="@Model.Owner" type="text" class="form-select" asp-items="memberOptions"></select>
+                        <label asp-for="@Model.MemberId" class="form-label"></label>
+                        <select asp-for="@Model.MemberId" type="text" class="form-select" asp-items="memberOptions"></select>
                     </div>
                     <div class="mb-3">
                         <label asp-for="@Model.Brand" class="form-label"></label>
@@ -32,8 +36,8 @@
                         <span asp-validation-for="@Model.Color" class="text-danger"></span>
                     </div>
                     <div class="d-flex justify-content-between ">
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                    <a asp-action="Index" class="btn btn-primary" asp-controller="Vehicles">Back</a>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <a asp-action="Index" class="btn btn-primary" asp-controller="Vehicles">Back</a>
                     </div>
                 </form>
             </div>

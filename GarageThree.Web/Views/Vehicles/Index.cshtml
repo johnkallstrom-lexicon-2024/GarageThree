@@ -65,8 +65,9 @@
         <th>@Html.DisplayNameFor(m => m.Vehicles.First().Model)</th>
         <th>@Html.DisplayNameFor(m => m.Vehicles.First().RegisteredAt)</th>
         <th>@Html.DisplayNameFor(m => m.Vehicles.First().Color)</th>
-        <th>@Html.DisplayNameFor(m => m.Vehicles.First().Type)</th>
+        <th>@Html.DisplayNameFor(m => m.Vehicles.First().VehicleType)</th>
         <th>@Html.DisplayNameFor(m => m.Vehicles.First().Garage)</th>
+        <th>@Html.DisplayNameFor(m => m.Vehicles.First().Member)</th>
         <th scope="col"></th>
         <th scope="col"></th>
         <th scope="col"></th>
@@ -81,7 +82,10 @@
                 <td>@vehicle.Model</td>
                 <td>@vehicle.RegisteredAt</td>
                 <td>@vehicle.Color</td>
-                <td>@vehicle.Type.Name</td>
+                <td>@vehicle.VehicleType.Name</td>
+                <td>
+                    <a asp-controller="Members" asp-action="Details" asp-route-id="@vehicle.Member.Id">@vehicle.Member.Name</a>
+                </td>
                 <td>
                     <a asp-controller="Garages" asp-action="Details" asp-route-id="@vehicle.Garage.Id">@vehicle.Garage.Name</a>
                 </td>

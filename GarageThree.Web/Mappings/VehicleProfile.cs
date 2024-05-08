@@ -5,9 +5,9 @@
         public VehicleProfile()
         {
             CreateMap<Vehicle, VehicleViewModel>()
-                .ForMember(vm => vm.Type, opt => opt.MapFrom(entity => entity.VehicleType));
-
-            CreateMap<Vehicle, VehicleCreateOrEditViewModel>().ReverseMap();
+                .ForMember(vm => vm.VehicleType, opt => opt.MapFrom(entity => entity.VehicleType));
+            CreateMap<Vehicle, VehicleCreateViewModel>().ReverseMap();
+            CreateMap<Vehicle, VehicleEditViewModel>().ReverseMap();
         }
     }
 }

@@ -36,11 +36,13 @@ public class VehiclesController(
 
     public IActionResult Create()
     {
-        var viewModel = new VehicleCreateOrEditViewModel();
+        var viewModel = new VehicleCreateViewModel();
         return View(viewModel);
     }
 
-    public async Task<IActionResult> Create(VehicleCreateOrEditViewModel viewModel)
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Create(VehicleCreateViewModel viewModel)
     {
         if (!ModelState.IsValid)
         {
@@ -70,23 +72,27 @@ public class VehiclesController(
 
         var vehicleToEdit = await _vehicleRepository.GetById((int)id);
 
-        VehicleCreateOrEditViewModel viewModel = _mapper.Map<VehicleCreateOrEditViewModel>(vehicleToEdit);
+        VehicleEditViewModel viewModel = _mapper.Map<VehicleEditViewModel>(vehicleToEdit);
         return View(viewModel);
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(VehicleCreateOrEditViewModel viewModel)
+    public async Task<IActionResult> Edit(VehicleEditViewModel viewModel)
     {
-        var vehicleToEdit = _mapper.Map<Vehicle>(viewModel);
-        var editedVehicle = await _vehicleRepository.Update(vehicleToEdit);
-        if (editedVehicle != null)
+        if (!ModelState.IsValid) return View(viewModel);
+
+        var vehicleToUpdate = _mapper.Map<Vehicle>(viewModel);
+
+        var updatedVehicle = await _vehicleRepository.Update(vehicleToUpdate);
+
+        if (updatedVehicle is not null)
         {
-            MessageViewModel messageViewModel = _messageService.Success($"Vehicle with id [{editedVehicle.Id}] edited at {DateTime.Now}");
+            MessageViewModel messageViewModel = _messageService.Success($"Vehicle with registration number [{updatedVehicle.RegNumber}] edited at {DateTime.Now}");
             return RedirectToAction(nameof(Index), messageViewModel);
         }
 
-        ViewBag.Message = _messageService.Error($"Could not edit vehicle with id [{viewModel.Id}]");
+        ViewBag.Message = _messageService.Error($"Could not edit vehicle with Registration Number [{viewModel.RegNumber}]");
 
         return View(viewModel);
     }
@@ -132,10 +138,17 @@ public class VehiclesController(
         {
             return NotFound();
         }
+
         var vehicle = await _vehicleRepository.GetById((int)id);
+
+        if (vehicle is null)
+        {
+            return NotFound();
+        }
 
         VehicleViewModel viewModel = _mapper.Map<VehicleViewModel>(vehicle);
         viewModel.VehicleCount = (await _vehicleRepository.GetAll()).Count();
+        viewModel.VehicleType = _mapper.Map<VehicleTypeViewModel>(vehicle.VehicleType);
 
         return View(viewModel);
     }
