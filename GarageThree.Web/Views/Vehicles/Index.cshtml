@@ -7,6 +7,25 @@
     var garageOptions = await selectListItemService.GetSelectListItems(hasAllOption: true);
 }
 
+@if (Model.Message is not null && Model.Message.IsActive)
+{
+    switch (Model.Message.Type)
+    {
+        case MessageType.Success:
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>@Model.Message.Text</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            break;
+        case MessageType.Danger:
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>@Model.Message.Text</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            break;
+    }
+}
+
 <h3>@ViewBag.Title</h3>
 <a asp-action="Create" class="btn btn-primary my-2">Park New Vehicle</a>
 <div class="d-flex flew-row mt-2">

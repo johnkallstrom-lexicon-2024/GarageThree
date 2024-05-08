@@ -15,4 +15,6 @@ public class VehicleViewModel
     public MemberViewModel Member { get; set; } = default!;
     public GarageViewModel Garage { get; set; } = default!;
     public VehicleTypeViewModel Type { get; set; } = default!;
+
+
 }

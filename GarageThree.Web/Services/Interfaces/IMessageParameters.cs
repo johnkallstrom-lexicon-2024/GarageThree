@@ -1,4 +1,4 @@
-namespace GarageThree.Web.Services;
+namespace GarageThree.Web.Services.Interfaces;
 
 public interface IMessageParameters
 {

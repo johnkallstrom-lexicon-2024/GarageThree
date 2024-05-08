@@ -1,6 +1,7 @@
 using GarageThree.Persistence.Data;
 using GarageThree.Persistence.Parameters;
 using Microsoft.IdentityModel.Tokens;
+using System.Linq.Expressions;
 
 namespace GarageThree.Persistence.Repositories;
 
@@ -34,7 +35,7 @@ public class MemberRepository(ApplicationDbContext context) : IRepository<Member
                              .ToListAsync();
     }
 
-    public async Task<bool> Any()
+    public async Task<bool> AnyAsync()
     {
         return await _context.Members.AnyAsync();
     }
@@ -74,5 +75,20 @@ public class MemberRepository(ApplicationDbContext context) : IRepository<Member
             );
         }
         return await members.ToListAsync();
+    }
+
+    public Task<bool> AnyAsync(Expression<Func<Vehicle, bool>> predicate)
+    {
+        throw new NotImplementedException();
+    }
+
+    public bool Any()
+    {
+        throw new NotImplementedException();
+    }
+
+    public bool Any(Func<Vehicle, bool> predicate)
+    {
+        throw new NotImplementedException();
     }
 }

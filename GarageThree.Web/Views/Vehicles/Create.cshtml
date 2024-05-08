@@ -1,0 +1,63 @@
+﻿@inject ISelectListItemService<Garage> garageSelectListItemService
+@inject ISelectListItemService<Member> memberSelectListItemService
+@inject ISelectListItemService<VehicleType> vehicleTypeSelectListItemService
+
+@model VehicleCreateOrEditViewModel
+
+@{
+    ViewBag.Title = "Park Vehicle";
+
+    var colors = Enum.GetValues<Color>().Select(e => new SelectListItem
+    {
+        Text = e.ToString(),
+        Value = e.ToString()
+    });
+
+    IEnumerable<SelectListItem> garages = await garageSelectListItemService.GetSelectListItems();
+    IEnumerable<SelectListItem> members = await memberSelectListItemService.GetSelectListItems();
+    IEnumerable<SelectListItem> vehicleTypes = await vehicleTypeSelectListItemService.GetSelectListItems();
+}
+
+<h3>@ViewBag.Title</h3>
+<div class="row">
+    <div class="col-sm-8">
+        <div class="card bg-light">
+            <div class="card-body">
+                <form asp-action="Create" method="post">
+                    <div class="mb-3">
+                        <label asp-for="@Model.GarageId" class="form-label"></label>
+                        <select asp-for="@Model.GarageId" asp-items="garages" class="form-control"></select>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="@Model.MemberId" class="form-label"></label>
+                        <select asp-for="@Model.MemberId" asp-items="members" class="form-control"></select>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="@Model.VehicleTypeId" class="form-label"></label>
+                        <select asp-for="@Model.VehicleTypeId" asp-items="vehicleTypes" class="form-control"></select>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="@Model.RegNumber" class="form-label"></label>
+                        <input asp-for="@Model.RegNumber" type="text" class="form-control">
+                        <span asp-validation-for="@Model.RegNumber" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="@Model.Brand" class="form-label"></label>
+                        <input asp-for="@Model.Brand" type="text" class="form-control">
+                        <span asp-validation-for="@Model.Brand" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="@Model.Model" class="form-label"></label>
+                        <input asp-for="@Model.Model" type="text" class="form-control">
+                        <span asp-validation-for="@Model.Model" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="@Model.Color" class="form-label"></label>
+                        <select asp-for="@Model.Color" asp-items="colors" class="form-control"></select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
