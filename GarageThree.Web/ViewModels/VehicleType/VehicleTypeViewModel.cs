@@ -7,4 +7,6 @@ public class VehicleTypeViewModel
     [DisplayName("Number of Wheels")]
     public int NumberOfWheels { get; set; }
     public int VehicleTypeCount { get; set; }
+    [DisplayName("Assigned Vehicle Count")]
+    public int AssignedVehicleCount { get; set; }
 }

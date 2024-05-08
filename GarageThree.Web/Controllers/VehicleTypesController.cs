@@ -20,9 +20,20 @@ public class VehicleTypesController(IMapper mapper,
         }
 
         var vehicleTypes = await _vehicleTypeRepository.GetAll();
+
+        var typeViewModels = _mapper.Map<IEnumerable<VehicleTypeViewModel>>(vehicleTypes);
+
+        foreach (var t in typeViewModels)
+        {
+            t.AssignedVehicleCount = (await _vehicleRepository.Filter(new QueryParams()
+            {
+                VehicleTypeId = t.Id
+            })).Count();
+        }
+
         VehicleTypeIndexViewModel viewModel = new()
         {
-            VehicleTypes = _mapper.Map<IEnumerable<VehicleTypeViewModel>>(vehicleTypes)
+            VehicleTypes = typeViewModels
         };
         return View(viewModel);
     }
@@ -97,6 +108,11 @@ public class VehicleTypesController(IMapper mapper,
         var vehicleType = await _vehicleTypeRepository.GetById((int)id);
 
         var viewModel = _mapper.Map<VehicleTypeViewModel>(vehicleType);
+
+        viewModel.AssignedVehicleCount = (await _vehicleRepository.Filter(new QueryParams()
+        {
+            VehicleTypeId = viewModel.Id
+        })).Count();
         viewModel.VehicleTypeCount = (await _vehicleTypeRepository.GetAll()).Count();
 
         return View(viewModel);
