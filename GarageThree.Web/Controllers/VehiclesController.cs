@@ -1,4 +1,4 @@
-﻿namespace GarageThree.Web.Controllers
+namespace GarageThree.Web.Controllers
 {
     public class VehiclesController : Controller
     {
@@ -22,19 +22,19 @@
             _mapper = mapper;
         }
 
-        public async Task<IActionResult> Index(int? garageId)
+    public async Task<IActionResult> Index(int? garageId, string? searchTerm)
     {
         var vehicles = await _vehicleRepository.Filter(new QueryParams
         {
             Id = garageId,
-            SearchTerm = ""
+            SearchTerm = searchTerm
         });
 
         VehicleIndexViewModel viewModel = new()
         {
             Vehicles = _mapper.Map<IEnumerable<VehicleViewModel>>(vehicles)
         };
-        
+
         if (garageId.HasValue) viewModel.GarageId = garageId.Value;
 
             return View(viewModel);

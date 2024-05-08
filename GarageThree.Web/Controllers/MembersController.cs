@@ -1,18 +1,34 @@
+using GarageThree.Web.ViewModels.Message;
+
 namespace GarageThree.Web.Controllers;
 
-public class MembersController(IMapper mapper, IRepository<Member> memberRepository, IMessageService messageService) : Controller
+public class MembersController(IMapper mapper,
+                               IRepository<Member> memberRepository,
+                               ISortService<Member> memberSortService,
+                               IMessageService messageService) : Controller
 {
     private readonly IMapper _mapper = mapper;
+    private readonly ISortService<Member> _memberSortService = memberSortService;
     private readonly IRepository<Member> _memberRepository = memberRepository;
     private readonly IMessageService _messageService = messageService;
 
-    public async Task<IActionResult?> Index()
+    public async Task<IActionResult?> Index(string? searchTerm)
     {
-        var members = await _memberRepository.GetAll();
+        if (!string.IsNullOrWhiteSpace(searchTerm))
+        {
+            ViewBag.Filtered = true;
+        }
+        
+        var members = await _memberRepository.Filter(new QueryParams()
+        {
+            SearchTerm = searchTerm
+        });
+
         var indexViewModel = new MemberIndexViewModel
         {
-            MemberViewModels = _mapper.ProjectTo<MemberViewModel>(members.AsQueryable())
+            MemberViewModels = _mapper.ProjectTo<MemberViewModel>(await _memberSortService.Sort(members.AsQueryable()))
         };
+
         return View(indexViewModel);
     }
 
@@ -101,12 +117,12 @@ public class MembersController(IMapper mapper, IRepository<Member> memberReposit
         }
 
         var memberToDelete = await _memberRepository.Delete((int)id);
-
-        if (memberToDelete is not null)
+        if (memberToDelete is null)
         {
-            ViewBag.Message = _messageService.Success($"Member {memberToDelete.Id} deleted");
-            return RedirectToAction(nameof(Index));
+            return NotFound();
         }
+
+        ViewBag.Message = _messageService.Success($"Member {memberToDelete.Id} deleted");
         return RedirectToAction(nameof(Index));
     }
 }

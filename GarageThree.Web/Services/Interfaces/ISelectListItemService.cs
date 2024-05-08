@@ -2,6 +2,6 @@
 {
     public interface ISelectListItemService<T> where T : class
     {
-        Task<IEnumerable<SelectListItem>> GetSelectListItems();
+        Task<IEnumerable<SelectListItem>> GetSelectListItems(bool hasAllOption = false);
     }
 }
