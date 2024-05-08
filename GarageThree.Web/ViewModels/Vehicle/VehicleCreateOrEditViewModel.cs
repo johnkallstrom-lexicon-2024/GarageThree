@@ -21,9 +21,9 @@
         [DisplayName("Garage")]
         public int GarageId { get; set; }
 
-        [Required]
-        [DisplayName("Vehicle Type")]
-        public int VehicleTypeId { get; set; }
+        //[Required]
+        //[DisplayName("Vehicle Type")]
+        //public int VehicleTypeId { get; set; }
 
         [Required]
         public Color Color { get; set; }
