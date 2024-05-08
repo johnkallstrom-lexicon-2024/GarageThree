@@ -1,5 +1,6 @@
 using GarageThree.Persistence.Data;
 using GarageThree.Persistence.Parameters;
+using System.Linq.Expressions;
 
 namespace GarageThree.Persistence.Repositories;
 
@@ -10,6 +11,21 @@ public class VehicleTypeRepository(ApplicationDbContext context) : IRepository<V
     public async Task<bool> Any()
     {
         return await _context.VehicleTypes.AnyAsync();
+    }
+
+    public bool Any(Func<Vehicle, bool> predicate)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<bool> AnyAsync()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<bool> AnyAsync(Expression<Func<Vehicle, bool>> predicate)
+    {
+        throw new NotImplementedException();
     }
 
     public async Task<VehicleType> Create(VehicleType entity)
@@ -65,5 +81,10 @@ public class VehicleTypeRepository(ApplicationDbContext context) : IRepository<V
         var updatedVehicleType = _context.Update(entity).Entity;
         await _context.SaveChangesAsync();
         return updatedVehicleType;
+    }
+
+    bool IRepository<VehicleType>.Any()
+    {
+        throw new NotImplementedException();
     }
 }
