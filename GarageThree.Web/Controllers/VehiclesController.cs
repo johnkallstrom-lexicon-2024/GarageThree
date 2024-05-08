@@ -47,6 +47,18 @@ namespace GarageThree.Web.Controllers
             return View(viewModel);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(VehicleCreateOrEditViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return NotFound();
+            }
+
+            return View();
+        }
+
         public async Task<IActionResult> Delete(int id)
         {
             var deletedVehicle = await _vehicleRepository.Delete(id);
