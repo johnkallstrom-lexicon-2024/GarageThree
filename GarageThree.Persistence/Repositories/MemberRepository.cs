@@ -41,7 +41,9 @@ public class MemberRepository(ApplicationDbContext context) : IRepository<Member
 
     public async Task<Member?> GetById(int id)
     {
-        var member = await _context.Members.FirstOrDefaultAsync(m => m.Id == id);
+        var member = await _context.Members
+                                   .Include(m => m.Vehicles)
+                                   .FirstOrDefaultAsync(m => m.Id == id);
         return member;
     }
 
@@ -55,6 +57,7 @@ public class MemberRepository(ApplicationDbContext context) : IRepository<Member
     public async Task<Member?> Single(QueryParams parameters)
     {
         var member = await _context.Members
+                                    .Include(m => m.Vehicles)
                                     .FirstOrDefaultAsync(m => m.Id == (int?)parameters.Id ||
                                                     m.SSN == parameters.SSN);
         return member;
@@ -62,7 +65,7 @@ public class MemberRepository(ApplicationDbContext context) : IRepository<Member
 
     public async Task<IEnumerable<Member>> Filter(QueryParams parameters)
     {
-        IQueryable<Member> members = _context.Members;
+        IQueryable<Member> members = _context.Members.Include(m => m.Vehicles);
 
         if (!string.IsNullOrWhiteSpace(parameters.SearchTerm))
         {
@@ -72,7 +75,7 @@ public class MemberRepository(ApplicationDbContext context) : IRepository<Member
                 m.FirstName.Contains(parameters.SearchTerm) ||
                 m.LastName.Contains(parameters.SearchTerm)
             );
-        }
+        };
         return await members.ToListAsync();
     }
 }
