@@ -110,15 +110,12 @@ public class MembersController(IMapper mapper, IRepository<Member> memberReposit
         }
 
         var memberToDelete = await _memberRepository.Delete((int)id);
-
-        if (memberToDelete is not null)
+        if (memberToDelete is null)
         {
-            ViewBag.Message = _messageService.Success($"Member {memberToDelete.Id} deleted");
-            return RedirectToAction(nameof(Index));
+            return NotFound();
         }
-        
-    public IActionResult Reset()
-    {
-      return RedirectToAction(nameof(Index));
+
+        ViewBag.Message = _messageService.Success($"Member {memberToDelete.Id} deleted");
+        return RedirectToAction(nameof(Index));
     }
 }
