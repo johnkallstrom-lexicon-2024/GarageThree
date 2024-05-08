@@ -40,7 +40,7 @@ namespace GarageThree.Web.Controllers
             return View(viewModel);
         }
 
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
             var viewModel = new VehicleCreateOrEditViewModel();
 
