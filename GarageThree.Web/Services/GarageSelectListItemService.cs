@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using GarageThree.Web.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace GarageThree.Web.Services
 {
@@ -6,14 +7,28 @@ namespace GarageThree.Web.Services
     {
         private readonly IRepository<Garage> _repository = repository;
 
-        public async Task<IEnumerable<SelectListItem>> GetSelectListItems()
+        public async Task<IEnumerable<SelectListItem>> GetSelectListItems(bool hasAllOption = false)
         {
             var garages = await _repository.GetAll();
-            return garages.Select(g => new SelectListItem
+
+            var options = garages.Select(g => new SelectListItem
             {
-                Value = g.Id.ToString(),
-                Text = g.Name
-            });
+                Text = g.Name,
+                Value = g.Id.ToString()
+            }).ToList();
+
+            if (hasAllOption)
+            {
+                options.Insert(0, new SelectListItem
+                {
+                    Selected = true,
+                    Text = "All",
+                    Value = string.Empty
+                });
+
+            }
+
+            return options;
         }
     }
 }

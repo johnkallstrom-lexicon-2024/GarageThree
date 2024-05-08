@@ -34,12 +34,10 @@ public class VehicleRepository(ApplicationDbContext context) : IRepository<Vehic
 
     public async Task<IEnumerable<Vehicle>> GetAll()
     {
-        var vehicles = await _context.Vehicles
-            .Include(v => v.VehicleType)
-            .Include(v => v.Garage)
-            .ToListAsync();
-
-        return vehicles;
+        return await _context.Vehicles
+                             .Include(v => v.VehicleType)
+                             .Include(v => v.Garage)
+                             .ToListAsync();
     }
 
     public async Task<Vehicle?> GetById(int id)
@@ -50,9 +48,9 @@ public class VehicleRepository(ApplicationDbContext context) : IRepository<Vehic
 
     public async Task<Vehicle?> Update(Vehicle entity)
     {
-            var updatedVehicle = _context.Update(entity).Entity;
-            await _context.SaveChangesAsync();
-            return updatedVehicle;
+        var updatedVehicle = _context.Update(entity).Entity;
+        await _context.SaveChangesAsync();
+        return updatedVehicle;
     }
 
     public async Task<IEnumerable<Vehicle>> Filter(QueryParams parameters)
@@ -60,6 +58,15 @@ public class VehicleRepository(ApplicationDbContext context) : IRepository<Vehic
         var vehicles = _context.Vehicles
             .Include(v => v.VehicleType)
             .Include(v => v.Garage) as IQueryable<Vehicle>;
+
+        if (!string.IsNullOrWhiteSpace(parameters.SearchTerm))
+        {
+            vehicles = vehicles.Where(v => 
+            v.RegNumber.Contains(parameters.SearchTerm) ||
+            v.VehicleType.Name.Contains(parameters.SearchTerm) || 
+            v.Brand.Contains(parameters.SearchTerm) || 
+            v.Model.Contains(parameters.SearchTerm));
+        }
 
         int? garageId = (int?)parameters.Id;
         if (garageId.HasValue)

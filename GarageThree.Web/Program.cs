@@ -11,7 +11,10 @@ builder.Services.AddTransient<IRepository<Garage>, GarageRepository>();
 builder.Services.AddTransient<IRepository<Member>, MemberRepository>();
 builder.Services.AddTransient<IMessageService, BaseMessageService>();
 
+builder.Services.AddTransient<ISortService<Member>, MemberSortService>();
+
 builder.Services.AddTransient<ISelectListItemService<Garage>, GarageSelectListItemService>();
+builder.Services.AddTransient<ICheckoutService, CheckoutService>();
 
 builder.Services.AddAutoMapper(config =>
 {
@@ -35,6 +38,7 @@ if (app.Environment.IsDevelopment() || app.Environment.EnvironmentName == "DevCo
 }
 
 app.UseRouting();
+app.UseStaticFiles();
 
 app.MapControllerRoute(
     name: "default",
