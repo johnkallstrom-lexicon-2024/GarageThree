@@ -51,17 +51,9 @@ public class GaragesController(IMapper mapper, IRepository<Garage> garageReposit
             return NotFound();
         }
 
-        var garageViewModel = new GarageViewModel
-        {
-            Id = garage.Id,
-            Name = garage.Name,
-            Capacity = garage.Capacity,
-        };
+        var garageViewModel = _mapper.Map<GarageViewModel>(garage);
+        garageViewModel.GarageCount = (await _garageRepository.GetAll()).Count();
 
         return View(garageViewModel);
     }
 }
- 
-    
-
-    

@@ -6,3 +6,9 @@ table {
         width: 100px;
     }
 }
+
+.details-nav {
+    .btn {
+        width: 100px;
+    }
+}

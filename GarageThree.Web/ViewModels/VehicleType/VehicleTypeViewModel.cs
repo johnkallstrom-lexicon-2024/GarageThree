@@ -1,8 +1,10 @@
-﻿namespace GarageThree.Web.ViewModels.Vehicle;
+﻿namespace GarageThree.Web.ViewModels.VehicleType;
 
 public class VehicleTypeViewModel
 {
     public int Id { get; set; }
     public string Name { get; set; } = default!;
+    [DisplayName("Number of Wheels")]
     public int NumberOfWheels { get; set; }
+    public int VehicleTypeCount { get; set; }
 }
