@@ -33,38 +33,32 @@ public class GaragesController(IMapper mapper, IRepository<Garage> garageReposit
         }
 
         var garage = _mapper.Map<Garage>(viewModel);
-        await _garageRepository.Create(garage);
-            var garage = _mapper.Map<Garage>(viewModel);
 
-            var createdGarage = await _repository.Create(garage);
-            if (createdGarage is not null)
-            {
-
-                return RedirectToAction(nameof(Index));
-            }
-            return View(viewModel);
-        }
-
-        public async Task<IActionResult> Details(int id)
+        var createdGarage = await _garageRepository.Create(garage);
+        if (createdGarage is not null)
         {
-            var garage = await _repository.GetById(id);
-            if (garage == null)
-            {
-                return NotFound();
-            }
 
-            var garageViewModel = new GarageViewModel
-            {
-                Id = garage.Id,
-                Name = garage.Name,
-                Capacity = garage.Capacity,
-            };
+            return RedirectToAction(nameof(Index));
+        }
+        return View(viewModel);
+    }
 
-            return View(garageViewModel);
+    public async Task<IActionResult> Details(int id)
+    {
+        var garage = await _garageRepository.GetById(id);
+        if (garage == null)
+        {
+            return NotFound();
         }
 
+        var garageViewModel = new GarageViewModel
+        {
+            Id = garage.Id,
+            Name = garage.Name,
+            Capacity = garage.Capacity,
+        };
 
-
+        return View(garageViewModel);
     }
 }
  
