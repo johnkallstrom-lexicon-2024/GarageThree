@@ -1,17 +1,17 @@
 ﻿namespace GarageThree.Web.Services
 {
-    public class GarageSelectListItemService(IRepository<Garage> repository) : ISelectListItemService<Garage>
+    public class VehicleTypeSelectListItemService(IRepository<VehicleType> repository) : ISelectListItemService<VehicleType>
     {
-        private readonly IRepository<Garage> _repository = repository;
+        private readonly IRepository<VehicleType> _repository = repository;
 
         public async Task<IEnumerable<SelectListItem>> GetSelectListItems(bool hasAllOption = false)
         {
-            var garages = await _repository.GetAll();
+            var vehicleTypes = await _repository.GetAll();
 
-            var options = garages.Select(g => new SelectListItem
+            var options = vehicleTypes.Select(t => new SelectListItem
             {
-                Text = g.Name,
-                Value = g.Id.ToString()
+                Text = t.Name,
+                Value = t.Id.ToString()
             }).ToList();
 
             if (hasAllOption)
