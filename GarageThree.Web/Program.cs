@@ -33,11 +33,10 @@ if (app.Environment.IsDevelopment() || app.Environment.EnvironmentName == "DevCo
 {
     app.UseDeveloperExceptionPage();
 
-    await app.SeedDataAsync();
-
     // dotnet run -lp Seed-Data
     if (Environment.GetEnvironmentVariable("SEED_DATA") == "1")
     {
+        await app.SeedDataAsync();
     }
 }
 

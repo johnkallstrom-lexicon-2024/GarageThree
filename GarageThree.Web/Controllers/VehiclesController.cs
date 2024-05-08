@@ -1,27 +1,30 @@
 namespace GarageThree.Web.Controllers;
 public class VehiclesController : Controller
 {
+    private readonly IMessageService _messageService;
     private readonly IMapper _mapper;
     private readonly ICheckoutService _checkoutService;
     private readonly IRepository<Member> _memberRepository;
     private readonly IRepository<Garage> _garageRepository;
     private readonly IRepository<Vehicle> _vehicleRepository;
 
-        public VehiclesController(
-            IRepository<Vehicle> vehicleRepository,
-            IRepository<Garage> garageRepository,
-            IRepository<Member> memberRepository,
-            ICheckoutService checkoutService,
-            IMapper mapper)
-        {
-            _vehicleRepository = vehicleRepository;
-            _garageRepository = garageRepository;
-            _memberRepository = memberRepository;
-            _checkoutService = checkoutService;
-            _mapper = mapper;
-        }
+    public VehiclesController(
+        IRepository<Vehicle> vehicleRepository,
+        IRepository<Garage> garageRepository,
+        IRepository<Member> memberRepository,
+        ICheckoutService checkoutService,
+        IMapper mapper,
+        IMessageService messageService)
+    {
+        _vehicleRepository = vehicleRepository;
+        _garageRepository = garageRepository;
+        _memberRepository = memberRepository;
+        _checkoutService = checkoutService;
+        _mapper = mapper;
+        _messageService = messageService;
+    }
 
-    public async Task<IActionResult> Index(int? garageId, string? searchTerm)
+    public async Task<IActionResult> Index(int? garageId, string? searchTerm, MessageViewModel? message)
     {
         var vehicles = await _vehicleRepository.Filter(new QueryParams
         {
@@ -36,8 +39,9 @@ public class VehiclesController : Controller
 
         if (garageId.HasValue) viewModel.GarageId = garageId.Value;
 
-    return View(viewModel);
-}
+        viewModel.Message = message;
+        return View(viewModel);
+    }
 
     public IActionResult Create()
     {
@@ -48,16 +52,25 @@ public class VehiclesController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Create(VehicleCreateOrEditViewModel viewModel)
+    public async Task<IActionResult> Create(VehicleCreateOrEditViewModel viewModel)
     {
         if (!ModelState.IsValid)
         {
             return View(viewModel);
         }
 
-        Vehicle vehicle = _mapper.Map<Vehicle>(viewModel);
+        var vehicle = _mapper.Map<Vehicle>(viewModel);
+        var garage = await _garageRepository.GetById(vehicle.GarageId);
 
-        return View();
+        if (garage is not null && garage.Vehicles.Count() >= garage.Capacity)
+        {
+            ModelState.AddModelError("GarageCapacityExceeded", "The garage is full");
+        }
+
+        var parkedVehicle = await _vehicleRepository.Create(vehicle);
+
+        var successMessage = _messageService.Success($"New vehicle parked in garage");
+        return RedirectToAction(nameof(Index), successMessage);
     }
 
     public async Task<IActionResult> Delete(int id)
