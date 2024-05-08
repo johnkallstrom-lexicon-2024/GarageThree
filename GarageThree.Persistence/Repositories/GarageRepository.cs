@@ -34,10 +34,9 @@ public class GarageRepository(ApplicationDbContext context) : IRepository<Garage
 
     public async Task<IEnumerable<Garage>> GetAll()
     {
-        var garages = await _context.Garages
-                                    .Include(g => g.Vehicles)
-                                    .ToListAsync();
-        return garages;
+        return await _context.Garages
+                             .Include(g => g.Vehicles)
+                             .ToListAsync();
     }
 
     public async Task<Garage?> GetById(int id)
@@ -48,9 +47,9 @@ public class GarageRepository(ApplicationDbContext context) : IRepository<Garage
 
     public async Task<Garage?> Update(Garage entity)
     {
-            var updatedGarage = _context.Update(entity).Entity;
-            await _context.SaveChangesAsync();
-            return updatedGarage;
+        var updatedGarage = _context.Update(entity).Entity;
+        await _context.SaveChangesAsync();
+        return updatedGarage;
     }
 
     public Task<IEnumerable<Garage>> Filter(QueryParams parameters)
