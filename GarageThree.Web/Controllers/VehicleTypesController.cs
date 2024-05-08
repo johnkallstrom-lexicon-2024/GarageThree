@@ -1,15 +1,24 @@
+using Microsoft.IdentityModel.Tokens;
+
 namespace GarageThree.Web.Controllers;
 
 public class VehicleTypesController(IMapper mapper,
                                     IMessageService messageService,
+                                    IRepository<Vehicle> vehicleRepository,
                                     IRepository<VehicleType> vehicleTypeRepository) : Controller
 {
     private readonly IMapper _mapper = mapper;
     private readonly IMessageService _messageService = messageService;
+    private readonly IRepository<Vehicle> _vehicleRepository = vehicleRepository;
     private readonly IRepository<VehicleType> _vehicleTypeRepository = vehicleTypeRepository;
 
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(MessageViewModel? messageViewModel)
     {
+        if (messageViewModel is not null)
+        {
+            ViewBag.Message = messageViewModel;
+        }
+
         var vehicleTypes = await _vehicleTypeRepository.GetAll();
         VehicleTypeIndexViewModel viewModel = new()
         {
@@ -26,7 +35,7 @@ public class VehicleTypesController(IMapper mapper,
     {
         var existingVehicleType = await _vehicleTypeRepository.Single(new QueryParams()
         {
-            SSN = viewModel.Name,
+            Name = viewModel.Name,
         });
 
         if (existingVehicleType is not null)
@@ -102,13 +111,32 @@ public class VehicleTypesController(IMapper mapper,
             return NotFound();
         }
 
-        var vehicleTypeToDelete = await _vehicleTypeRepository.Delete((int)id);
+        var vehicleTypeToDelete = await _vehicleTypeRepository.GetById((int)id);
+
         if (vehicleTypeToDelete is null)
         {
             return NotFound();
         }
 
-        ViewBag.Message = _messageService.Success($"Vehicle Type {vehicleTypeToDelete.Id} deleted");
-        return RedirectToAction(nameof(Index));
+        var vehicleWithType = await _vehicleRepository.Filter(new QueryParams
+        {
+            VehicleTypeId = id
+        });
+
+        MessageViewModel messageViewModel;
+
+        if (!vehicleWithType.IsNullOrEmpty())
+        {
+            messageViewModel = _messageService.Error($"Vehicle Type [{vehicleTypeToDelete.Name}] is currently in use");
+        }
+        else
+        {
+            var deletedVehicle = await _vehicleTypeRepository.Delete((int)id);
+
+            messageViewModel = deletedVehicle is null ? _messageService.Error($"Could not delete Vehicle Type [{vehicleTypeToDelete.Name}]") :
+                                                       _messageService.Success($"Vehicle Type {vehicleTypeToDelete.Id} deleted");
+        }
+
+        return RedirectToAction(nameof(Index), messageViewModel);
     }
 }
