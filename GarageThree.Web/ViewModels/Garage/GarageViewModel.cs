@@ -7,6 +7,7 @@ public class GarageViewModel
     public int Capacity { get; set; }
     [DisplayName("Vehicle Count")]
     public int VehicleCount => Vehicles.Count();
+    public int GarageCount { get; set; }
 
     public IEnumerable<VehicleViewModel> Vehicles { get; set; } = [];
 }

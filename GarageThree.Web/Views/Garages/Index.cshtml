@@ -4,6 +4,25 @@
     ViewBag.Title = "Garages";
 }
 
+@if (ViewBag.Message is not null && ViewBag.Message.IsActive)
+{
+    switch (ViewBag.Message.Type)
+    {
+        case MessageType.Success:
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+              <strong>@ViewBag.Message.Text</strong>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+            break;
+        case MessageType.Danger:
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              <strong>@ViewBag.Message.Text</strong>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+            break;
+    }
+}
+
 <h3>@ViewBag.Title</h3>
 <table class="table">
     <thead class="thead-light">

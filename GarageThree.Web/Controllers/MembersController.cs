@@ -1,5 +1,3 @@
-using GarageThree.Web.ViewModels.Message;
-
 namespace GarageThree.Web.Controllers;
 
 public class MembersController(IMapper mapper,
@@ -18,13 +16,13 @@ public class MembersController(IMapper mapper,
         {
             ViewBag.Filtered = true;
         }
-        
+
         var members = await _memberRepository.Filter(new QueryParams()
         {
             SearchTerm = searchTerm
         });
 
-        var indexViewModel = new MemberIndexViewModel
+        MemberIndexViewModel indexViewModel = new()
         {
             MemberViewModels = _mapper.ProjectTo<MemberViewModel>(await _memberSortService.Sort(members.AsQueryable()))
         };

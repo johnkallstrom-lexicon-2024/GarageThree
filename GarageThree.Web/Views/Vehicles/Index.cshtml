@@ -7,15 +7,6 @@
     var garageOptions = await selectListItemService.GetSelectListItems(hasAllOption: true);
 }
 
-@* recommend adding wwwroot for consolidated style overrides *@
-@section Styles {
-    <style>
-        td {
-            vertical-align: middle;
-        }
-    </style>
-}
-
 <h3>@ViewBag.Title</h3>
 <a asp-action="Create" class="btn btn-primary my-2">Park New Vehicle</a>
 <div class="d-flex flew-row mt-2">

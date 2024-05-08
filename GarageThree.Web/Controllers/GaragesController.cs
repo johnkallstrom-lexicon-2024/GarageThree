@@ -58,15 +58,12 @@ public class GaragesController(IMapper mapper, IMessageService messageService,
             return NotFound();
         }
 
-        var garageViewModel = new GarageViewModel
-        {
-            Id = garage.Id,
-            Name = garage.Name,
-            Capacity = garage.Capacity,
-        };
+        var garageViewModel = _mapper.Map<GarageViewModel>(garage);
+        garageViewModel.GarageCount = (await _garageRepository.GetAll()).Count();
 
         return View(garageViewModel);
     }
+
     public async Task<IActionResult> Edit(int? id)
     {
         if (id is null)
