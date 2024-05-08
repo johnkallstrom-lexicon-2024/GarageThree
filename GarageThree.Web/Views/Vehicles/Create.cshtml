@@ -1,0 +1,43 @@
+﻿@model VehicleCreateOrEditViewModel;
+
+<form asp-controller="Vehicles" asp-action="Create" method="post">
+    <div>
+        <p>Registration Number</p>
+        <input asp-for="RegNumber" type="text" name="RegNumber" placeholder="ABC123" />
+        <span asp-validation-for="@Model.RegNumber" class="text-danger"></span>
+    </div>
+    <div>
+        <p>Brand</p>
+        <input asp-for="Brand" type="text" name="Brand" placeholder="Volvo" />
+        <span asp-validation-for="@Model.Brand" class="text-danger"></span>
+    </div>
+    <div>
+        <p>Model</p>
+        <input asp-for="Model" type="text" name="Model" placeholder="V70" />
+        <span asp-validation-for="@Model.Model" class="text-danger"></span>
+    </div>
+    <div>
+        <p>Checked In</p>
+        <input asp-for="RegisteredAt" type="date" name="RegisteredAt" />
+        <span asp-validation-for="@Model.RegisteredAt" class="text-danger"></span>
+    </div>
+    <div>
+        <p>Color</p>
+        <input asp-for="Color" type="text" name="Color" placeholder="Green" />
+        <span asp-validation-for="@Model.Color" class="text-danger"></span>
+    </div>
+    <div>
+        <p>Member ID</p>
+        <input type="text" name="MemberId" placeholder="???" />
+    </div>
+    <div>
+        <p>Garage ID</p>
+        <input type="text" name="GarageId" placeholder="???" />
+    </div>
+    <div>
+        <p>Vehicle Type ID</p>
+        <input type="text" name="VehicleTypeId" placeholder="???" />
+    </div>
+
+    <button type="submit">Create</button>
+</form>

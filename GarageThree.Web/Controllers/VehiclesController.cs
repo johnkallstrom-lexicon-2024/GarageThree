@@ -1,6 +1,6 @@
 ﻿namespace GarageThree.Web.Controllers;
 
-public class VehiclesController(IMapper mapper, IRepository<Vehicle> vehicleRepository) : Controller
+public class VehiclesController(IMapper mapper, IRepository<Vehicle> vehicleRepository, IRepository<Member> memberRepository) : Controller
 {
     private readonly IMapper _mapper = mapper;
     private readonly IRepository<Vehicle> _vehicleRepository = vehicleRepository;
@@ -22,4 +22,6 @@ public class VehiclesController(IMapper mapper, IRepository<Vehicle> vehicleRepo
 
         return View(viewModel);
     }
+    [HttpGet]
+   
 }
