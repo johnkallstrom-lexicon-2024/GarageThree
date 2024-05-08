@@ -13,8 +13,32 @@
             </style>
 }
 
+@if (ViewBag.Message is not null && ViewBag.Message.IsActive)
+{
+    switch (ViewBag.Message.Type)
+    {
+        case MessageType.Success:
+            <div class="alert alert-success my-2">@ViewBag.Message.Text</div>
+            break;
+        case MessageType.Danger:
+            <div class="alert alert-danger my-2">@ViewBag.Message.Text</div>
+            break;
+    }
+}
+
 <h3>@ViewBag.Title</h3>
-<a asp-action="Create" class="btn btn-primary my-2">Register New Member</a>
+<div class="d-flex flew-row my-3 justify-content-between">
+<a asp-action="Create" class="btn btn-primary">Register New Member</a>
+    <form asp-action="Index" method="get">
+        <div class="d-flex flex-row">
+            <input asp-for="@Model.SearchTerm" type="text" class="form-control" placeholder="Search..." />
+            <button type="submit" class="btn btn-primary ms-2">Submit</button>
+            @if(ViewBag.Filtered is not null) {
+                <a asp-action="Reset" class="btn btn-secondary ms-2">Reset</a>
+            }
+        </div>
+    </form>
+</div>
 <table class="table table-hover table-responsive-xl">
     <thead class="thead-light">
         <tr>
@@ -45,9 +69,14 @@
                             </a>
                         </td>
                         <td>
-                            <a asp-controller="Members" asp-action="Delete" asp-route-id="@member.Id">
-                                <button class="btn btn-danger">Delete</button>
-                            </a>
+                            @using (Html.BeginForm("Delete", "Members", FormMethod.Post))
+                            {
+                                @Html.Hidden("id", member.Id)
+                                <input type="submit"
+                                       value="Deregister"
+                                       onclick="return confirm('Are you sure you want to deregister this user?')"
+                                       class="btn btn-danger" />
+                            }
                         </td>
                     </tr>
             }
