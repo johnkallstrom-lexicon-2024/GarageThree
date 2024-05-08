@@ -5,6 +5,7 @@
         public VehicleTypeProfile()
         {
             CreateMap<VehicleType, VehicleTypeViewModel>();
+            CreateMap<VehicleType, VehicleTypeCreateOrEditViewModel>().ReverseMap();
         }
     }
 }

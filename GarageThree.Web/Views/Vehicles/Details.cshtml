@@ -1,0 +1,85 @@
+﻿@model VehicleViewModel
+
+@{
+    ViewBag.Title = "Vehicle Details";
+    ViewBag.Previous = Model.Id == 1 ? Model.Id : Model.Id -1 ;
+    ViewBag.Next = Model.Id == Model.VehicleCount ? Model.Id : Model.Id + 1;
+    ViewBag.GarageId = Model.Garage.Id;
+    ViewBag.Member = Model.Member.Id;
+}
+
+<div class="row d-flex justify-content-center">
+    <div class="col-sm-6 mb-5 mt-3">
+        <h3>@ViewBag.Title</h3>
+        <div class="card bg-light">
+            <div class="card-body">
+                <div class="card-title fs-5 text-primary text-primary">
+                    @Html.DisplayNameFor(model => model.RegNumber)
+                </div>
+                <div class="card-text pb-3">
+                    @Html.DisplayFor(model => model.RegNumber)
+                </div>
+                <div class="card-title fs-5 text-primary text-primary">
+                    @Html.DisplayNameFor(model => model.RegisteredAt)
+                </div>
+                <div class="card-text pb-3">
+                    @Html.DisplayFor(model => model.RegisteredAt)
+                </div>
+                <div class="card-title fs-5 text-primary text-primary">
+                    @Html.DisplayNameFor(model => model.Type)
+                </div>
+                <div class="card-text pb-3">
+                    @Html.DisplayFor(model => model.Type)
+                <div class="card-title fs-5 text-primary text-primary">
+                    @Html.DisplayNameFor(model => model.Brand)
+                </div>
+                <div class="card-text pb-3">
+                    @Html.DisplayFor(model => model.Brand)
+                </div>
+                <div class="card-title fs-5 text-primary text-primary">
+                    @Html.DisplayNameFor(model => model.Model)
+                </div>
+                <div class="card-text pb-3">
+                    @Html.DisplayFor(model => model.Model)
+                </div>
+                <div class="card-title fs-5 text-primary text-primary">
+                    @Html.DisplayNameFor(model => model.Color)
+                </div>
+                <div class="card-text pb-3">
+                    @Html.DisplayFor(model => model.Color)
+                </div>
+                <div class="card-title fs-5 text-primary text-primary">
+                    @Html.DisplayNameFor(model => model.Garage)
+                </div>
+                <div class="card-text pb-3">
+                    <a class="text-decoration-none" asp-controller="Garages" asp-action="Details" asp-route-id=@ViewBag.MemberId>
+                    @Html.DisplayFor(model => model.Garage.Name)
+                    </a>
+                </div>
+                <div class="card-title fs-5 text-primary text-primary">
+                    @Html.DisplayNameFor(model => model.Member)
+                </div>
+                <div class="card-text pb-3">
+                    <a class="text-decoration-none" asp-controller="Members" asp-action="Details" asp-route-id=@ViewBag.MemberId>
+                    @Html.DisplayFor(model => model.Member.Name)
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="card bg-light text-center mt-2 details-nav">
+            <div class="card-body d-flex justify-content-between">
+                <a asp-controller="Vehicles" asp-action="Details" asp-route-id=@ViewBag.Previous>
+                    <button class="btn btn-secondary">Previous</button>
+                </a>
+                <a asp-controller="Vehicles" asp-action="Details" asp-route-id=@ViewBag.Next>
+                    <button class="btn btn-secondary">Next</button>
+                </a>
+            </div>
+             <div class="card-body d-flex justify-content-between">
+                 <a asp-controller="Vehicles" asp-action="Index" asp-route-id=@ViewBag.Next>
+                    <button class="btn btn-primary">Back</button>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

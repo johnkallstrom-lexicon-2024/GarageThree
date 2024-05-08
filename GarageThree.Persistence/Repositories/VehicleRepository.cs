@@ -5,7 +5,6 @@ namespace GarageThree.Persistence.Repositories;
 
 public class VehicleRepository(ApplicationDbContext context) : IRepository<Vehicle>
 {
-
     private readonly ApplicationDbContext _context = context;
 
     public async Task<Vehicle> Create(Vehicle entity)
@@ -42,7 +41,10 @@ public class VehicleRepository(ApplicationDbContext context) : IRepository<Vehic
 
     public async Task<Vehicle?> GetById(int id)
     {
-        var vehicle = await _context.Vehicles.FirstOrDefaultAsync(v => v.Id == id);
+        var vehicle = await _context.Vehicles
+                                    .Include(v => v.Garage)
+                                    .Include(v => v.Member)
+                                    .FirstOrDefaultAsync(v => v.Id == id);
         return vehicle;
     }
 
@@ -58,6 +60,10 @@ public class VehicleRepository(ApplicationDbContext context) : IRepository<Vehic
         var vehicles = _context.Vehicles
             .Include(v => v.VehicleType)
             .Include(v => v.Garage) as IQueryable<Vehicle>;
+
+        if(parameters.VehicleTypeId is not null) {
+            return await vehicles.Where(v => v.VehicleTypeId == parameters.VehicleTypeId).ToListAsync();
+        }
 
         if (!string.IsNullOrWhiteSpace(parameters.SearchTerm))
         {

@@ -1,13 +1,14 @@
-@model MemberIndexViewModel
+@model VehicleTypeIndexViewModel
 
 @{
-    ViewBag.Title = "Members";
+    ViewBag.Title = "Vehicle Types";
 }
 
 @if (ViewBag.Message is not null && ViewBag.Message.IsActive)
 {
     switch (ViewBag.Message.Type)
     {
+        
         case MessageType.Success:
         <div class="alert alert-success alert-dismissible fade show" role="alert">
               <strong>@ViewBag.Message.Text</strong>
@@ -25,7 +26,7 @@
 
 <h3>@ViewBag.Title</h3>
 <div class="d-flex flew-row my-3 justify-content-between">
-<a asp-action="Create" class="btn btn-primary">Register New Member</a>
+<a asp-action="Create" class="btn btn-primary">Register New Vehicle Type</a>
     <form asp-action="Index" method="get">
         <div class="d-flex flex-row">
             <input asp-for="@Model.SearchTerm" type="text" class="form-control" placeholder="Search..." />
@@ -39,41 +40,37 @@
 <table class="table table-hover table-responsive-xl">
     <thead class="thead-light">
         <tr>
-            <th scope="col"> @Html.DisplayNameFor(model => model.MemberViewModels.First().Avatar) </th>
-            <th scope="col"> @Html.DisplayNameFor(model => model.MemberViewModels.First().Username) </th>
-            <th scope="col"> @Html.DisplayNameFor(model => model.MemberViewModels.First().Name) </th>
-            <th scope="col"> @Html.DisplayNameFor(model => model.MemberViewModels.First().Email) </th>
-            <th scope="col"> @Html.DisplayNameFor(model => model.MemberViewModels.First().VehicleCount) </th>
+            <th scope="col"> @Html.DisplayNameFor(model => model.VehicleTypes.First().Name) </th>
+            <th scope="col"> @Html.DisplayNameFor(model => model.VehicleTypes.First().NumberOfWheels) </th>
+            <th scope="col"> @Html.DisplayNameFor(model => model.VehicleTypes.First().AssignedVehicleCount) </th>
             <th scope="col"></th>
             <th scope="col"></th>
             <th scope="col"></th>
         </tr>
         <tbody>
-            @foreach (var member in Model.MemberViewModels)
+            @foreach (var type in Model.VehicleTypes)
             {
                     <tr>
-                        <td><img height="50"  src="@member.Avatar" alt="Member Profile Picture"></td>
-                        <td>@member.Username</td>
-                        <td>@member.Name</td>
-                        <td>@member.Email</td>
-                        <td>@member.Vehicles.Count()</td>
+                        <td>@type.Name</td>
+                        <td>@type.NumberOfWheels</td>
+                        <td>@type.AssignedVehicleCount</td>
                          <td>
-                            <a asp-controller="Members" asp-action="Details" asp-route-id="@member.Id">
+                            <a asp-controller="VehicleTypes" asp-action="Details" asp-route-id="@type.Id">
                                 <button class="btn btn-secondary">Details</button>
                             </a>
                         </td>
                         <td>
-                            <a asp-controller="Members" asp-action="Edit" asp-route-id="@member.Id">
+                            <a asp-controller="VehicleTypes" asp-action="Edit" asp-route-id="@type.Id">
                                 <button class="btn btn-secondary">Edit</button>
                             </a>
                         </td>
                         <td>
-                            @using (Html.BeginForm("Delete", "Members", FormMethod.Post))
+                            @using (Html.BeginForm("Delete", "VehicleTypes", FormMethod.Post))
                             {
-                                @Html.Hidden("id", member.Id)
+                                @Html.Hidden("id", type.Id)
                                 <input type="submit"
-                                       value="Deregister"
-                                       onclick="return confirm('Are you sure you want to deregister this user?')"
+                                       value="Delete"
+                                       onclick="return confirm('Are you sure you want to remove this vehicle type?')"
                                        class="btn btn-danger" />
                             }
                         </td>

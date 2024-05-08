@@ -1,0 +1,43 @@
+﻿@model VehicleTypeCreateOrEditViewModel
+
+@{
+    ViewBag.Title = "Create Vehicle type";
+}
+
+@if (ViewBag.Message is not null && ViewBag.Message.IsActive)
+{
+    switch (ViewBag.Message.Type)
+    {
+        case MessageType.Success:
+            <div class="alert alert-success my-2">@ViewBag.Message.Text</div>
+            break;
+        case MessageType.Danger:
+            <div class="alert alert-danger my-2">@ViewBag.Message.Text</div>
+            break;
+    }
+}
+<h3>@ViewBag.Title</h3>
+<div class="row">
+    <div class="col-sm-8">
+        <div class="card bg-light">
+            <div class="card-body">
+                <form asp-action="Create" method="post">
+                    <div class="mb-3">
+                        <label asp-for="@Model.Name" class="form-label"></label>
+                        <input asp-for="@Model.Name" type="text" class="form-control">
+                        <span asp-validation-for="@Model.Name" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="@Model.NumberOfWheels" class="form-label"></label>
+                        <input asp-for="@Model.NumberOfWheels" type="number" class="form-control">
+                        <span asp-validation-for="@Model.Name" class="text-danger"></span>
+                    </div>
+                    <div class="d-flex justify-content-between ">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <a asp-action="Index" asp-controller="VehicleTypes">Back</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
