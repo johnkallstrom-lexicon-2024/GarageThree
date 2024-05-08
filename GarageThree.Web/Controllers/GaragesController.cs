@@ -1,6 +1,3 @@
-using GarageThree.Persistence.Repositories;
-using GarageThree.Web.Services;
-
 namespace GarageThree.Web.Controllers;
 
 public class GaragesController(IMapper mapper, IMessageService messageService,
@@ -10,8 +7,13 @@ public class GaragesController(IMapper mapper, IMessageService messageService,
     private readonly IRepository<Garage> _garageRepository = garageRepository;
     private readonly IMessageService _messageService = messageService;
 
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(MessageViewModel? messageViewModel)
     {
+        if (messageViewModel is not null)
+        {
+            ViewBag.Message = messageViewModel;
+        }
+
         var garages = await _garageRepository.GetAll();
 
         GarageIndexViewModel viewModel = new()
@@ -104,19 +106,15 @@ public class GaragesController(IMapper mapper, IMessageService messageService,
             return NotFound();
         }
 
+        MessageViewModel messageViewModel;
+
         var garageToDelete = await _garageRepository.Delete((int)id);
         if (garageToDelete is null)
         {
             return NotFound();
         }
 
-        ViewBag.Message = _messageService.Success($"Garage {garageToDelete.Id} deleted");
-        return RedirectToAction(nameof(Index));
+        messageViewModel = _messageService.Success($"Garage {garageToDelete.Id} deleted");
+        return RedirectToAction(nameof(Index), messageViewModel);
     }
-
-
 }
-
-
-
-
