@@ -1,5 +1,6 @@
 using GarageThree.Persistence.Data;
 using GarageThree.Persistence.Parameters;
+using System.Linq.Expressions;
 
 namespace GarageThree.Persistence.Repositories;
 
@@ -27,7 +28,7 @@ public class GarageRepository(ApplicationDbContext context) : IRepository<Garage
         return null;
     }
 
-    public async Task<bool> Any()
+    public async Task<bool> AnyAsync()
     {
         return await _context.Garages.AnyAsync();
     }
@@ -58,6 +59,21 @@ public class GarageRepository(ApplicationDbContext context) : IRepository<Garage
     }
 
     public Task<Garage?> Single(QueryParams parameters)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<bool> AnyAsync(Expression<Func<Vehicle, bool>> predicate)
+    {
+        throw new NotImplementedException();
+    }
+
+    public bool Any()
+    {
+        throw new NotImplementedException();
+    }
+
+    public bool Any(Func<Vehicle, bool> predicate)
     {
         throw new NotImplementedException();
     }
