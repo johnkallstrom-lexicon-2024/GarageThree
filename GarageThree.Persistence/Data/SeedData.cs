@@ -70,7 +70,8 @@ public class SeedData(IRepository<Garage> garageRepository,
             Garage garageToCreate = new()
             {
                 Name = $"Garage-{i + 1}",
-                Capacity = _rnd.Next(10, 250)
+                Capacity = _rnd.Next(10, 250),
+                HourlyRate = new Random().Next(10, 30)
             };
             _garages.Add(garageToCreate);
         }
