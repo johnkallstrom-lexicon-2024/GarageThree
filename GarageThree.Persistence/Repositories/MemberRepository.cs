@@ -6,7 +6,6 @@ namespace GarageThree.Persistence.Repositories;
 
 public class MemberRepository(ApplicationDbContext context) : IRepository<Member>
 {
-
     private readonly ApplicationDbContext _context = context;
 
     public async Task<Member> Create(Member entity)
@@ -30,8 +29,9 @@ public class MemberRepository(ApplicationDbContext context) : IRepository<Member
 
     public async Task<IEnumerable<Member>> GetAll()
     {
-        var members = await _context.Members.ToListAsync();
-        return members;
+        return await _context.Members
+                             .Include(m => m.Vehicles)
+                             .ToListAsync();
     }
 
     public async Task<bool> Any()
