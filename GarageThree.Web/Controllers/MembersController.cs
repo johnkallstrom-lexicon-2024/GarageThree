@@ -1,12 +1,10 @@
-using GarageThree.Persistence.Repositories;
-using GarageThree.Web.ViewModels.Message;
-
 namespace GarageThree.Web.Controllers;
 
-public class MembersController(IMapper mapper, IRepository<Member> memberRepository) : Controller
+public class MembersController(IMapper mapper, IRepository<Member> memberRepository, IMessageService messageService) : Controller
 {
     private readonly IMapper _mapper = mapper;
     private readonly IRepository<Member> _memberRepository = memberRepository;
+    private readonly IMessageService _messageService = messageService;
 
     public async Task<IActionResult?> Index(string? searchTerm)
     {
@@ -41,12 +39,7 @@ public class MembersController(IMapper mapper, IRepository<Member> memberReposit
         if (existingMember is not null)
         {
             ModelState.AddModelError("SsnExists", "Member with given SSN already exists");
-            viewModel.Message = new MessageViewModel()
-            {
-                IsActive = true,
-                Type = ViewModels.Enums.MessageType.Danger,
-                Text = "Member with given SSN already exists",
-            };
+            ViewBag.Message = _messageService.Error("Member with given SSN already exists");
         }
 
         if (!ModelState.IsValid) return View(viewModel);
@@ -107,8 +100,25 @@ public class MembersController(IMapper mapper, IRepository<Member> memberReposit
         return View(viewModel);
     }
 
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Delete(int? id)
+    {
+        if (id is null)
+        {
+            return NotFound();
+        }
+
+        var memberToDelete = await _memberRepository.Delete((int)id);
+
+        if (memberToDelete is not null)
+        {
+            ViewBag.Message = _messageService.Success($"Member {memberToDelete.Id} deleted");
+            return RedirectToAction(nameof(Index));
+        }
+        
     public IActionResult Reset()
     {
-        return RedirectToAction(nameof(Index));
+      return RedirectToAction(nameof(Index));
     }
 }

@@ -41,7 +41,5 @@ namespace GarageThree.Web.ViewModels.Member
         [SocialSecurityNumber]
         [DisplayName("Social Security Number")]
         public string SSN { get; set; } = default!;
-
-        public MessageViewModel? Message { get; set; }
     }
 }
