@@ -1,6 +1,8 @@
-﻿namespace GarageThree.Web.Controllers;
+﻿using GarageThree.Persistence.Parameters;
 
-public class VehiclesController(IMapper mapper, IRepository<Vehicle> vehicleRepository, IRepository<Member> memberRepository) : Controller
+namespace GarageThree.Web.Controllers;
+
+public class VehiclesController(IMapper mapper, IRepository<Vehicle> vehicleRepository) : Controller
 {
     private readonly IMapper _mapper = mapper;
     private readonly IRepository<Vehicle> _vehicleRepository = vehicleRepository;
@@ -23,5 +25,11 @@ public class VehiclesController(IMapper mapper, IRepository<Vehicle> vehicleRepo
         return View(viewModel);
     }
     [HttpGet]
-   
+    public async Task<IActionResult> Create()
+    {
+
+        VehicleCreateOrEditViewModel viewModel = new VehicleCreateOrEditViewModel();
+
+        return View(viewModel);
+    }
 }
