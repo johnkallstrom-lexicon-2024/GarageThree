@@ -46,6 +46,7 @@
             <th scope="col"> @Html.DisplayNameFor(model => model.MemberViewModels.First().Username) </th>
             <th scope="col"> @Html.DisplayNameFor(model => model.MemberViewModels.First().Name) </th>
             <th scope="col"> @Html.DisplayNameFor(model => model.MemberViewModels.First().Email) </th>
+            <th scope="col"> @Html.DisplayNameFor(model => model.MemberViewModels.First().VehicleCount) </th>
             <th scope="col"></th>
             <th scope="col"></th>
             <th scope="col"></th>
@@ -58,6 +59,7 @@
                         <td>@member.Username</td>
                         <td>@member.Name</td>
                         <td>@member.Email</td>
+                        <td>@member.Vehicles.Count()</td>
                          <td>
                             <a asp-controller="Members" asp-action="Details" asp-route-id="@member.Id">
                                 <button class="btn btn-secondary">Details</button>
