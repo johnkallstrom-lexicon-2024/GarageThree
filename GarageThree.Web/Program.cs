@@ -14,6 +14,7 @@ builder.Services.AddTransient<IMessageService, BaseMessageService>();
 builder.Services.AddTransient<ISortService<Member>, MemberSortService>();
 
 builder.Services.AddTransient<ISelectListItemService<Garage>, GarageSelectListItemService>();
+builder.Services.AddTransient<ICheckoutService, CheckoutService>();
 
 builder.Services.AddAutoMapper(config =>
 {
