@@ -7,15 +7,12 @@ namespace GarageThree.Web.Controllers
         private readonly IRepository<Member> _memberRepository;
         private readonly IRepository<Garage> _garageRepository;
         private readonly IRepository<Vehicle> _vehicleRepository;
-using GarageThree.Persistence.Parameters;
-
-namespace GarageThree.Web.Controllers;
 
         public VehiclesController(
-            IRepository<Vehicle> vehicleRepository, 
-            IRepository<Garage> garageRepository, 
-            IRepository<Member> memberRepository, 
-            ICheckoutService checkoutService, 
+            IRepository<Vehicle> vehicleRepository,
+            IRepository<Garage> garageRepository,
+            IRepository<Member> memberRepository,
+            ICheckoutService checkoutService,
             IMapper mapper)
         {
             _vehicleRepository = vehicleRepository;
@@ -25,20 +22,27 @@ namespace GarageThree.Web.Controllers;
             _mapper = mapper;
         }
 
-    public async Task<IActionResult> Index(int? garageId, string? searchTerm)
-    {
-        var vehicles = await _vehicleRepository.Filter(new QueryParams
+        public async Task<IActionResult> Index(int? garageId, string? searchTerm)
         {
-            Id = garageId,
-            SearchTerm = searchTerm
-        });
+            var vehicles = await _vehicleRepository.Filter(new QueryParams
+            {
+                Id = garageId,
+                SearchTerm = searchTerm
+            });
 
-        VehicleIndexViewModel viewModel = new()
+            VehicleIndexViewModel viewModel = new()
+            {
+                Vehicles = _mapper.Map<IEnumerable<VehicleViewModel>>(vehicles)
+            };
+
+            if (garageId.HasValue) viewModel.GarageId = garageId.Value;
+
+            return View(viewModel);
+        }
+
+        public async Task<IActionResult> Create()
         {
-            Vehicles = _mapper.Map<IEnumerable<VehicleViewModel>>(vehicles)
-        };
-
-        if (garageId.HasValue) viewModel.GarageId = garageId.Value;
+            var viewModel = new VehicleCreateOrEditViewModel();
 
             return View(viewModel);
         }
@@ -77,16 +81,5 @@ namespace GarageThree.Web.Controllers;
 
             return View(viewModel);
         }
-    }
-}
-        return View(viewModel);
-    }
-    [HttpGet]
-    public async Task<IActionResult> Create()
-    {
-
-        VehicleCreateOrEditViewModel viewModel = new VehicleCreateOrEditViewModel();
-
-        return View(viewModel);
     }
 }
