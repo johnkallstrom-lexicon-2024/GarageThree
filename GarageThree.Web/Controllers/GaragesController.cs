@@ -51,17 +51,39 @@ public class GaragesController(IMapper mapper, IRepository<Garage> garageReposit
             return NotFound();
         }
 
-        var garageViewModel = new GarageViewModel
-        {
-            Id = garage.Id,
-            Name = garage.Name,
-            Capacity = garage.Capacity,
-        };
+        var garageViewModel = _mapper.Map<GarageViewModel>(garage);
+        garageViewModel.GarageCount = (await _garageRepository.GetAll()).Count();
 
         return View(garageViewModel);
     }
-}
- 
-    
 
-    
+    public async Task<IActionResult> Edit(int? id)
+    {
+        if (id is null)
+        {
+            return NotFound();
+        }
+
+        var modelToEdit = await _garageRepository.GetById((int)id);
+        var viewModel = _mapper.Map<GarageCreateOrEditViewModel>(modelToEdit);
+
+        return View(viewModel);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(GarageCreateOrEditViewModel viewModel)
+    {
+        if (!ModelState.IsValid) return View(viewModel);
+
+        var garageToUpdate = _mapper.Map<Garage>(viewModel);
+
+        var updatedGarage = await _garageRepository.Update(garageToUpdate);
+        if (updatedGarage is not null)
+        {
+            return RedirectToAction(nameof(Index));
+        }
+
+        return View(viewModel);
+    }
+}

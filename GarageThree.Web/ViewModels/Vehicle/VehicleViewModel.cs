@@ -10,6 +10,7 @@ public class VehicleViewModel
     [DisplayName("Parked At")]
     public DateTime RegisteredAt { get; set; }
     public Color Color { get; set; }
+    public int VehicleCount { get; set; }
 
     public MemberViewModel Member { get; set; } = default!;
     public GarageViewModel Garage { get; set; } = default!;

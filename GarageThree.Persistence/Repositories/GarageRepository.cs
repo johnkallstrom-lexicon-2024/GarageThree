@@ -42,7 +42,9 @@ public class GarageRepository(ApplicationDbContext context) : IRepository<Garage
 
     public async Task<Garage?> GetById(int id)
     {
-        var garage = await _context.Garages.FirstOrDefaultAsync(v => v.Id == id);
+        var garage = await _context.Garages
+                                   .Include(g => g.Vehicles )
+                                   .FirstOrDefaultAsync(g => g.Id == id);
         return garage;
     }
 
