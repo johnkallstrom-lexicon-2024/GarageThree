@@ -1,3 +1,5 @@
+using GarageThree.Web.ViewModels.Message;
+
 namespace GarageThree.Web.Controllers;
 
 public class MembersController(IMapper mapper, IRepository<Member> memberRepository, IMessageService messageService) : Controller
