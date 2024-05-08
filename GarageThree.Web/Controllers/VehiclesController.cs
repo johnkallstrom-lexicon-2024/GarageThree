@@ -22,4 +22,18 @@ public class VehiclesController(IMapper mapper, IRepository<Vehicle> vehicleRepo
 
         return View(viewModel);
     }
+
+    public async Task<IActionResult> Details(int? id)
+    {
+        if (id is null)
+        {
+            return NotFound();
+        }
+        var vehicle = await _vehicleRepository.GetById((int)id);
+
+        VehicleViewModel viewModel = _mapper.Map<VehicleViewModel>(vehicle);
+        viewModel.VehicleCount = (await _vehicleRepository.GetAll()).Count();
+
+        return View(viewModel);
+    }
 }
