@@ -4,7 +4,7 @@
 @{
     ViewBag.Title = "Vehicles";
 
-    var garageOptions = await selectListItemService.GetSelectListItems();
+    var garageOptions = await selectListItemService.GetSelectListItems(hasAllOption: true);
 }
 
 @* recommend adding wwwroot for consolidated style overrides *@
@@ -22,9 +22,11 @@
     <form asp-action="Index" method="get">
         <div class="d-flex flex-row">
             <select asp-for="@Model.GarageId" class="form-select" asp-items="garageOptions"></select>
-            <button type="submit" class="btn btn-secondary ms-2">Filter</button>
+            <input asp-for="@Model.SearchTerm" type="text" class="form-control ms-2" placeholder="Search..." />
+            <button type="submit" class="btn btn-secondary ms-2">Submit</button>
         </div>
     </form>
+    <a asp-action="Clear" class="btn btn-danger ms-2">Clear</a>
 </div>
 <table class="table table-hover table-responsive-xl">
     <thead class="thead-light">
