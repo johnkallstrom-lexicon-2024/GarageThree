@@ -11,9 +11,17 @@ public class MembersController(IMapper mapper,
     private readonly IRepository<Member> _memberRepository = memberRepository;
     private readonly IMessageService _messageService = messageService;
 
-    public async Task<IActionResult?> Index()
+    public async Task<IActionResult?> Index(string? searchTerm)
     {
-        var members = await _memberRepository.GetAll();
+        if (!string.IsNullOrWhiteSpace(searchTerm))
+        {
+            ViewBag.Filtered = true;
+        }
+        
+        var members = await _memberRepository.Filter(new QueryParams()
+        {
+            SearchTerm = searchTerm
+        });
 
         var indexViewModel = new MemberIndexViewModel
         {
@@ -108,12 +116,12 @@ public class MembersController(IMapper mapper,
         }
 
         var memberToDelete = await _memberRepository.Delete((int)id);
-
-        if (memberToDelete is not null)
+        if (memberToDelete is null)
         {
-            ViewBag.Message = _messageService.Success($"Member {memberToDelete.Id} deleted");
-            return RedirectToAction(nameof(Index));
+            return NotFound();
         }
+
+        ViewBag.Message = _messageService.Success($"Member {memberToDelete.Id} deleted");
         return RedirectToAction(nameof(Index));
     }
 }

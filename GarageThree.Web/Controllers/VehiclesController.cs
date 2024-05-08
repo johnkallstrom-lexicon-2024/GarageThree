@@ -1,4 +1,4 @@
-﻿namespace GarageThree.Web.Controllers;
+namespace GarageThree.Web.Controllers;
 
 public class VehiclesController(IMapper mapper, IRepository<Vehicle> vehicleRepository) : Controller
 {

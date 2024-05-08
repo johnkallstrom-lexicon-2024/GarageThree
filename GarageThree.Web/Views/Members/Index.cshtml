@@ -27,7 +27,18 @@
 }
 
 <h3>@ViewBag.Title</h3>
-<a asp-action="Create" class="btn btn-primary my-2">Register New Member</a>
+<div class="d-flex flew-row my-3 justify-content-between">
+<a asp-action="Create" class="btn btn-primary">Register New Member</a>
+    <form asp-action="Index" method="get">
+        <div class="d-flex flex-row">
+            <input asp-for="@Model.SearchTerm" type="text" class="form-control" placeholder="Search..." />
+            <button type="submit" class="btn btn-primary ms-2">Submit</button>
+            @if(ViewBag.Filtered is not null) {
+                <a asp-action="Reset" class="btn btn-secondary ms-2">Reset</a>
+            }
+        </div>
+    </form>
+</div>
 <table class="table table-hover table-responsive-xl">
     <thead class="thead-light">
         <tr>
