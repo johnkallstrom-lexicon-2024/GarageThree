@@ -61,6 +61,10 @@ public class VehicleRepository(ApplicationDbContext context) : IRepository<Vehic
             .Include(v => v.VehicleType)
             .Include(v => v.Garage) as IQueryable<Vehicle>;
 
+        if(parameters.VehicleTypeId is not null) {
+            return await vehicles.Where(v => v.VehicleTypeId == parameters.VehicleTypeId).ToListAsync();
+        }
+
         if (!string.IsNullOrWhiteSpace(parameters.SearchTerm))
         {
             vehicles = vehicles.Where(v => 
