@@ -1,4 +1,3 @@
-
 namespace GarageThree.Web.Services;
 
 public class MemberSortService : ISortService<Member>

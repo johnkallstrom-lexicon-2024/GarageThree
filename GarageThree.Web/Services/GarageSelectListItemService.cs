@@ -1,4 +1,4 @@
-﻿namespace GarageThree.Web.Services;
+namespace GarageThree.Web.Services;
 
 public class GarageSelectListItemService(IRepository<Garage> repository) : ISelectListItemService<Garage>
 {
@@ -23,8 +23,18 @@ public class GarageSelectListItemService(IRepository<Garage> repository) : ISele
                 Value = string.Empty
             });
 
-        }
+            if (hasAllOption)
+            {
+                options.Insert(0, new SelectListItem
+                {
+                    Selected = true,
+                    Text = "All",
+                    Value = string.Empty
+                });
+            }
 
+            return options;
+        }
         return options;
     }
 }

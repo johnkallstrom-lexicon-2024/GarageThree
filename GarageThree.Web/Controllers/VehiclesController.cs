@@ -1,4 +1,5 @@
 namespace GarageThree.Web.Controllers;
+
 public class VehiclesController(
     IRepository<Vehicle> vehicleRepository,
     IRepository<Garage> garageRepository,
@@ -14,13 +15,8 @@ public class VehiclesController(
     private readonly IRepository<Garage> _garageRepository = garageRepository;
     private readonly IRepository<Vehicle> _vehicleRepository = vehicleRepository;
 
-    public async Task<IActionResult> Index(int? garageId, string? searchTerm, MessageViewModel? messageViewModel)
+    public async Task<IActionResult> Index(int? garageId, string? searchTerm, MessageViewModel? message)
     {
-        if (messageViewModel is not null)
-        {
-            ViewBag.Message = messageViewModel;
-        }
-
         var vehicles = await _vehicleRepository.Filter(new QueryParams
         {
             Id = garageId,
@@ -34,7 +30,35 @@ public class VehiclesController(
 
         if (garageId.HasValue) viewModel.GarageId = garageId.Value;
 
+        viewModel.Message = message;
         return View(viewModel);
+    }
+
+    public IActionResult Create()
+    {
+        var viewModel = new VehicleCreateOrEditViewModel();
+        return View(viewModel);
+    }
+
+    public async Task<IActionResult> Create(VehicleCreateOrEditViewModel viewModel)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(viewModel);
+        }
+
+        var vehicle = _mapper.Map<Vehicle>(viewModel);
+        var garage = await _garageRepository.GetById(vehicle.GarageId);
+
+        if (garage is not null && garage.Vehicles.Count >= garage.Capacity)
+        {
+            ModelState.AddModelError("GarageCapacityExceeded", "The garage is full");
+        }
+
+        var parkedVehicle = await _vehicleRepository.Create(vehicle);
+
+        var successMessage = _messageService.Success($"New vehicle parked in garage");
+        return RedirectToAction(nameof(Index), successMessage);
     }
 
     public async Task<IActionResult> Edit(int? id)
@@ -47,7 +71,6 @@ public class VehiclesController(
         var vehicleToEdit = await _vehicleRepository.GetById((int)id);
 
         VehicleCreateOrEditViewModel viewModel = _mapper.Map<VehicleCreateOrEditViewModel>(vehicleToEdit);
-
         return View(viewModel);
     }
 
@@ -67,7 +90,6 @@ public class VehiclesController(
 
         return View(viewModel);
     }
-
 
     public async Task<IActionResult> Delete(int id)
     {
@@ -103,7 +125,6 @@ public class VehiclesController(
 
         return View(viewModel);
     }
-
 
     public async Task<IActionResult> Details(int? id)
     {
