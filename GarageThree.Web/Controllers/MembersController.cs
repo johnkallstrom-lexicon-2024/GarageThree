@@ -1,10 +1,9 @@
-using GarageThree.Web.ViewModels.Message;
-
 namespace GarageThree.Web.Controllers;
 
 public class MembersController(IMapper mapper,
                                IRepository<Member> memberRepository,
-                               ISortService<Member> memberSortService) : Controller
+                               ISortService<Member> memberSortService,
+                               IMessageService messageService) : Controller
 {
     private readonly IMapper _mapper = mapper;
     private readonly ISortService<Member> _memberSortService = memberSortService;
