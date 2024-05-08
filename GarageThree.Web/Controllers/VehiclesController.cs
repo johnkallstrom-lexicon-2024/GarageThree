@@ -1,4 +1,4 @@
-﻿namespace GarageThree.Web.Controllers;
+namespace GarageThree.Web.Controllers;
 
 public class VehiclesController(IMapper mapper, IRepository<Vehicle> vehicleRepository) : Controller
 {
@@ -17,7 +17,7 @@ public class VehiclesController(IMapper mapper, IRepository<Vehicle> vehicleRepo
         {
             Vehicles = _mapper.Map<IEnumerable<VehicleViewModel>>(vehicles)
         };
-
+        
         if (garageId.HasValue) viewModel.GarageId = garageId.Value;
 
         return View(viewModel);
