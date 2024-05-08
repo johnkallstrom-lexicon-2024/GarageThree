@@ -1,7 +1,4 @@
-﻿using GarageThree.Web.Services.Interfaces;
-using Microsoft.AspNetCore.Mvc.Rendering;
-
-namespace GarageThree.Web.Services
+﻿namespace GarageThree.Web.Services
 {
     public class GarageSelectListItemService(IRepository<Garage> repository) : ISelectListItemService<Garage>
     {
