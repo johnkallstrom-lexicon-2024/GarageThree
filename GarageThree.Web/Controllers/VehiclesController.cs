@@ -21,55 +21,55 @@ public class VehiclesController : Controller
             _mapper = mapper;
         }
 
-        public async Task<IActionResult> Index(int? garageId, string? searchTerm)
+    public async Task<IActionResult> Index(int? garageId, string? searchTerm)
+    {
+        var vehicles = await _vehicleRepository.Filter(new QueryParams
         {
-            var vehicles = await _vehicleRepository.Filter(new QueryParams
-            {
-                Id = garageId,
-                SearchTerm = searchTerm
-            });
+            Id = garageId,
+            SearchTerm = searchTerm
+        });
 
-            VehicleIndexViewModel viewModel = new()
-            {
-                Vehicles = _mapper.Map<IEnumerable<VehicleViewModel>>(vehicles)
-            };
+        VehicleIndexViewModel viewModel = new()
+        {
+            Vehicles = _mapper.Map<IEnumerable<VehicleViewModel>>(vehicles)
+        };
 
-            if (garageId.HasValue) viewModel.GarageId = garageId.Value;
+        if (garageId.HasValue) viewModel.GarageId = garageId.Value;
+
+    return View(viewModel);
+}
+
+    public IActionResult Create()
+    {
+        var viewModel = new VehicleCreateOrEditViewModel();
 
         return View(viewModel);
     }
 
-        public IActionResult Create()
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult Create(VehicleCreateOrEditViewModel viewModel)
+    {
+        if (!ModelState.IsValid)
         {
-            var viewModel = new VehicleCreateOrEditViewModel();
-
             return View(viewModel);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Create(VehicleCreateOrEditViewModel viewModel)
+        Vehicle vehicle = _mapper.Map<Vehicle>(viewModel);
+
+        return View();
+    }
+
+    public async Task<IActionResult> Delete(int id)
+    {
+        var deletedVehicle = await _vehicleRepository.Delete(id);
+        if (deletedVehicle is null)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(viewModel);
-            }
-
-
-
-            return View();
+            return NotFound();
         }
 
-        public async Task<IActionResult> Delete(int id)
-        {
-            var deletedVehicle = await _vehicleRepository.Delete(id);
-            if (deletedVehicle is null)
-            {
-                return NotFound();
-            }
-
-        return RedirectToAction(nameof(Checkout), deletedVehicle);
-    }
+    return RedirectToAction(nameof(Checkout), deletedVehicle);
+}
 
     public async Task<IActionResult> Checkout(Vehicle deletedVehicle)
     {

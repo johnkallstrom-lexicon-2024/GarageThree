@@ -16,7 +16,7 @@ builder.Services.AddTransient<ISortService<Member>, MemberSortService>();
 
 builder.Services.AddTransient<ISelectListItemService<Garage>, GarageSelectListItemService>();
 builder.Services.AddTransient<ISelectListItemService<Member>, MemberSelectListItemService>();
-//builder.Services.AddTransient<ISelectListItemService<VehicleType>, VehicleTypeSelectListItemService>();
+builder.Services.AddTransient<ISelectListItemService<VehicleType>, VehicleTypeSelectListItemService>();
 builder.Services.AddTransient<ICheckoutService, CheckoutService>();
 
 builder.Services.AddAutoMapper(config =>
@@ -33,10 +33,11 @@ if (app.Environment.IsDevelopment() || app.Environment.EnvironmentName == "DevCo
 {
     app.UseDeveloperExceptionPage();
 
+    await app.SeedDataAsync();
+
     // dotnet run -lp Seed-Data
     if (Environment.GetEnvironmentVariable("SEED_DATA") == "1")
     {
-        await app.SeedDataAsync();
     }
 }
 

@@ -1,6 +1,6 @@
 ﻿@inject ISelectListItemService<Garage> garageSelectListItemService
 @inject ISelectListItemService<Member> memberSelectListItemService
-@* @inject ISelectListItemService<VehicleType> vehicleTypeSelectListItemService *@
+@inject ISelectListItemService<VehicleType> vehicleTypeSelectListItemService
 
 @model VehicleCreateOrEditViewModel
 
@@ -15,7 +15,7 @@
 
     IEnumerable<SelectListItem> garages = await garageSelectListItemService.GetSelectListItems();
     IEnumerable<SelectListItem> members = await memberSelectListItemService.GetSelectListItems();
-    // IEnumerable<SelectListItem> vehicleTypes = await vehicleTypeSelectListItemService.GetSelectListItems();
+    IEnumerable<SelectListItem> vehicleTypes = await vehicleTypeSelectListItemService.GetSelectListItems();
 }
 
 <h3>@ViewBag.Title</h3>
@@ -32,10 +32,10 @@
                         <label asp-for="@Model.MemberId" class="form-label"></label>
                         <select asp-for="@Model.MemberId" asp-items="members" class="form-control"></select>
                     </div>
-               @*      <div class="mb-3">
+                    <div class="mb-3">
                         <label asp-for="@Model.VehicleTypeId" class="form-label"></label>
                         <select asp-for="@Model.VehicleTypeId" asp-items="vehicleTypes" class="form-control"></select>
-                    </div> *@
+                    </div>
                     <div class="mb-3">
                         <label asp-for="@Model.RegNumber" class="form-label"></label>
                         <input asp-for="@Model.RegNumber" type="text" class="form-control">
