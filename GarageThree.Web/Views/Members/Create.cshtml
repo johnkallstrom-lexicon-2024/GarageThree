@@ -4,15 +4,15 @@
     ViewBag.Title = "Create Member";
 }
 
-@if (Model.Message is not null && Model.Message.IsActive)
+@if (ViewBag.Message is not null && ViewBag.Message.IsActive)
 {
-    switch (Model.Message.Type)
+    switch (ViewBag.Message.Type)
     {
         case MessageType.Success:
-            <div class="alert alert-success my-2">@Model.Message.Text</div>
+            <div class="alert alert-success my-2">@ViewBag.Message.Text</div>
             break;
         case MessageType.Danger:
-            <div class="alert alert-danger my-2">@Model.Message.Text</div>
+            <div class="alert alert-danger my-2">@ViewBag.Message.Text</div>
             break;
     }
 }

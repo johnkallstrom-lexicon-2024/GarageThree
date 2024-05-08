@@ -1,24 +1,41 @@
-﻿using AutoMapper;
-using GarageThree.Core.Entities;
-using GarageThree.Persistence.Repositories;
+namespace GarageThree.Web.Controllers;
 
-namespace GarageThree.Web.Controllers
+public class GaragesController(IMapper mapper, IRepository<Garage> garageRepository) : Controller
 {
-    public class GaragesController(IMapper mapper, IRepository<Garage> repository) : Controller
+    private readonly IMapper _mapper = mapper;
+    private readonly IRepository<Garage> _garageRepository = garageRepository;
+
+    public async Task<IActionResult> Index()
     {
+        var garages = await _garageRepository.GetAll();
 
-        private readonly IMapper _mapper = mapper;
-        private readonly IRepository<Garage> _repository = repository;
-
-        public async Task<IActionResult> Index()
+        GarageIndexViewModel viewModel = new()
         {
-            var garages = await _repository.GetAll();
+            Garages = _mapper.Map<IEnumerable<GarageViewModel>>(garages)
+        };
 
-            var viewModel = new GarageIndexViewModel();
-            viewModel.Garages = _mapper.Map<IEnumerable<GarageViewModel>>(garages);
+        return View(viewModel);
+    }
 
+    public IActionResult Create()
+    {
+        var viewModel = new GarageCreateOrEditViewModel();
+        return View(viewModel);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Create(GarageCreateOrEditViewModel viewModel)
+    {
+        if (!ModelState.IsValid)
+        {
             return View(viewModel);
-        }         
+        }
+
+        var garage = _mapper.Map<Garage>(viewModel);
+        await _garageRepository.Create(garage);
+
+        return RedirectToAction(nameof(Index));
     }
 }
     
