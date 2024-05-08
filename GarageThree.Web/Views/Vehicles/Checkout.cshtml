@@ -1,0 +1,97 @@
+﻿@model VehicleCheckoutViewModel
+
+@{
+    ViewBag.Title = $"Checkout Vehicle - {Model.Vehicle.RegNumber}";
+}
+
+<h3>@ViewBag.Title</h3>
+<div class="row mb-3">
+    <div class="col-sm-8">
+        <div class="card bg-light">
+            <h5 class="card-header">Parking Details</h5>
+            <div class="card-body">
+                <div class="card-title fs-5 text-primary">
+                    @Html.DisplayNameFor(model => model.Vehicle.RegisteredAt)
+                </div>
+                <div class="card-text pb-3">@Model.Vehicle.RegisteredAt</div>
+                <div class="card-title fs-5 text-primary">
+                    @Html.DisplayNameFor(model => model.CheckoutAt)
+                </div>
+                <div class="card-text pb-3">@Model.CheckoutAt</div>
+                <div class="card-title fs-5 text-primary">
+                    @Html.DisplayNameFor(model => model.ParkedDays)
+                </div>
+                <div class="card-text pb-3">@Model.ParkedDays</div>
+                <div class="card-title fs-5 text-primary">
+                    @Html.DisplayNameFor(model => model.ParkedHours)
+                </div>
+                <div class="card-text pb-3">@Model.ParkedHours</div>
+                <div class="card-title fs-5 text-primary">
+                    @Html.DisplayNameFor(model => model.ParkedMinutes)
+                </div>
+                <div class="card-text pb-3">@Model.ParkedMinutes</div>
+                <div class="card-title fs-5 text-primary">
+                    @Html.DisplayNameFor(model => model.TotalParkingPrice)
+                </div>
+                <div class="card-text pb-3">@Model.TotalParkingPrice.ToString("C")</div>
+                <div class="card-title fs-5 text-primary">
+                    @Html.DisplayNameFor(model => model.Garage)
+                </div>
+                <div class="card-text pb-3">@Model.Garage</div>
+                <div class="card-title fs-5 text-primary">
+                    @Html.DisplayNameFor(model => model.HourlyRate)
+                </div>
+                <div class="card-text pb-3">@Model.HourlyRate.ToString("C")</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card bg-light">
+            <h5 class="card-header">Member</h5>
+            <div class="card-body">
+                <img src=@Model.Member.Avatar alt="member profile image" class="border border-dark rounded mb-2">
+                <div class="card-title fs-5 text-primary">
+                    @Html.DisplayNameFor(model => model.Member.Name)
+                </div>
+                <div class="card-text pb-3">@Model.Member.Name</div>
+                <div class="card-title fs-5 text-primary">
+                    @Html.DisplayNameFor(model => model.Member.Username)
+                </div>
+                <div class="card-text pb-3">@Model.Member.Username</div>
+                <div class="card-title fs-5 text-primary">
+                    @Html.DisplayNameFor(model => model.Member.Email)
+                </div>
+                <div class="card-text pb-3">@Model.Member.Email</div>
+                <div class="card-title fs-5 text-primary">
+                    @Html.DisplayNameFor(model => model.Member.SSN)
+                </div>
+                <div class="card-text pb-3">@Model.Member.SSN</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-8">
+        <div class="card bg-light">
+            <h5 class="card-header">Vehicle</h5>
+            <div class="card-body">
+                <div class="card-title fs-5 text-primary">
+                    @Html.DisplayNameFor(model => model.Vehicle.RegNumber)
+                </div>
+                <div class="card-text pb-3">@Model.Vehicle.RegNumber</div>
+                <div class="card-title fs-5 text-primary">
+                    @Html.DisplayNameFor(model => model.Vehicle.Brand)
+                </div>
+                <div class="card-text pb-3">@Model.Vehicle.Brand</div>
+                <div class="card-title fs-5 text-primary">
+                    @Html.DisplayNameFor(model => model.Vehicle.Model)
+                </div>
+                <div class="card-text pb-3">@Model.Vehicle.Model</div>
+                <div class="card-title fs-5 text-primary">
+                    @Html.DisplayNameFor(model => model.Vehicle.Color)
+                </div>
+                <div class="card-text pb-3">@Model.Vehicle.Color</div>
+            </div>
+        </div>
+    </div>
+</div>

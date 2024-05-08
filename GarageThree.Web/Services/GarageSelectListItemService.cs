@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using GarageThree.Web.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace GarageThree.Web.Services
 {
