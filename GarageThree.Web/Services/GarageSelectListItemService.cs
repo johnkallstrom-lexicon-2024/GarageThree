@@ -1,34 +1,30 @@
-﻿using GarageThree.Web.Services.Interfaces;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿namespace GarageThree.Web.Services;
 
-namespace GarageThree.Web.Services
+public class GarageSelectListItemService(IRepository<Garage> repository) : ISelectListItemService<Garage>
 {
-    public class GarageSelectListItemService(IRepository<Garage> repository) : ISelectListItemService<Garage>
+    private readonly IRepository<Garage> _repository = repository;
+
+    public async Task<IEnumerable<SelectListItem>> GetSelectListItems(bool hasAllOption = false)
     {
-        private readonly IRepository<Garage> _repository = repository;
+        var garages = await _repository.GetAll();
 
-        public async Task<IEnumerable<SelectListItem>> GetSelectListItems(bool hasAllOption = false)
+        var options = garages.Select(g => new SelectListItem
         {
-            var garages = await _repository.GetAll();
+            Text = g.Name,
+            Value = g.Id.ToString()
+        }).ToList();
 
-            var options = garages.Select(g => new SelectListItem
+        if (hasAllOption)
+        {
+            options.Insert(0, new SelectListItem
             {
-                Text = g.Name,
-                Value = g.Id.ToString()
-            }).ToList();
+                Selected = true,
+                Text = "All",
+                Value = string.Empty
+            });
 
-            if (hasAllOption)
-            {
-                options.Insert(0, new SelectListItem
-                {
-                    Selected = true,
-                    Text = "All",
-                    Value = string.Empty
-                });
-
-            }
-
-            return options;
         }
+
+        return options;
     }
 }

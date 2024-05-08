@@ -5,6 +5,9 @@
         public int Id { get; set; }
 
         [Required]
+        public MemberViewModel Owner { get; set; }  = default!;
+
+        [Required]
         public string Brand { get; set; }  = default!;
 
         [Required]

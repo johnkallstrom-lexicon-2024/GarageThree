@@ -1,28 +1,26 @@
 namespace GarageThree.Web.Controllers;
-public class VehiclesController : Controller
+public class VehiclesController(
+    IRepository<Vehicle> vehicleRepository,
+    IRepository<Garage> garageRepository,
+    IRepository<Member> memberRepository,
+    ICheckoutService checkoutService,
+    IMessageService messageService,
+    IMapper mapper) : Controller
 {
-    private readonly IMapper _mapper;
-    private readonly ICheckoutService _checkoutService;
-    private readonly IRepository<Member> _memberRepository;
-    private readonly IRepository<Garage> _garageRepository;
-    private readonly IRepository<Vehicle> _vehicleRepository;
+    private readonly IMessageService _messageService = messageService;
+    private readonly IMapper _mapper = mapper;
+    private readonly ICheckoutService _checkoutService = checkoutService;
+    private readonly IRepository<Member> _memberRepository = memberRepository;
+    private readonly IRepository<Garage> _garageRepository = garageRepository;
+    private readonly IRepository<Vehicle> _vehicleRepository = vehicleRepository;
 
-    public VehiclesController(
-        IRepository<Vehicle> vehicleRepository,
-        IRepository<Garage> garageRepository,
-        IRepository<Member> memberRepository,
-        ICheckoutService checkoutService,
-        IMapper mapper)
+    public async Task<IActionResult> Index(int? garageId, string? searchTerm, MessageViewModel? messageViewModel)
     {
-        _vehicleRepository = vehicleRepository;
-        _garageRepository = garageRepository;
-        _memberRepository = memberRepository;
-        _checkoutService = checkoutService;
-        _mapper = mapper;
-    }
+        if (messageViewModel is not null)
+        {
+            ViewBag.Message = messageViewModel;
+        }
 
-    public async Task<IActionResult> Index(int? garageId, string? searchTerm)
-    {
         var vehicles = await _vehicleRepository.Filter(new QueryParams
         {
             Id = garageId,
@@ -38,6 +36,38 @@ public class VehiclesController : Controller
 
         return View(viewModel);
     }
+
+    public async Task<IActionResult> Edit(int? id)
+    {
+        if (id is null)
+        {
+            return NotFound();
+        }
+
+        var vehicleToEdit = await _vehicleRepository.GetById((int)id);
+
+        VehicleCreateOrEditViewModel viewModel = _mapper.Map<VehicleCreateOrEditViewModel>(vehicleToEdit);
+
+        return View(viewModel);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(VehicleCreateOrEditViewModel viewModel)
+    {
+        var vehicleToEdit = _mapper.Map<Vehicle>(viewModel);
+        var editedVehicle = await _vehicleRepository.Update(vehicleToEdit);
+        if (editedVehicle != null)
+        {
+            MessageViewModel messageViewModel = _messageService.Success($"Vehicle with id [{editedVehicle.Id}] edited at {DateTime.Now}");
+            return RedirectToAction(nameof(Index), messageViewModel);
+        }
+
+        ViewBag.Message = _messageService.Error($"Could not edit vehicle with id [{viewModel.Id}]");
+
+        return View(viewModel);
+    }
+
 
     public async Task<IActionResult> Delete(int id)
     {
