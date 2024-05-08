@@ -37,6 +37,7 @@ if (app.Environment.IsDevelopment() || app.Environment.EnvironmentName == "DevCo
 }
 
 app.UseRouting();
+app.UseStaticFiles();
 
 app.MapControllerRoute(
     name: "default",

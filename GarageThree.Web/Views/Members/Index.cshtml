@@ -4,15 +4,6 @@
     ViewBag.Title = "Members";
 }
 
-@* recommend adding wwwroot for consolidated style overrides *@
-@section Styles {
-            <style>
-                td {
-                    vertical-align: middle;
-                }
-            </style>
-}
-
 @if (ViewBag.Message is not null && ViewBag.Message.IsActive)
 {
     switch (ViewBag.Message.Type)
