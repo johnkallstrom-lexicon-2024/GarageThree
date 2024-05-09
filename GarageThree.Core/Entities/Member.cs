@@ -12,5 +12,6 @@
         public string SSN { get; set; } = default!;
 
         public ICollection<Vehicle> Vehicles { get; set; } = [];
+        public ICollection<Checkout> Checkouts { get; set; } = [];
     }
 }

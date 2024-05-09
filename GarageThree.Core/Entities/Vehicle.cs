@@ -17,5 +17,7 @@
 
         public int VehicleTypeId { get; set; }
         public VehicleType VehicleType { get; set; } = default!;
+
+        public ICollection<Checkout> Checkouts { get; set; } = [];
     }
 }
