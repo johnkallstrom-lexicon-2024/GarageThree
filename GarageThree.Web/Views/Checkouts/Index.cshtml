@@ -25,7 +25,9 @@
         {
             <tr>
                 <td>@checkout.Id</td>
-                <td>@checkout.Member.Name</td>
+                <td>
+                    <a asp-controller="Members" asp-action="Details" asp-route-id="@checkout.Member.Id">@checkout.Member.Name</a>
+                </td>
                 <td>@checkout.RegNumber</td>
                 <td>@checkout.VehicleType</td>
                 <td>@checkout.ParkedAt</td>
