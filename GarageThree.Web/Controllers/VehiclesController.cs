@@ -101,7 +101,7 @@ public class VehiclesController(
             return NotFound();
         }
 
-        return RedirectToAction(nameof(Index), nameof(CheckoutsController), deletedVehicle);
+        return RedirectToAction(nameof(Create), "Checkouts", deletedVehicle);
     }
 
     public async Task<IActionResult> Details(int? id)
