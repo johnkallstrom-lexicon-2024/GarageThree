@@ -54,6 +54,7 @@ public static class WebAppExtensions
             config.AddProfile<MemberProfile>();
             config.AddProfile<VehicleProfile>();
             config.AddProfile<VehicleTypeProfile>();
+            config.AddProfile<CheckoutProfile>();
         });
 
         return services;
