@@ -33,6 +33,7 @@
                     <th scope="col"> @Html.DisplayNameFor(model => model.Garages.First().Id) </th>
                     <th scope="col"> @Html.DisplayNameFor(model => model.Garages.First().Name) </th>
                     <th scope="col"> @Html.DisplayNameFor(model => model.Garages.First().Capacity) </th>
+                    <th scope="col"> @Html.DisplayNameFor(model => model.Garages.First().HourlyRate) </th>
                     <th scope="col"> @Html.DisplayNameFor(model => model.Garages.First().VehicleCount) </th>
                     <th scope="col"></th>
                     <th scope="col"></th>
@@ -45,6 +46,7 @@
                 <td scope="row">@garage.Id</td>
                 <td>@garage.Name</td>
                 <td>@garage.Capacity</td>
+                <td>@garage.HourlyRate SEK</td>
                 <td>@garage.VehicleCount</td>
                 <td>
                     <a asp-controller="Garages" asp-action="Details" asp-route-id="@garage.Id">
