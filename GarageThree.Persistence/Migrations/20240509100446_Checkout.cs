@@ -16,7 +16,7 @@ namespace GarageThree.Persistence.Migrations
                 table: "Vehicle",
                 type: "datetime2",
                 nullable: false,
-                defaultValue: new DateTime(2024, 5, 9, 10, 52, 21, 498, DateTimeKind.Local).AddTicks(4358),
+                defaultValue: new DateTime(2024, 5, 9, 12, 4, 46, 296, DateTimeKind.Local).AddTicks(3266),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime2",
                 oldDefaultValue: new DateTime(2024, 5, 8, 15, 51, 35, 444, DateTimeKind.Local).AddTicks(8116));
@@ -30,10 +30,10 @@ namespace GarageThree.Persistence.Migrations
                     RegNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     VehicleType = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ParkedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CheckoutAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2024, 5, 9, 12, 4, 46, 296, DateTimeKind.Local).AddTicks(4425)),
                     TotalParkingCost = table.Column<decimal>(type: "decimal(14,2)", precision: 14, scale: 2, nullable: false),
                     Garage = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     HourlyRate = table.Column<int>(type: "int", nullable: false),
-                    CheckoutAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2024, 5, 9, 10, 52, 21, 498, DateTimeKind.Local).AddTicks(5422)),
                     MemberId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -67,7 +67,7 @@ namespace GarageThree.Persistence.Migrations
                 defaultValue: new DateTime(2024, 5, 8, 15, 51, 35, 444, DateTimeKind.Local).AddTicks(8116),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime2",
-                oldDefaultValue: new DateTime(2024, 5, 9, 10, 52, 21, 498, DateTimeKind.Local).AddTicks(4358));
+                oldDefaultValue: new DateTime(2024, 5, 9, 12, 4, 46, 296, DateTimeKind.Local).AddTicks(3266));
         }
     }
 }

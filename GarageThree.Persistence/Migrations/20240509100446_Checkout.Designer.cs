@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GarageThree.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240509085221_Checkout")]
+    [Migration("20240509100446_Checkout")]
     partial class Checkout
     {
         /// <inheritdoc />
@@ -36,7 +36,7 @@ namespace GarageThree.Persistence.Migrations
                     b.Property<DateTime>("CheckoutAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 9, 10, 52, 21, 498, DateTimeKind.Local).AddTicks(5422));
+                        .HasDefaultValue(new DateTime(2024, 5, 9, 12, 4, 46, 296, DateTimeKind.Local).AddTicks(4425));
 
                     b.Property<string>("Garage")
                         .IsRequired()
@@ -165,7 +165,7 @@ namespace GarageThree.Persistence.Migrations
                     b.Property<DateTime>("RegisteredAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 9, 10, 52, 21, 498, DateTimeKind.Local).AddTicks(4358));
+                        .HasDefaultValue(new DateTime(2024, 5, 9, 12, 4, 46, 296, DateTimeKind.Local).AddTicks(3266));
 
                     b.Property<int>("VehicleTypeId")
                         .HasColumnType("int");
