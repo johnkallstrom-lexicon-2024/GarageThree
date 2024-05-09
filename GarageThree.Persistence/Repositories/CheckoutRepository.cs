@@ -13,7 +13,7 @@ namespace GarageThree.Persistence.Repositories
             throw new NotImplementedException();
         }
 
-        public bool Any(Func<Vehicle, bool> predicate)
+        public bool Any(Func<Checkout, bool> predicate)
         {
             throw new NotImplementedException();
         }
@@ -23,7 +23,7 @@ namespace GarageThree.Persistence.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<bool> AnyAsync(Expression<Func<Vehicle, bool>> predicate)
+        public Task<bool> AnyAsync(Expression<Func<Checkout, bool>> predicate)
         {
             throw new NotImplementedException();
         }
