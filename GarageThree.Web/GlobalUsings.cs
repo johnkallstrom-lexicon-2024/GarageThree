@@ -1,5 +1,6 @@
 global using Microsoft.AspNetCore.Mvc;
 global using GarageThree.Persistence;
+global using GarageThree.Web;
 global using Microsoft.EntityFrameworkCore;
 global using AutoMapper;
 global using System.ComponentModel;
