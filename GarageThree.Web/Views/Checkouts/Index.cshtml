@@ -1,0 +1,39 @@
+﻿@model CheckoutIndexViewModel
+
+@{
+    ViewBag.Title = "Checkouts";
+}
+
+<h3>@ViewBag.Title</h3>
+<table class="table table-hover table-responsive-xl">
+    <thead class="thead-light">
+        <th>@Html.DisplayNameFor(m => m.Checkouts.First().Id)</th>
+        <th>@Html.DisplayNameFor(m => m.Checkouts.First().Member)</th>
+        <th>@Html.DisplayNameFor(m => m.Checkouts.First().RegNumber)</th>
+        <th>@Html.DisplayNameFor(m => m.Checkouts.First().VehicleType)</th>
+        <th>@Html.DisplayNameFor(m => m.Checkouts.First().ParkedAt)</th>
+        <th>@Html.DisplayNameFor(m => m.Checkouts.First().CheckoutAt)</th>
+        <th>@Html.DisplayNameFor(m => m.Checkouts.First().TotalParkingCost)</th>
+        <th>@Html.DisplayNameFor(m => m.Checkouts.First().Garage)</th>
+        <th>@Html.DisplayNameFor(m => m.Checkouts.First().HourlyRate)</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        @foreach (var checkout in Model.Checkouts)
+        {
+            <tr>
+                <td>@checkout.Id</td>
+                <td>@checkout.Member.Name</td>
+                <td>@checkout.RegNumber</td>
+                <td>@checkout.VehicleType</td>
+                <td>@checkout.ParkedAt</td>
+                <td>@checkout.CheckoutAt</td>
+                <td>@checkout.TotalParkingCost.ToString("C")</td>
+                <td>@checkout.Garage</td>
+                <td>@checkout.HourlyRate.ToString("C")</td>
+            </tr>
+        }
+    </tbody>
+</table>
