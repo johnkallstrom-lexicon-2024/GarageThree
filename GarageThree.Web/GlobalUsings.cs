@@ -1,5 +1,6 @@
 global using Microsoft.AspNetCore.Mvc;
 global using GarageThree.Persistence;
+global using GarageThree.Web;
 global using Microsoft.EntityFrameworkCore;
 global using AutoMapper;
 global using System.ComponentModel;
@@ -14,6 +15,7 @@ global using GarageThree.Web.ViewModels.Garage;
 global using GarageThree.Web.ViewModels.Member;
 global using GarageThree.Web.ViewModels.Vehicle;
 global using GarageThree.Web.ViewModels.VehicleType;
+global using GarageThree.Web.ViewModels.Checkout;
 global using GarageThree.Web.ViewModels.Message;
 global using GarageThree.Web.Mappings;
 global using GarageThree.Web.Extensions;

@@ -1,12 +1,7 @@
-using GarageThree.Persistence.Data;
-using GarageThree.Persistence.Repositories;
-using GarageThree.Core.Entities;
-
 namespace GarageThree.Web.Extensions;
 
 public static class WebAppExtensions
 {
-
     public static async Task SeedDataAsync(this IApplicationBuilder app)
     {
         using var scope = app.ApplicationServices.CreateScope();
@@ -31,5 +26,37 @@ public static class WebAppExtensions
             Console.WriteLine(ex.Message);
             throw;
         }
+    }
+
+    public static IServiceCollection RegisterApplicationServices(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddDbContext<ApplicationDbContext>(options =>
+        {
+            options.UseSqlServer(configuration.GetConnectionString("Default"));
+        });
+
+        services.AddTransient<IRepository<Vehicle>, VehicleRepository>();
+        services.AddTransient<IRepository<Garage>, GarageRepository>();
+        services.AddTransient<IRepository<Member>, MemberRepository>();
+        services.AddTransient<IRepository<VehicleType>, VehicleTypeRepository>();
+        services.AddTransient<IRepository<Checkout>, CheckoutRepository>();
+        services.AddTransient<IMessageService, BaseMessageService>();
+
+        services.AddTransient<ISortService<Member>, MemberSortService>();
+
+        services.AddTransient<ISelectListItemService<Garage>, GarageSelectListItemService>();
+        services.AddTransient<ISelectListItemService<Member>, MemberSelectListItemService>();
+        services.AddTransient<ISelectListItemService<VehicleType>, VehicleTypeSelectListItemService>();
+
+        services.AddAutoMapper(config =>
+        {
+            config.AddProfile<GarageProfile>();
+            config.AddProfile<MemberProfile>();
+            config.AddProfile<VehicleProfile>();
+            config.AddProfile<VehicleTypeProfile>();
+            config.AddProfile<CheckoutProfile>();
+        });
+
+        return services;
     }
 }

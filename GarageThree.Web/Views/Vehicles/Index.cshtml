@@ -7,25 +7,6 @@
     var garageOptions = await selectListItemService.GetSelectListItems();
 }
 
-@if (ViewBag.Message is not null && ViewBag.Message.IsActive)
-{
-    switch (ViewBag.Message.Type)
-    {
-        case MessageType.Success:
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-              <strong>@ViewBag.Message.Text</strong>
-              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-            break;
-        case MessageType.Danger:
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-              <strong>@ViewBag.Message.Text</strong>
-              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-            break;
-    }
-}
-
 @if (Model.Message is not null && Model.Message.IsActive)
 {
     switch (Model.Message.Type)
@@ -66,8 +47,8 @@
         <th>@Html.DisplayNameFor(m => m.Vehicles.First().RegisteredAt)</th>
         <th>@Html.DisplayNameFor(m => m.Vehicles.First().Color)</th>
         <th>@Html.DisplayNameFor(m => m.Vehicles.First().VehicleType)</th>
-        <th>@Html.DisplayNameFor(m => m.Vehicles.First().Garage)</th>
         <th>@Html.DisplayNameFor(m => m.Vehicles.First().Member)</th>
+        <th>@Html.DisplayNameFor(m => m.Vehicles.First().Garage)</th>
         <th scope="col"></th>
         <th scope="col"></th>
         <th scope="col"></th>

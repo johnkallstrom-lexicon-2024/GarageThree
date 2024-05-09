@@ -1,17 +1,13 @@
 namespace GarageThree.Web.Controllers;
 
 public class VehiclesController(
-    IRepository<Vehicle> vehicleRepository,
     IRepository<Garage> garageRepository,
-    IRepository<Member> memberRepository,
-    ICheckoutService checkoutService,
+    IRepository<Vehicle> vehicleRepository,
     IMessageService messageService,
     IMapper mapper) : Controller
 {
     private readonly IMessageService _messageService = messageService;
     private readonly IMapper _mapper = mapper;
-    private readonly ICheckoutService _checkoutService = checkoutService;
-    private readonly IRepository<Member> _memberRepository = memberRepository;
     private readonly IRepository<Garage> _garageRepository = garageRepository;
     private readonly IRepository<Vehicle> _vehicleRepository = vehicleRepository;
 
@@ -105,31 +101,7 @@ public class VehiclesController(
             return NotFound();
         }
 
-        return RedirectToAction(nameof(Checkout), deletedVehicle);
-    }
-
-    public async Task<IActionResult> Checkout(Vehicle deletedVehicle)
-    {
-        var member = await _memberRepository.GetById(deletedVehicle.MemberId);
-        var garage = await _garageRepository.GetById(deletedVehicle.GarageId);
-
-        TimeSpan parkingPeriod = _checkoutService.CalculateParkingPeriod(deletedVehicle.RegisteredAt);
-        decimal totalParkingPrice = _checkoutService.CalculateTotalParkingPrice(deletedVehicle.RegisteredAt);
-
-        var viewModel = new VehicleCheckoutViewModel
-        {
-            ParkedDays = parkingPeriod.Days,
-            ParkedHours = (int)parkingPeriod.TotalHours,
-            ParkedMinutes = (int)parkingPeriod.TotalMinutes,
-            TotalParkingPrice = totalParkingPrice,
-            Garage = garage is null ? string.Empty : garage.Name,
-            CheckoutAt = DateTime.Now,
-            HourlyRate = _checkoutService.GetHourlyRate(),
-            Vehicle = _mapper.Map<VehicleViewModel>(deletedVehicle),
-            Member = _mapper.Map<MemberViewModel>(member),
-        };
-
-        return View(viewModel);
+        return RedirectToAction(nameof(Create), "Checkouts", deletedVehicle);
     }
 
     public async Task<IActionResult> Details(int? id)
