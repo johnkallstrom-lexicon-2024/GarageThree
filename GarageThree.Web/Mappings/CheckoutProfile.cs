@@ -6,7 +6,10 @@ namespace GarageThree.Web.Mappings
     {
         public CheckoutProfile()
         {
-            CreateMap<Checkout, CheckoutViewModel>();
+            CreateMap<Checkout, CheckoutViewModel>()
+                .ForMember(dest => dest.ParkingPeriod, opt => opt.MapFrom(src => (src.CheckoutAt - src.ParkedAt)))
+                .ReverseMap();
+
             CreateMap<CheckoutCreateViewModel, Checkout>();
         }
     }

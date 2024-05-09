@@ -1,11 +1,13 @@
 ﻿namespace GarageThree.Web.Controllers
 {
     public class CheckoutsController(
+        IRepository<VehicleType> vehicleTypeRepository,
         IRepository<Member> memberRepository,
         IRepository<Garage> garageRepository, 
         IMapper mapper, 
         IRepository<Checkout> checkoutRepository) : Controller
     {
+        private readonly IRepository<VehicleType> _vehicleTypeRepository = vehicleTypeRepository;
         private readonly IRepository<Member> _memberRepository = memberRepository;
         private readonly IRepository<Garage> _garageRepository = garageRepository;
         private readonly IMapper _mapper = mapper;
@@ -24,16 +26,20 @@
             return View(viewModel);
         }
 
-        public IActionResult Details(CheckoutViewModel checkout) => View(checkout);
+        public async Task<IActionResult> Details(int id)
+        {
+            var checkout = await _checkoutRepository.GetById(id);
+            return View(_mapper.Map<CheckoutViewModel>(checkout));
+        }
 
         public async Task<IActionResult> Create(Vehicle vehicle)
         {
-            var member = await _memberRepository.GetById(vehicle.MemberId);
+            var type = await _vehicleTypeRepository.GetById(vehicle.VehicleTypeId);
             var garage = await _garageRepository.GetById(vehicle.GarageId);
 
             if (vehicle is not null &&
-                garage is not null && 
-                member is not null)
+                type is not null &&
+                garage is not null)
             {
                 TimeSpan parkingPeriod = DateTime.Now - vehicle.RegisteredAt;
                 int totalHours = (int)parkingPeriod.TotalHours;
@@ -42,17 +48,16 @@
                 var checkout = new Checkout()
                 {
                     RegNumber = vehicle.RegNumber,
-                    VehicleType = vehicle.VehicleType.Name,
+                    VehicleType = type.Name,
                     ParkedAt = vehicle.RegisteredAt,
                     TotalParkingCost = totalParkingCost,
                     HourlyRate = garage.HourlyRate,
                     Garage = garage.Name,
                     MemberId = vehicle.MemberId,
-                    Member = member
                 };
 
-                var newCheckout = await _checkoutRepository.Create(checkout);
-                return RedirectToAction(nameof(Details), _mapper.Map<CheckoutViewModel>(newCheckout));
+                var createdCheckout = await _checkoutRepository.Create(checkout);
+                return RedirectToAction(nameof(Details), new { createdCheckout.Id });
             }
 
             return RedirectToAction(nameof(Index), nameof(VehiclesController), new { });
