@@ -10,6 +10,7 @@ builder.Services.AddTransient<IRepository<Vehicle>, VehicleRepository>();
 builder.Services.AddTransient<IRepository<Garage>, GarageRepository>();
 builder.Services.AddTransient<IRepository<Member>, MemberRepository>();
 builder.Services.AddTransient<IRepository<VehicleType>, VehicleTypeRepository>();
+builder.Services.AddTransient<IRepository<Checkout>, CheckoutRepository>();
 builder.Services.AddTransient<IMessageService, BaseMessageService>();
 
 builder.Services.AddTransient<ISortService<Member>, MemberSortService>();
