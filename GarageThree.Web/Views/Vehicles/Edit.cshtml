@@ -3,6 +3,13 @@
 
 @{
     ViewBag.Title = "Edit Vehicle";
+
+    var colors = Enum.GetValues<Color>().Select(e => new SelectListItem
+    {
+        Text = e.ToString(),
+        Value = e.ToString()
+    });
+
     var memberOptions = await selectListItemService.GetSelectListItems();
 }
 
@@ -32,8 +39,7 @@
                     </div>
                     <div class="mb-3">
                         <label asp-for="@Model.Color" class="form-label"></label>
-                        <input asp-for="@Model.Color" type="text" class="form-control">
-                        <span asp-validation-for="@Model.Color" class="text-danger"></span>
+                        <select asp-for="@Model.Color" asp-items="colors" class="form-control"></select>
                     </div>
                     <div class="d-flex justify-content-between ">
                         <button type="submit" class="btn btn-primary">Submit</button>
