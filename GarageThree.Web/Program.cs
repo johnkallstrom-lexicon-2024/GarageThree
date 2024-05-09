@@ -19,8 +19,6 @@ builder.Services.AddTransient<ISelectListItemService<Garage>, GarageSelectListIt
 builder.Services.AddTransient<ISelectListItemService<Member>, MemberSelectListItemService>();
 builder.Services.AddTransient<ISelectListItemService<VehicleType>, VehicleTypeSelectListItemService>();
 
-builder.Services.AddTransient<ICheckoutService, CheckoutService>();
-
 builder.Services.AddAutoMapper(config =>
 {
     config.AddProfile<GarageProfile>();
