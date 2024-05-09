@@ -13,7 +13,7 @@ public class VehicleTypeRepository(ApplicationDbContext context) : IRepository<V
         return await _context.VehicleTypes.AnyAsync();
     }
 
-    public bool Any(Func<Vehicle, bool> predicate)
+    public bool Any(Func<VehicleType, bool> predicate)
     {
         throw new NotImplementedException();
     }
@@ -23,7 +23,7 @@ public class VehicleTypeRepository(ApplicationDbContext context) : IRepository<V
         throw new NotImplementedException();
     }
 
-    public Task<bool> AnyAsync(Expression<Func<Vehicle, bool>> predicate)
+    public Task<bool> AnyAsync(Expression<Func<VehicleType, bool>> predicate)
     {
         throw new NotImplementedException();
     }

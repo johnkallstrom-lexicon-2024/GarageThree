@@ -9,6 +9,7 @@ namespace GarageThree.Web.Validations
 
         protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
+            var repository = validationContext.GetRequiredService<IRepository<Member>>();
             var configuration = validationContext.GetRequiredService<IConfiguration>();
 
             string errorMessage = configuration.GetValue<string>("Validations:SSN:ErrorMessage")!;
@@ -19,6 +20,11 @@ namespace GarageThree.Web.Validations
             if (string.IsNullOrWhiteSpace(ssn) ||
                 !ssn.Length.Equals(correctLength) ||
                 MyRegex().IsMatch(ssn))
+            {
+                return new ValidationResult(errorMessage);
+            }
+
+            if (repository.Any(m => m.SSN.Equals(ssn)))
             {
                 return new ValidationResult(errorMessage);
             }

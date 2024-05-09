@@ -20,6 +20,7 @@ public class SeedData(IRepository<Garage> garageRepository,
     private readonly List<Member> _members = [];
     private readonly List<VehicleType> _vehicleTypes = [];
     private readonly Random _rnd = new();
+    private readonly int _ageLimit = 18;
 
     public async Task InitAsync()
     {
@@ -115,10 +116,17 @@ public class SeedData(IRepository<Garage> garageRepository,
                 Age = _rnd.Next(18, 100),
                 Email = _faker.Internet.Email(),
                 Username = _faker.Internet.UserName(),
-                SSN = _faker.Person.Personnummer(),
-
+                SSN = SwedishSSN()
             };
             _members.Add(memberToCreate);
         }
+    }
+
+    private string SwedishSSN()
+    {
+        var date = _faker.Date.Between(DateTime.Today.AddYears(-(100 + _ageLimit)), DateTime.Today.AddYears(-_ageLimit));
+        var ssn = date.ToString("yyyyMMdd");
+        var lastFour = _rnd.Next(1000, 9999);
+        return $"{ssn}{lastFour}";
     }
 }
