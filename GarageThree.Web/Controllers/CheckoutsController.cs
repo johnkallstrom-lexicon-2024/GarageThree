@@ -1,14 +1,21 @@
 ﻿namespace GarageThree.Web.Controllers
 {
-    public class CheckoutsController(IRepository<Checkout> checkoutRepository) : Controller
+    public class CheckoutsController(IMapper mapper, IRepository<Checkout> checkoutRepository) : Controller
     {
+        private readonly IMapper _mapper = mapper;
         private readonly IRepository<Checkout> _checkoutRepository = checkoutRepository;
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? searchTerm)
         {
             var checkouts = await _checkoutRepository.GetAll();
 
-            return View(checkouts);
+            var viewModel = new CheckoutIndexViewModel
+            {
+                Checkouts = _mapper.Map<IEnumerable<CheckoutViewModel>>(checkouts),
+                SearchTerm = !string.IsNullOrWhiteSpace(searchTerm) ? searchTerm : string.Empty
+            };
+
+            return View(viewModel);
         }
     }
 }
