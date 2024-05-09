@@ -65,7 +65,7 @@ public class GarageRepository(ApplicationDbContext context) : IRepository<Garage
         throw new NotImplementedException();
     }
 
-    public Task<bool> AnyAsync(Expression<Func<Vehicle, bool>> predicate)
+    public Task<bool> AnyAsync(Expression<Func<Garage, bool>> predicate)
     {
         throw new NotImplementedException();
     }
@@ -75,7 +75,7 @@ public class GarageRepository(ApplicationDbContext context) : IRepository<Garage
         throw new NotImplementedException();
     }
 
-    public bool Any(Func<Vehicle, bool> predicate)
+    public bool Any(Func<Garage, bool> predicate)
     {
         throw new NotImplementedException();
     }

@@ -90,7 +90,12 @@ public class MemberRepository(ApplicationDbContext context) : IRepository<Member
         throw new NotImplementedException();
     }
 
-    public bool Any(Func<Vehicle, bool> predicate)
+    public bool Any(Func<Member, bool> predicate)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<bool> AnyAsync(Expression<Func<Member, bool>> predicate)
     {
         throw new NotImplementedException();
     }
