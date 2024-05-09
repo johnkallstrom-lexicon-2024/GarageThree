@@ -11,7 +11,6 @@ public class MemberViewModel
     public int Age { get; set; }
     public string Email { get; set; } = default!;
     public string SSN { get; set; } = default!;
-    public int? MemberCount { get; set; }
     [DisplayName("Vehicle Count")]
     public int VehicleCount => Vehicles.Count();
 

@@ -35,11 +35,6 @@ public class MemberRepository(ApplicationDbContext context) : IRepository<Member
                              .ToListAsync();
     }
 
-    public async Task<bool> AnyAsync()
-    {
-        return await _context.Members.AnyAsync();
-    }
-
     public async Task<Member?> GetById(int id)
     {
         var member = await _context.Members
@@ -80,23 +75,23 @@ public class MemberRepository(ApplicationDbContext context) : IRepository<Member
         return await members.ToListAsync();
     }
 
-    public Task<bool> AnyAsync(Expression<Func<Vehicle, bool>> predicate)
-    {
-        throw new NotImplementedException();
-    }
-
     public bool Any()
     {
-        throw new NotImplementedException();
+        return _context.Members.Any();
     }
 
     public bool Any(Func<Member, bool> predicate)
     {
-        throw new NotImplementedException();
+        return _context.Members.Any(predicate);
     }
 
-    public Task<bool> AnyAsync(Expression<Func<Member, bool>> predicate)
+        public async Task<bool> AnyAsync()
     {
-        throw new NotImplementedException();
+        return await _context.Members.AnyAsync();
+    }
+
+    public async Task<bool> AnyAsync(Expression<Func<Member, bool>> predicate)
+    {
+        return await _context.Members.AnyAsync(predicate);
     }
 }

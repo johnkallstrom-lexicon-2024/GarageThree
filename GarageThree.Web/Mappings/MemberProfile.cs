@@ -6,7 +6,8 @@ namespace GarageThree.Web.Mappings
         public MemberProfile()
         {
             CreateMap<Member, MemberViewModel>();
-            CreateMap<Member, MemberCreateOrEditViewModel>().ReverseMap();
+            CreateMap<Member, MemberCreateViewModel>().ReverseMap();
+            CreateMap<Member, MemberEditViewModel>().ReverseMap();
         }
     }
 }

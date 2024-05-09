@@ -1,9 +1,14 @@
 ﻿@model VehicleTypeViewModel
 
+@inject IRepository<VehicleType> vehicleTypeRepository
+
 @{
     ViewBag.Title = "Vehicle Type Details";
-    ViewBag.Previous = Model.Id == 1 ? Model.Id : Model.Id -1 ;
-    ViewBag.Next = Model.Id == Model.VehicleTypeCount ? Model.Id : Model.Id + 1;
+    var vehicleTypes = await vehicleTypeRepository.GetAll();
+    var next = vehicleTypes.SkipWhile(vt => vt.Id != Model.Id).Skip(1).FirstOrDefault();
+    var vehicleTypes2 = vehicleTypes.ToList();
+    vehicleTypes2.Reverse();
+    var previous = vehicleTypes2.SkipWhile(vt => vt.Id != Model.Id).Skip(1).FirstOrDefault();
 }
 
 <div class="row d-flex justify-content-center">
@@ -33,15 +38,19 @@
         </div>
         <div class="card bg-light text-center mt-2 details-nav">
             <div class="card-body d-flex justify-content-between">
-                <a asp-controller="VehicleTypes" asp-action="Details" asp-route-id=@ViewBag.Previous>
+                 @if(previous is not null ){
+                <a asp-controller="VehicleTypes" asp-action="Details" asp-route-id="@previous.Id">
                     <button class="btn btn-secondary">Previous</button>
                 </a>
-                <a asp-controller="VehicleTypes" asp-action="Details" asp-route-id=@ViewBag.Next>
+                }
+                 @if(next is not null ){
+                <a asp-controller="VehicleTypes" asp-action="Details" asp-route-id="@next.Id">
                     <button class="btn btn-secondary">Next</button>
                 </a>
+                }
             </div>
             <div class="card-body d-flex justify-content-between">
-                 <a asp-controller="VehicleTypes" asp-action="Index" asp-route-id=@ViewBag.Next>
+                 <a asp-controller="VehicleTypes" asp-action="Index">
                     <button class="btn btn-primary">Back</button>
                 </a>
             </div>

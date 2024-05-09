@@ -55,8 +55,15 @@ public class VehiclesController(
 
         var parkedVehicle = await _vehicleRepository.Create(vehicle);
 
-        var successMessage = _messageService.Success($"New vehicle parked in garage");
-        return RedirectToAction(nameof(Index), successMessage);
+        if (parkedVehicle is not null)
+        {
+            var successMessage = _messageService.Success($"New vehicle parked in garage");
+            return RedirectToAction(nameof(Index), successMessage);
+        }
+
+        ViewBag.Message = _messageService.Error($"Vehicle Update Failed");
+
+        return View(viewModel);
     }
 
     public async Task<IActionResult> Edit(int? id)
@@ -88,7 +95,7 @@ public class VehiclesController(
             return RedirectToAction(nameof(Index), messageViewModel);
         }
 
-        ViewBag.Message = _messageService.Error($"Could not edit vehicle with Registration Number [{viewModel.RegNumber}]");
+        ViewBag.Message = _messageService.Error("Vehicle Update Failed");
 
         return View(viewModel);
     }
@@ -119,7 +126,6 @@ public class VehiclesController(
         }
 
         VehicleViewModel viewModel = _mapper.Map<VehicleViewModel>(vehicle);
-        viewModel.VehicleCount = (await _vehicleRepository.GetAll()).Count();
         viewModel.VehicleType = _mapper.Map<VehicleTypeViewModel>(vehicle.VehicleType);
 
         return View(viewModel);

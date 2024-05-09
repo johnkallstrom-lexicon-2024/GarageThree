@@ -10,8 +10,13 @@ public class MembersController(IMapper mapper,
     private readonly IRepository<Member> _memberRepository = memberRepository;
     private readonly IMessageService _messageService = messageService;
 
-    public async Task<IActionResult?> Index(string? searchTerm)
+    public async Task<IActionResult?> Index(string? searchTerm, MessageViewModel? messageViewModel)
     {
+        if (messageViewModel is not null)
+        {
+            ViewBag.Message = messageViewModel;
+        }
+
         if (!string.IsNullOrWhiteSpace(searchTerm))
         {
             ViewBag.Filtered = true;
@@ -30,32 +35,24 @@ public class MembersController(IMapper mapper,
         return View(indexViewModel);
     }
 
-    public IActionResult Create() => View(new MemberCreateOrEditViewModel());
+    public IActionResult Create() => View(new MemberCreateViewModel());
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(MemberCreateOrEditViewModel viewModel)
+    public async Task<IActionResult> Create(MemberCreateViewModel viewModel)
     {
-        var existingMember = await _memberRepository.Single(new QueryParams()
-        {
-            SSN = viewModel.SSN
-        });
-
-        if (existingMember is not null)
-        {
-            ModelState.AddModelError("SsnExists", "Member with given SSN already exists");
-            ViewBag.Message = _messageService.Error("Member with given SSN already exists");
-        }
-
         if (!ModelState.IsValid) return View(viewModel);
 
         var memberToCreate = _mapper.Map<Member>(viewModel);
 
-        var newMember = await _memberRepository.Create(memberToCreate);
-        if (newMember is not null)
+        var createdMember = await _memberRepository.Create(memberToCreate);
+        if (createdMember is not null)
         {
-            return RedirectToAction(nameof(Index));
+            var successMessage = _messageService.Success($"Member {createdMember.Username} updated at {DateTime.Now}.");
+            return RedirectToAction(nameof(Index), successMessage);
         }
+
+        ViewBag.Message = _messageService.Error($"Member Create Failed");
 
         return View(viewModel);
     }
@@ -70,7 +67,6 @@ public class MembersController(IMapper mapper,
         var member = await _memberRepository.GetById((int)id);
 
         var viewModel = _mapper.Map<MemberViewModel>(member);
-        viewModel.MemberCount = (await _memberRepository.GetAll()).Count();
 
         return View(viewModel);
     }
@@ -83,14 +79,14 @@ public class MembersController(IMapper mapper,
         }
 
         var modelToEdit = await _memberRepository.GetById((int)id);
-        var viewModel = _mapper.Map<MemberCreateOrEditViewModel>(modelToEdit);
+        var viewModel = _mapper.Map<MemberEditViewModel>(modelToEdit);
 
         return View(viewModel);
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(MemberCreateOrEditViewModel viewModel)
+    public async Task<IActionResult> Edit(MemberEditViewModel viewModel)
     {
         if (!ModelState.IsValid) return View(viewModel);
 
@@ -99,8 +95,11 @@ public class MembersController(IMapper mapper,
         var updatedMember = await _memberRepository.Update(memberToUpdate);
         if (updatedMember is not null)
         {
-            return RedirectToAction(nameof(Index));
+            var successMessage = _messageService.Success($"Member {updatedMember.Username} updated at {DateTime.Now}.");
+            return RedirectToAction(nameof(Index), successMessage);
         }
+
+        ViewBag.Message = _messageService.Error($"Member Update Failed");
 
         return View(viewModel);
     }
@@ -120,7 +119,7 @@ public class MembersController(IMapper mapper,
             return NotFound();
         }
 
-        ViewBag.Message = _messageService.Success($"Member {memberToDelete.Id} deleted");
-        return RedirectToAction(nameof(Index));
+        var successMessage = _messageService.Success($"Member {memberToDelete.Id} deleted");
+        return RedirectToAction(nameof(Index), successMessage);
     }
 }
