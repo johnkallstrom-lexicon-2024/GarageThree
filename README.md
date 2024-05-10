@@ -8,6 +8,16 @@ MVC Group Assignment by [Suny-Am](https://github.com/suny-am/), [Carl Sporrong](
 
 ## Description
 ## Testing and Development
+Make sure you are in the Development Environment 
+and run the application with the Seed-Data launch
+profile to apply migrations and seed data to the database
+
+```
+# dotnet cli
+export DOTNET_ENVIRONMENT=Development
+cd GarageThree.Web
+dotnet run -lp seed-data
+```
 ## Diagrams
 
 #### Database Diagram
