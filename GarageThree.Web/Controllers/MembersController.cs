@@ -10,8 +10,13 @@ public class MembersController(IMapper mapper,
     private readonly IRepository<Member> _memberRepository = memberRepository;
     private readonly IMessageService _messageService = messageService;
 
-    public async Task<IActionResult?> Index(string? searchTerm)
+    public async Task<IActionResult?> Index(string? searchTerm, MessageViewModel? messageViewModel)
     {
+        if (messageViewModel is not null)
+        {
+            ViewBag.Message = messageViewModel;
+        }
+
         if (!string.IsNullOrWhiteSpace(searchTerm))
         {
             ViewBag.Filtered = true;
@@ -54,7 +59,8 @@ public class MembersController(IMapper mapper,
         var newMember = await _memberRepository.Create(memberToCreate);
         if (newMember is not null)
         {
-            return RedirectToAction(nameof(Index));
+            MessageViewModel messageViewModel = _messageService.Success($"new member {newMember.Username} created at {DateTime.Now}");
+            return RedirectToAction(nameof(Index), messageViewModel);
         }
 
         return View(viewModel);
