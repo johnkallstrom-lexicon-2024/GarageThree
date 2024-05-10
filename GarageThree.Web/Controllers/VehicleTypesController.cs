@@ -59,9 +59,10 @@ public class VehicleTypesController(IMapper mapper,
 
         var vehicleTypeToCreate = _mapper.Map<VehicleType>(viewModel);
 
-        var newVehicleType = await _vehicleTypeRepository.Create(vehicleTypeToCreate);
-        if (newVehicleType is not null)
+        var createdVehicletype = await _vehicleTypeRepository.Create(vehicleTypeToCreate);
+        if (createdVehicletype is not null)
         {
+            MessageViewModel successMessage = _messageService.Success($"Vehicle Type {createdVehicletype.Name} created at {DateTime.Now}.");
             return RedirectToAction(nameof(Index));
         }
 
@@ -89,10 +90,11 @@ public class VehicleTypesController(IMapper mapper,
 
         var vehicleTypeToUpdate = _mapper.Map<VehicleType>(viewModel);
 
-        var editedVehicleType = await _vehicleTypeRepository.Update(vehicleTypeToUpdate);
-        if (editedVehicleType is not null)
+        var updatedVehicleType = await _vehicleTypeRepository.Update(vehicleTypeToUpdate);
+        if (updatedVehicleType is not null)
         {
-            return RedirectToAction(nameof(Index));
+            MessageViewModel successMessage = _messageService.Success($"Vehicle Type {updatedVehicleType.Name} updated at {DateTime.Now}.");
+            return RedirectToAction(nameof(Index), successMessage);
         }
 
         return View(viewModel);
@@ -113,7 +115,6 @@ public class VehicleTypesController(IMapper mapper,
         {
             VehicleTypeId = viewModel.Id
         })).Count();
-        viewModel.VehicleTypeCount = (await _vehicleTypeRepository.GetAll()).Count();
 
         return View(viewModel);
     }
@@ -139,20 +140,43 @@ public class VehicleTypesController(IMapper mapper,
             VehicleTypeId = id
         });
 
-        MessageViewModel messageViewModel;
+        MessageViewModel message;
 
         if (!vehicleWithType.IsNullOrEmpty())
         {
-            messageViewModel = _messageService.Error($"Vehicle Type [{vehicleTypeToDelete.Name}] is currently in use");
+            message = _messageService.Error($"Vehicle Type [{vehicleTypeToDelete.Name}] is currently in use");
         }
         else
         {
             var deletedVehicle = await _vehicleTypeRepository.Delete((int)id);
 
-            messageViewModel = deletedVehicle is null ? _messageService.Error($"Could not delete Vehicle Type [{vehicleTypeToDelete.Name}]") :
+            message = deletedVehicle is null ? _messageService.Error($"Could not delete Vehicle Type [{vehicleTypeToDelete.Name}]") :
                                                        _messageService.Success($"Vehicle Type {vehicleTypeToDelete.Id} deleted");
         }
 
-        return RedirectToAction(nameof(Index), messageViewModel);
+        return RedirectToAction(nameof(Index), message);
+    }
+
+    public async Task<IActionResult> Previous(int id)
+    {
+        var garages = await _vehicleTypeRepository.GetAll();
+        var reversedGarage = garages.Reverse();
+        var previous = reversedGarage.SkipWhile(vt => vt.Id != id).Skip(1).FirstOrDefault();
+        if (previous is not null)
+        {
+            return RedirectToAction(nameof(Details), new { id = previous.Id });
+        }
+        return RedirectToAction(nameof(Details), id);
+    }
+
+    public async Task<IActionResult> Next(int id)
+    {
+        var garages = await _vehicleTypeRepository.GetAll();
+        var next = garages.SkipWhile(vt => vt.Id != id).Skip(1).FirstOrDefault();
+        if (next is not null)
+        {
+            return RedirectToAction(nameof(Details), new { id = next.Id });
+        }
+        return RedirectToAction(nameof(Details), id);
     }
 }

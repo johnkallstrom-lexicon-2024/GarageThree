@@ -1,9 +1,8 @@
 ﻿@model GarageViewModel
+@inject IRepository<Garage> garageRepository
 
 @{
     ViewBag.Title = "Garage Details";
-    ViewBag.Previous = Model.Id == 1 ? Model.Id : Model.Id -1 ;
-    ViewBag.Next = Model.Id == Model.GarageCount ? Model.Id : Model.Id + 1;
 }
 
 <div class="row d-flex justify-content-center">
@@ -33,15 +32,15 @@
         </div>
   <div class="card bg-light text-center mt-2 details-nav">
             <div class="card-body d-flex justify-content-between">
-                <a asp-controller="Garages" asp-action="Details" asp-route-id=@ViewBag.Previous>
+                <a asp-controller="Garages" asp-action="Previous" asp-route-id="@Model.Id">
                     <button class="btn btn-secondary">Previous</button>
                 </a>
-                <a asp-controller="Garages" asp-action="Details" asp-route-id=@ViewBag.Next>
+                <a asp-controller="Garages" asp-action="Next" asp-route-id="@Model.Id">
                     <button class="btn btn-secondary">Next</button>
                 </a>
             </div>
              <div class="card-body d-flex justify-content-between">
-                 <a asp-controller="Garages" asp-action="Index" asp-route-id=@ViewBag.Next>
+                 <a asp-controller="Garages" asp-action="Index">
                     <button class="btn btn-primary">Back</button>
                 </a>
             </div>

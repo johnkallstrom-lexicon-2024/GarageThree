@@ -35,33 +35,24 @@ public class MembersController(IMapper mapper,
         return View(indexViewModel);
     }
 
-    public IActionResult Create() => View(new MemberCreateOrEditViewModel());
+    public IActionResult Create() => View(new MemberCreateViewModel());
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(MemberCreateOrEditViewModel viewModel)
+    public async Task<IActionResult> Create(MemberCreateViewModel viewModel)
     {
-        var existingMember = await _memberRepository.Single(new QueryParams()
-        {
-            SSN = viewModel.SSN
-        });
-
-        if (existingMember is not null)
-        {
-            ModelState.AddModelError("SsnExists", "Member with given SSN already exists");
-            ViewBag.Message = _messageService.Error("Member with given SSN already exists");
-        }
-
         if (!ModelState.IsValid) return View(viewModel);
 
         var memberToCreate = _mapper.Map<Member>(viewModel);
 
-        var newMember = await _memberRepository.Create(memberToCreate);
-        if (newMember is not null)
+        var createdMember = await _memberRepository.Create(memberToCreate);
+        if (createdMember is not null)
         {
-            MessageViewModel messageViewModel = _messageService.Success($"new member {newMember.Username} created at {DateTime.Now}");
-            return RedirectToAction(nameof(Index), messageViewModel);
+            var successMessage = _messageService.Success($"Member {createdMember.Username} updated at {DateTime.Now}.");
+            return RedirectToAction(nameof(Index), successMessage);
         }
+
+        ViewBag.Message = _messageService.Error($"Member Create Failed");
 
         return View(viewModel);
     }
@@ -76,7 +67,6 @@ public class MembersController(IMapper mapper,
         var member = await _memberRepository.GetById((int)id);
 
         var viewModel = _mapper.Map<MemberViewModel>(member);
-        viewModel.MemberCount = (await _memberRepository.GetAll()).Count();
 
         return View(viewModel);
     }
@@ -89,14 +79,14 @@ public class MembersController(IMapper mapper,
         }
 
         var modelToEdit = await _memberRepository.GetById((int)id);
-        var viewModel = _mapper.Map<MemberCreateOrEditViewModel>(modelToEdit);
+        var viewModel = _mapper.Map<MemberEditViewModel>(modelToEdit);
 
         return View(viewModel);
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(MemberCreateOrEditViewModel viewModel)
+    public async Task<IActionResult> Edit(MemberEditViewModel viewModel)
     {
         if (!ModelState.IsValid) return View(viewModel);
 
@@ -105,8 +95,11 @@ public class MembersController(IMapper mapper,
         var updatedMember = await _memberRepository.Update(memberToUpdate);
         if (updatedMember is not null)
         {
-            return RedirectToAction(nameof(Index));
+            var successMessage = _messageService.Success($"Member {updatedMember.Username} updated at {DateTime.Now}.");
+            return RedirectToAction(nameof(Index), successMessage);
         }
+
+        ViewBag.Message = _messageService.Error($"Member Update Failed");
 
         return View(viewModel);
     }
@@ -126,7 +119,30 @@ public class MembersController(IMapper mapper,
             return NotFound();
         }
 
-        ViewBag.Message = _messageService.Success($"Member {memberToDelete.Id} deleted");
-        return RedirectToAction(nameof(Index));
+        var successMessage = _messageService.Success($"Member {memberToDelete.Id} deleted");
+        return RedirectToAction(nameof(Index), successMessage);
+    }
+
+    public async Task<IActionResult> Previous(int id)
+    {
+        var garages = await _memberRepository.GetAll();
+        var reversedGarage = garages.Reverse();
+        var previous = reversedGarage.SkipWhile(m => m.Id != id).Skip(1).FirstOrDefault();
+        if (previous is not null)
+        {
+            return RedirectToAction(nameof(Details), new { id = previous.Id });
+        }
+        return RedirectToAction(nameof(Details), id);
+    }
+
+    public async Task<IActionResult> Next(int id)
+    {
+        var garages = await _memberRepository.GetAll();
+        var next = garages.SkipWhile(m => m.Id != id).Skip(1).FirstOrDefault();
+        if (next is not null)
+        {
+            return RedirectToAction(nameof(Details), new { id = next.Id });
+        }
+        return RedirectToAction(nameof(Details), id);
     }
 }

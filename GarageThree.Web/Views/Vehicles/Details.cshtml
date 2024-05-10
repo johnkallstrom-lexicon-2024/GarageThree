@@ -1,11 +1,13 @@
 ﻿@model VehicleViewModel
+@inject IRepository<Vehicle> vehicleRepository
 
 @{
     ViewBag.Title = "Vehicle Details";
-    ViewBag.Previous = Model.Id == 1 ? Model.Id : Model.Id -1 ;
-    ViewBag.Next = Model.Id == Model.VehicleCount ? Model.Id : Model.Id + 1;
-    ViewBag.GarageId = Model.Garage.Id;
-    ViewBag.Member = Model.Member.Id;
+    var vehicles = await vehicleRepository.GetAll();
+    var next = vehicles.SkipWhile(v => v.Id != Model.Id).Skip(1).FirstOrDefault();
+    var vehicles2 = vehicles.ToList();
+    vehicles2.Reverse();
+    var previous = vehicles2.SkipWhile(v => v.Id != Model.Id).Skip(1).FirstOrDefault();
 }
 
 <div class="row d-flex justify-content-center">
@@ -53,7 +55,7 @@
                     @Html.DisplayNameFor(model => model.Garage)
                 </div>
                 <div class="card-text pb-3">
-                    <a class="text-decoration-none" asp-controller="Garages" asp-action="Details" asp-route-id=@ViewBag.MemberId>
+                    <a class="text-decoration-none" asp-controller="Garages" asp-action="Details" asp-route-id="@Model.Garage.Id">
                     @Html.DisplayFor(model => model.Garage.Name)
                     </a>
                 </div>
@@ -61,7 +63,7 @@
                     @Html.DisplayNameFor(model => model.Member)
                 </div>
                 <div class="card-text pb-3">
-                    <a class="text-decoration-none" asp-controller="Members" asp-action="Details" asp-route-id=@ViewBag.MemberId>
+                    <a class="text-decoration-none" asp-controller="Members" asp-action="Details" asp-route-id="@Model.Member.Id">
                     @Html.DisplayFor(model => model.Member.Name)
                     </a>
                 </div>
@@ -69,15 +71,15 @@
         </div>
         <div class="card bg-light text-center mt-2 details-nav">
             <div class="card-body d-flex justify-content-between">
-                <a asp-controller="Vehicles" asp-action="Details" asp-route-id=@ViewBag.Previous>
+                <a asp-controller="Vehicles" asp-action="Previous" asp-route-id="@Model.Id">
                     <button class="btn btn-secondary">Previous</button>
                 </a>
-                <a asp-controller="Vehicles" asp-action="Details" asp-route-id=@ViewBag.Next>
+                <a asp-controller="Vehicles" asp-action="Next" asp-route-id="@Model.Id">
                     <button class="btn btn-secondary">Next</button>
                 </a>
             </div>
              <div class="card-body d-flex justify-content-between">
-                 <a asp-controller="Vehicles" asp-action="Index" asp-route-id=@ViewBag.Next>
+                 <a asp-controller="Vehicles" asp-action="Index">
                     <button class="btn btn-primary">Back</button>
                 </a>
             </div>

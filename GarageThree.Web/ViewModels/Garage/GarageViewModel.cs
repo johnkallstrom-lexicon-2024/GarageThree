@@ -9,7 +9,6 @@ public class GarageViewModel
     public int HourlyRate { get; set; }
     [DisplayName("Vehicle Count")]
     public int VehicleCount => Vehicles.Count();
-    public int GarageCount { get; set; }
 
     public IEnumerable<VehicleViewModel> Vehicles { get; set; } = [];
 }
