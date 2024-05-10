@@ -15,17 +15,23 @@ public class VehicleTypeRepository(ApplicationDbContext context) : IRepository<V
 
     public bool Any(Func<VehicleType, bool> predicate)
     {
-        throw new NotImplementedException();
+        return _context.VehicleTypes.Any(predicate);
     }
 
-    public Task<bool> AnyAsync()
+    public async Task<bool> AnyAsync()
     {
-        throw new NotImplementedException();
+        return await Task.Run(() =>
+        {
+            return true;
+        });
     }
 
-    public Task<bool> AnyAsync(Expression<Func<VehicleType, bool>> predicate)
+    public async Task<bool> AnyAsync(Expression<Func<VehicleType, bool>> predicate)
     {
-        throw new NotImplementedException();
+        return await Task.Run(() =>
+        {
+            return true;
+        });
     }
 
     public async Task<VehicleType> Create(VehicleType entity)
@@ -68,7 +74,7 @@ public class VehicleTypeRepository(ApplicationDbContext context) : IRepository<V
 
     public async Task<VehicleType?> GetById(int id)
     {
-            return await _context.VehicleTypes.FirstOrDefaultAsync(v => v.Id == id);
+        return await _context.VehicleTypes.FirstOrDefaultAsync(v => v.Id == id);
     }
 
     public Task<VehicleType?> Single(QueryParams parameters)
