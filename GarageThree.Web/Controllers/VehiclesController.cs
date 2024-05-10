@@ -130,4 +130,27 @@ public class VehiclesController(
 
         return View(viewModel);
     }
+
+    public async Task<IActionResult> Previous(int id)
+    {
+        var garages = await _vehicleRepository.GetAll();
+        var reversedGarage = garages.Reverse();
+        var previous = reversedGarage.SkipWhile(v => v.Id != id).Skip(1).FirstOrDefault();
+        if (previous is not null)
+        {
+            return RedirectToAction(nameof(Details), new { id = previous.Id });
+        }
+        return RedirectToAction(nameof(Details), id);
+    }
+
+    public async Task<IActionResult> Next(int id)
+    {
+        var garages = await _vehicleRepository.GetAll();
+        var next = garages.SkipWhile(v => v.Id != id).Skip(1).FirstOrDefault();
+        if (next is not null)
+        {
+            return RedirectToAction(nameof(Details), new { id = next.Id });
+        }
+        return RedirectToAction(nameof(Details), id);
+    }
 }

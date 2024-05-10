@@ -122,4 +122,27 @@ public class MembersController(IMapper mapper,
         var successMessage = _messageService.Success($"Member {memberToDelete.Id} deleted");
         return RedirectToAction(nameof(Index), successMessage);
     }
+
+    public async Task<IActionResult> Previous(int id)
+    {
+        var garages = await _memberRepository.GetAll();
+        var reversedGarage = garages.Reverse();
+        var previous = reversedGarage.SkipWhile(m => m.Id != id).Skip(1).FirstOrDefault();
+        if (previous is not null)
+        {
+            return RedirectToAction(nameof(Details), new { id = previous.Id });
+        }
+        return RedirectToAction(nameof(Details), id);
+    }
+
+    public async Task<IActionResult> Next(int id)
+    {
+        var garages = await _memberRepository.GetAll();
+        var next = garages.SkipWhile(m => m.Id != id).Skip(1).FirstOrDefault();
+        if (next is not null)
+        {
+            return RedirectToAction(nameof(Details), new { id = next.Id });
+        }
+        return RedirectToAction(nameof(Details), id);
+    }
 }

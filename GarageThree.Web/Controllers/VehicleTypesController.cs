@@ -156,4 +156,27 @@ public class VehicleTypesController(IMapper mapper,
 
         return RedirectToAction(nameof(Index), message);
     }
+
+    public async Task<IActionResult> Previous(int id)
+    {
+        var garages = await _vehicleTypeRepository.GetAll();
+        var reversedGarage = garages.Reverse();
+        var previous = reversedGarage.SkipWhile(vt => vt.Id != id).Skip(1).FirstOrDefault();
+        if (previous is not null)
+        {
+            return RedirectToAction(nameof(Details), new { id = previous.Id });
+        }
+        return RedirectToAction(nameof(Details), id);
+    }
+
+    public async Task<IActionResult> Next(int id)
+    {
+        var garages = await _vehicleTypeRepository.GetAll();
+        var next = garages.SkipWhile(vt => vt.Id != id).Skip(1).FirstOrDefault();
+        if (next is not null)
+        {
+            return RedirectToAction(nameof(Details), new { id = next.Id });
+        }
+        return RedirectToAction(nameof(Details), id);
+    }
 }

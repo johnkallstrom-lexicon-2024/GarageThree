@@ -117,4 +117,27 @@ public class GaragesController(IMapper mapper, IMessageService messageService,
         var successMessage = _messageService.Success($"Garage {garageToDelete.Id} deleted");
         return RedirectToAction(nameof(Index), successMessage);
     }
+
+    public async Task<IActionResult> Previous(int id)
+    {
+        var garages = await _garageRepository.GetAll();
+        var reversedGarage = garages.Reverse();
+        var previous = reversedGarage.SkipWhile(g => g.Id != id).Skip(1).FirstOrDefault();
+        if (previous is not null)
+        {
+            return RedirectToAction(nameof(Details), new { id = previous.Id });
+        }
+        return RedirectToAction(nameof(Details), id);
+    }
+
+    public async Task<IActionResult> Next(int id)
+    {
+        var garages = await _garageRepository.GetAll();
+        var next = garages.SkipWhile(g => g.Id != id).Skip(1).FirstOrDefault();
+        if (next is not null)
+        {
+            return RedirectToAction(nameof(Details),  new { id = next.Id });
+        }
+        return RedirectToAction(nameof(Details), id);
+    }
 }
