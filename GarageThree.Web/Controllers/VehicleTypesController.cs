@@ -44,12 +44,9 @@ public class VehicleTypesController(IMapper mapper,
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(VehicleTypeCreateOrEditViewModel viewModel)
     {
-        var existingVehicleType = await _vehicleTypeRepository.Single(new QueryParams()
-        {
-            Name = viewModel.Name,
-        });
+        bool existingVehicleType = await _vehicleTypeRepository.AnyAsync(vt => vt.Name == viewModel.Name);
 
-        if (existingVehicleType is not null)
+        if (existingVehicleType)
         {
             ModelState.AddModelError("SsnExists", "Vehicle Type with given Name already exists");
             ViewBag.Message = _messageService.Error("Vehicle Type with given Name already exists");
